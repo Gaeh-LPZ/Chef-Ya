@@ -1,27 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chef Ya! | Página principal</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jomhuria&family=Konkhmer+Sleokchher&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!--<img src="./assets/images/Fondo1.png" alt="Imagen de fondo naranja con iconos en su interior">-->
-    <!--imagen de fondo dos-->
+    <div class="imagen-fondo1"></div>
+    <div class="imagen-fondo2"></div>
     <header>
-        <svg width="24" height="24" role="img" aria-label="Ubicacion">
+        <svg width="24" height="24" role="img" aria-label="Menu">
             <use href="./assets/icons/menu-2.svg"></use>
         </svg>
-        <button type="button">Iniciar Sesion</button>
-        <button type="button">Registrarse</button>
+        <div>
+            <button type="button" class="button-beige">Iniciar Sesion</button>
+            <button type="button" class="button-black">Registrarse</button>
+        </div>
     </header>
     <main>
-        <div>
+        <section>
             <h1>¡Ordena ahora mismo!</h1>
             <form action="">
+                <label>
+                    <svg width="24" height="23" role="img" aria-label="icono-ubicacion">
+                        <use href="./assets/icons/map-pin.svg"></use>
+                    </svg>
+                    <input type="text" name="Ubicacion" placeholder="Ingresa la dirección de entrega">
+                </label>
+                <button type="submit">Buscar
+                    <svg width="20" height="20" role="img">
+                        <use href="./assets/icons/search.svg"></use>
+                    </svg>
+                </button>
             </form>
-        </div>
-        <div></div>
+        </section>
+        <aside>
+            <h1>Categorias</h1>
+            <form action="">
+                <label>
+                    <input type="text" name="Categorias" placeholder="Buscar comida">
+                    <svg width="20" height="20" role="img">
+                        <use href="./assets/icons/search.svg"></use>
+                    </svg>
+                </label>
+            </form>
+        </aside>
     </main>
     <footer></footer>
 </body>
