@@ -53,11 +53,12 @@ header {
 }
 
 .button-beige {
+    font-family: "Konkhmer Sleokchher", system-ui;
     width: fit-content;
     height: 35px;
     border-radius: 60px;
     color: var(--text-primary);
-    font-weight: 700;
+    font-weight: 500;
     background-color: var(--bg-beige);
     border: none;
     padding: 7px;
@@ -67,11 +68,12 @@ header {
 }
 
 .button-black {
+    font-family: "Konkhmer Sleokchher", system-ui;
     width: fit-content;
     height: 35px;
     border-radius: 60px;
     color: var(--text-secondary);
-    font-weight: 700;
+    font-weight: 500;
     background-color: var(--bg-black);
     border: none;
     padding: 7px;
@@ -94,6 +96,63 @@ main {
         font-size: 70px;
         font-weight: 400;
         margin-bottom: 1px;
-        
     }
+
+    aside h1 {
+        font-family: "Lilita One", system-ui;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 50px;
+        color: var(--text-secondary);
+        margin-bottom: 1px;
+    }
+}
+
+.Formulario {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    width: auto;
+    height: auto;
+    label {
+        display: inherit;
+        align-items: center;
+        border-radius: 0.5rem;
+        width: fit-content;
+        padding: 0.4rem;
+        background-color: var(--bg-beige);
+        gap: 0.3rem;
+    }
+    input {
+        border: none;
+        background-color: inherit;
+        width: 200px;
+
+        &:focus-visible{
+            outline: none;
+            border: none;
+        }
+    }
+
+    input::placeholder {
+        color: black;
+        font-weight: 700;
+    }
+}
+
+.search-button {
+    font-family: "Konkhmer Sleokchher", system-ui;;
+    display: flex;
+    flex-direction: row;
+    width: 90px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 6px;
+    border-radius: 0.3rem;
+    border: none;
+    background-color: var(--bg-black);
+    color: white;
+    padding: 0.5rem;
+    cursor: pointer;
 }
