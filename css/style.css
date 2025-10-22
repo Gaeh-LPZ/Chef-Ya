@@ -13,6 +13,10 @@
 
 }
 
+footer {
+    height: 10vh;
+}
+
 .imagen-fondo1 {
     position: fixed;
     top: 0;
@@ -41,6 +45,7 @@
 
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    height: 100vh;
 }
 
 header {
@@ -50,6 +55,7 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
+    height: 10vh;
 }
 
 .button-beige {
@@ -85,10 +91,10 @@ main {
     display: flex;
     flex-direction: row;
     width: 100vw;
-    height: 50vh;
+    height: 78vh;
     align-items: center;
     justify-content: space-between;
-    padding: 10%;
+    padding: 5%;
 
     section h1 {
         color: var(--text-secondary);
@@ -108,6 +114,34 @@ main {
     }
 }
 
+@media (max-width: 1220px){
+    main {
+        display: flex;
+        flex-direction: row;
+        width: 100vw;
+        height: 72vh;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1%;
+
+        section h1 {
+            color: var(--text-secondary);
+            font-family: "Jomhuria", serif;
+            font-size: 60px;
+            font-weight: 400;
+            margin-bottom: 1px;
+        }
+
+        aside h1 {
+            font-family: "Lilita One", system-ui;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 40px;
+            color: var(--text-secondary);
+            margin-bottom: 1px;
+        }
+    }
+}
 .Formulario {
     display: flex;
     flex-direction: row;
@@ -155,4 +189,11 @@ main {
     color: white;
     padding: 0.5rem;
     cursor: pointer;
+}
+
+.Logo {
+    width: 200px;
+    height: auto;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
 }
