@@ -31,7 +31,44 @@
             </svg>
         </button>
     </header>
-    <main></main>
+    <main>
+        <div class="filtros">
+            <select name="precios" id="precios">
+                <option value="">Costo</option>
+            </select>
+            <select name="precio-envio" id="precio-envio">
+                <option value="">Costo de envío</option>
+            </select>
+            <button type="button">Mayor calificación</button>
+            <button type="button">Menos de 30 min</button>
+        </div>
+        <div class="separacion">
+            <section class="mas-buscados">
+                <p><strong>Los más buscados</strong></p>
+                <nav>
+                    <a href="">Sushi</a>
+                    <a href="">Pizza</a>
+                    <a href="">Americana</a>
+                    <a href="">Tacos</a>
+                </nav>
+                <!--Implementar con js que los botones se generen dinamicamente en base a las categorias existentes en la base de datos-->
+                <!--Mostrar unicamente las 10 categorías más buscadas-->
+            </section>
+            <aside class="cartas">
+                <h1>Populares cerca de ti</h1>
+                <p>Ver Todos</p>
+                <button><-</button>
+                <button>-></button>
+                <!--Crear las tarjetas de los restaurantes, ejemplo-->
+                <!--Generar 3 tarjetas dinamicas en la grilla-->
+                <div>
+                    <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
+                    <h2>Nombre del restaurante</h2>
+                    <button>Ordenar ahora</button>
+                </div>
+            </aside>
+        </div>
+    </main>
     <footer></footer>
 </body>
 </html>
