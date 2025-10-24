@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --text-primary: black;
+    --text-secondary: white;
+    --bg-black: rgb(0 0 0);
+    --bg-beige: #E2D9C2;
+    --shadow: rgb(0 0 0 / 75%);
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+header {
+    width: 100vw;
+    height: auto;
+    padding: 8px;
+    background-color: #f3f3f3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    img { /* Logo de Chef Ya! */
+        width: 150px;
+        height: auto;
+    }
+
+    #menu-button, #user-login {
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    div {
+        display: inherit;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 0.3rem;
+    }
+
+    .search-bar {
+        width: 20vw;
+        height: 25px;
+        border: none;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        box-shadow: 0px 5px 13px var(--shadow);;
+    }
+}
