@@ -14,14 +14,11 @@
     <div class="imagen-fondo2"></div>
     <header>
         <button type="button" id="menu-button">
-            <svg width="24" height="24" role="img" aria-label="Menu">
-                <use href="./assets/icons/menu-2.svg"></use>
-            </svg>
+                <svg role="img" aria-label="Menu">
+                    <use href="./assets/icons/menu-2.svg"></use>
+                </svg>
         </button>
-        <div>
-            <button type="button" class="button-beige">Iniciar Sesion</button>
-            <button type="button" class="button-black">Registrarse</button>
-        </div>
+        <img src="./assets/images/Logo.png" alt="Logo de Chef Ya!" class="Logo Logo--mobile">    
     </header>
     <main>
         <section>
@@ -31,7 +28,7 @@
                     <svg width="24" height="23" role="img" aria-label="icono-ubicacion">
                         <use href="./assets/icons/map-pin.svg"></use>
                     </svg>
-                    <input type="search" name="ubicacion" placeholder="Ingresa la dirección de entrega">
+                    <input type="search" name="ubicacion" placeholder="Ingresa tu dirección">
                 </label>
                 <button type="submit" class="search-button">Buscar
                     <svg width="20" height="20" role="img">
@@ -40,7 +37,8 @@
                 </button>
             </form>
         </section>
-        <aside>
+        <!-- Desktop: original Categories aside (kept for web) -->
+        <aside class="categories-aside" aria-label="Categorias">
             <h1>Categorias</h1>
             <form action="" class="Formulario">
                 <label>
@@ -51,9 +49,13 @@
                 </label>
             </form>
         </aside>
+
+        <aside class="cta-aside" role="region" aria-label="Ver más">
+            <p class="cta-more">HAZ CLICK PARA VER MÁS ...</p>
+        </aside>
     </main>
     <footer>
-        <img src="./assets/images/Logo.png" alt="Logo de Chef Ya!" class="Logo">
+        <img src="./assets/images/Logo.png" alt="Logo de Chef Ya!" class="Logo Logo--desktop">
     </footer>
 </body>
 </html>
