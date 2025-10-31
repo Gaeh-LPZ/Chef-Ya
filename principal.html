@@ -8,7 +8,7 @@
 </head>
 <body>
     <header class="main-header">
-        <button type="button" id="menu-button">
+        <button type="button" id="menu-button" aria-label="menu access button">
             <svg width="20" height="20">
                 <use href="./assets/icons/menu-2.svg"></use>
             </svg>
@@ -25,7 +25,12 @@
                 <input type="search" name="search-restaurants" placeholder="Buscar en Acatlima" class="search-bar">
             </label>
         </form>
-        <button type="button" id="user-login">
+        <button type="button" id="shopping-cart" aria-label="shopping-cart button">
+            <svg width="30" height="30">
+                <use href="./assets/icons/shopping-cart.svg"></use>
+            </svg>
+        </button>
+        <button type="button" id="user-login" aria-label="user-login button">
             <svg width="30" height="30">
                 <use href="./assets/icons/User.svg"></use>
             </svg>
@@ -43,7 +48,7 @@
             <button type="button">Menos de 30 min</button>
         </div>
         <div class="separacion">
-            <section class="mas-buscados">
+            <section class="opciones">
                 <p><strong>Los más buscados</strong></p>
                 <nav>
                     <a href="">Sushi</a>
@@ -58,46 +63,89 @@
                 <header>
                     <h1>Populares cerca de ti</h1>
                     <div style="display: flex; height: 20px; gap: 1rem;">
-                        <p>Ver Todos</p>
-                        <button><-</button>
-                        <button>-></button>
+                        <nav>
+                            <a href="">Ver Todos</a>
+                        </nav>
+                        <button>
+                            <svg>
+                                <use href="./assets/icons/arrow-narrow-left.svg"></use>
+                            </svg>
+                        </button>
+                        <button>
+                            <svg>
+                                <use href="./assets/icons/arrow-narrow-right.svg"></use>
+                            </svg>
+                        </button>
                     </div>
                 </header>
                 <!--Crear las tarjetas de los restaurantes, ejemplo-->
                 <!--Generar 3 tarjetas dinamicas en la grilla-->
                 <div class="tarjeta">
                     <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Nombre del restaurante</h2>
+                    <h2>Coffe Surf</h2>
                     <button>Ordenar ahora</button>
                 </div>
                 <div class="tarjeta">
                     <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Nombre del restaurante</h2>
+                    <h2>Coffe Surf</h2>
                     <button>Ordenar ahora</button>
                 </div>
                 <div class="tarjeta">
                     <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Nombre del restaurante</h2>
+                    <h2>Coffe Surf</h2>
                     <button>Ordenar ahora</button>
                 </div>
-                <div class="tarjeta">
-                    <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Nombre del restaurante</h2>
-                    <button>Ordenar ahora</button>
-                </div>
-                <div class="tarjeta">
-                    <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Nombre del restaurante</h2>
-                    <button>Ordenar ahora</button>
-                </div>
-                <div class="tarjeta">
-                    <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Nombre del restaurante</h2>
-                    <button>Ordenar ahora</button>
-                </div>
-                
             </aside>
         </div>
+        <div class="separacion">
+            <section class="opciones">
+            <p><strong>Todas las categorias</strong></p>
+            <nav>
+                    <a href="">Mexicana</a>
+                    <a href="">Vegana</a>
+                    <a href="">Americana</a>
+                    <a href="">Vegetariana</a>
+                    <a href="">Pizza</a>
+            </nav>
+        </section>
+        <aside class="cartas">
+            <header>
+                <h1>Populares cerca de ti</h1>
+                <div style="display: flex; height: 20px; gap: 1rem;">
+                    <nav>
+                        <a href="">Ver Todos</a>
+                    </nav>
+                    <button>
+                        <svg>
+                            <use href="./assets/icons/arrow-narrow-left.svg"></use>
+                        </svg>
+                    </button>
+                    <button>
+                        <svg>
+                            <use href="./assets/icons/arrow-narrow-right.svg"></use>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+            <!--Crear las tarjetas de los restaurantes, ejemplo-->
+            <!--Generar 3 tarjetas dinamicas en la grilla-->
+            <div class="tarjeta">
+                <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
+                <h2>Coffe Surf</h2>
+                <button>Ordenar ahora</button>
+            </div>
+            <div class="tarjeta">
+                <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
+                <h2>Coffe Surf</h2>
+                <button>Ordenar ahora</button>
+            </div>
+            <div class="tarjeta">
+                <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
+                <h2>Coffe Surf</h2>
+                <button>Ordenar ahora</button>
+            </div>
+        </aside>    
+    </div>
     </main>
     <footer></footer>
 </body>
