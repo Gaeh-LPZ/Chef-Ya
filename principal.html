@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="./css/principal.css">
 </head>
 <body>
+    <nav class="mobile-nav">
+        <a href="#">Ofertas</a>
+        <a href="#" class="active">Principal</a>
+        <a href="#">Favoritos</a>
+    </nav>
+    
     <header class="main-header">
         <button type="button" id="menu-button" aria-label="menu access button">
             <svg width="20" height="20">
@@ -36,6 +42,7 @@
             </svg>
         </button>
     </header>
+
     <main>
         <div class="filtros">
             <select name="precios" id="precios">
@@ -56,9 +63,7 @@
                     <a href="">Americana</a>
                     <a href="">Tacos</a>
                 </nav>
-                <!--Implementar con js que los botones se generen dinamicamente en base a las categorias existentes en la base de datos-->
-                <!--Mostrar unicamente las 10 categorías más buscadas-->
-            </section>
+                </section>
             <aside class="cartas">
                 <header>
                     <h1>Populares cerca de ti</h1>
@@ -78,22 +83,49 @@
                         </button>
                     </div>
                 </header>
-                <!--Crear las tarjetas de los restaurantes, ejemplo-->
-                <!--Generar 3 tarjetas dinamicas en la grilla-->
                 <div class="tarjeta">
                     <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
                     <h2>Coffe Surf</h2>
-                    <button>Ordenar ahora</button>
+                    
+                    <div class="card-mobile-info">
+                        <div class="card-info-top">
+                            <span class="card-time">30-40 min</span>
+                            <span class="card-rating">4.8 ★</span>
+                        </div>
+                        <p class="card-cost">Costo de envío: $32.00MXN</p>
+                    </div>
+                    
+                    <button class="card-order-button-desktop">Ordenar ahora</button>
                 </div>
+
                 <div class="tarjeta">
                     <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
                     <h2>Coffe Surf</h2>
-                    <button>Ordenar ahora</button>
+                    
+                    <div class="card-mobile-info">
+                        <div class="card-info-top">
+                            <span class="card-time">20-30 min</span>
+                            <span class="card-rating">4.4 ★</span>
+                        </div>
+                        <p class="card-cost">Costo de envío: $26.00MXN</p>
+                    </div>
+                    
+                    <button class="card-order-button-desktop">Ordenar ahora</button>
                 </div>
+
                 <div class="tarjeta">
                     <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
                     <h2>Coffe Surf</h2>
-                    <button>Ordenar ahora</button>
+
+                    <div class="card-mobile-info">
+                        <div class="card-info-top">
+                            <span class="card-time">15-25 min</span>
+                            <span class="card-rating">4.5 ★</span>
+                        </div>
+                        <p class="card-cost">Costo de envío: $15.00MXN</p>
+                    </div>
+                    
+                    <button class="card-order-button-desktop">Ordenar ahora</button>
                 </div>
             </aside>
         </div>
@@ -127,22 +159,49 @@
                     </button>
                 </div>
             </header>
-            <!--Crear las tarjetas de los restaurantes, ejemplo-->
-            <!--Generar 3 tarjetas dinamicas en la grilla-->
             <div class="tarjeta">
                 <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
                 <h2>Coffe Surf</h2>
-                <button>Ordenar ahora</button>
+                
+                <div class="card-mobile-info">
+                    <div class="card-info-top">
+                        <span class="card-time">30-40 min</span>
+                        <span class="card-rating">4.8 ★</span>
+                    </div>
+                    <p class="card-cost">Costo de envío: $32.00MXN</p>
+                </div>
+                
+                <button class="card-order-button-desktop">Ordenar ahora</button>
             </div>
+
             <div class="tarjeta">
                 <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
                 <h2>Coffe Surf</h2>
-                <button>Ordenar ahora</button>
+                
+                <div class="card-mobile-info">
+                    <div class="card-info-top">
+                        <span class="card-time">20-30 min</span>
+                        <span class="card-rating">4.4 ★</span>
+                    </div>
+                    <p class="card-cost">Costo de envío: $26.00MXN</p>
+                </div>
+                
+                <button class="card-order-button-desktop">Ordenar ahora</button>
             </div>
+
             <div class="tarjeta">
                 <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
                 <h2>Coffe Surf</h2>
-                <button>Ordenar ahora</button>
+
+                <div class="card-mobile-info">
+                    <div class="card-info-top">
+                        <span class="card-time">15-25 min</span>
+                        <span class="card-rating">4.5 ★</span>
+                    </div>
+                    <p class="card-cost">Costo de envío: $15.00MXN</p>
+                </div>
+                
+                <button class="card-order-button-desktop">Ordenar ahora</button>
             </div>
         </aside>    
     </div>
