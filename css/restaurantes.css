@@ -4,42 +4,267 @@
     box-sizing: border-box;
 }
 
+:root {
+    --text-primary: black;
+    --text-secondary: white;
+    --bg-black: rgb(0 0 0);
+    --bg-beige: #E2D9C2;
+    --shadow: rgb(0 0 0 / 75%);
+    --shadow-card: rgb(0 0 0 / 40%);
+    --bg-gray: #D9D9D9;
+    --bg-card: #F1F1F1;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #f9f9f9; 
+    color: #333;
+}
+
 .main-header {
-    width: 99vw;
+    width: 100%;
     height: auto;
-    padding: 8px;
-    background-color: #f3f3f3;
+    padding: 12px 24px;
+    background-color: var(--bg-gray); 
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    img { /* Logo de Chef Ya! */
-        width: 150px;
-        height: auto;
-    }
+}
 
-    #menu-button, #user-login, #shopping-cart {
-        margin: 0;
-        padding: 0;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-    }
+.main-header img {
+    width: 150px;
+    height: auto;
+}
 
-    div {
-        display: inherit;
+.main-header #menu-button, 
+.main-header #user-login, 
+.main-header #shopping-cart {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.main-header div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.main-header .search-bar {
+    width: 350px; 
+    height: 30px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    background-color: #f7f7f7;
+    font-size: 1rem;
+    box-shadow: 0px 5px 13px var(--shadow);
+}
+
+.imagen-restaurante {
+    position: relative;
+    height: 350px;
+    background-image: url('../assets/images/La\ Antigua.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botones-banner {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.botones-banner button {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.restaurante-contenido {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.restaurante-perfil {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid #f9f9f9; 
+    position: absolute;
+    top: -60px; 
+    left: 2rem;
+    background-color: white; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.restaurante-info {
+    display: flex;
+    gap: 2.5rem;
+    padding-top: 80px; 
+    padding-bottom: 2.5rem;
+}
+
+.info-general {
+    flex: 2; 
+}
+
+.info-general h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-general .rating, .info-general .categorias, .info-general .direccion {
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.info-general .descripcion {
+    line-height: 1.6;
+    margin-top: 1rem;
+}
+
+.info-pedido {
+    flex: 1;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    background-color: #fff;
+    height: fit-content;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.botones-tipo-pedido {
+    display: flex;
+    background-color: #f3f3f3;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.botones-tipo-pedido button {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #555;
+}
+
+.botones-tipo-pedido button.activo {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.btn-pedir {
+    width: 100%;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    background-color: #222;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.info-entrega {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.info-entrega header {
+    font-weight: bold;
+}
+
+.info-entrega footer {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.mapa-info {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 3rem;
+}
+
+.mapa-visual {
+    flex: 2;
+    border-radius: 12px;
+    background-color: #e0e0e0;
+    min-height: 200px;
+}
+
+.ubicacion-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1rem;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.ubicacion-card header, .ubicacion-card footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
+.ubicacion-card footer {
+    border-top: 1px solid #e0e0e0;
+    margin-top: 1rem;
+    padding-top: 1rem;
+}
+
+.ubicacion-card .direccion-corta, .ubicacion-card .horario {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.3rem;
+}
+
+.info-box {
+    header {
+        display: flex;
+        flex-direction: column;
+        color: rgb(3, 142, 3);
         align-items: center;
         justify-content: center;
         text-align: center;
-        gap: 0.3rem;
     }
-
-    .search-bar {
-        width: 20vw;
-        height: 25px;
-        border: none;
-        border-radius: 1rem;
-        padding: 0.5rem;
-        box-shadow: 0px 5px 13px var(--shadow);;
+    footer { 
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: var(--text-primary);
+        font-weight: 400;
     }
 }
