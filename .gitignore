@@ -1,8 +1,8 @@
 
-mongo_data/
+backend/mongo_data/
 
 #no se sube
-.env
+backend/.env
 
 #Solamete lo tenemos durante pruebas
-app/__pycache__/
+backend/app/__pycache__/
