@@ -14,6 +14,7 @@ MONGO_DB = os.getenv("MONGO_DB", "chefya")
 # aqui hacemos la conexión
 MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/?authSource=admin"
 
+# estas son las variablse globales para la conexion
 client: AsyncIOMotorClient | None = None
 db = None
 
@@ -32,3 +33,11 @@ async def shutdown():
 @app.get("/")
 async def raiz():
     return {"mensaje": "Conectado a MongoDB", "base_datos": MONGO_DB}
+
+@app.get("/prueba-semilla/user")
+async def prueba_semilla_user():
+    doc = await db.usuarios.find_one(
+        {"telefono": "5512345678"},
+        {"_id": 0}  # evita problemas de serialización con ObjectId
+    )
+    return doc or {"error": "No se encontró el usuario de ejemplo"}
