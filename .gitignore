@@ -6,3 +6,4 @@ backend/.env
 
 #Solamete lo tenemos durante pruebas
 backend/app/__pycache__/
+backend/app/db/__pycache__/

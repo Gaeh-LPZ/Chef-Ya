@@ -1,43 +1,27 @@
-from fastapi import FastAPI
-from motor.motor_asyncio import AsyncIOMotorClient
-import os
-from p import prueba
+# app/main.py
+from fastapi import FastAPI, Depends
+from motor.motor_asyncio import AsyncIOMotorDatabase
+from db.mongo import (
+    conectar_a_mongo,
+    cerrar_conexion_mongo,
+    obtener_bd,
+)
 
 app = FastAPI(title="ChefYa API")
-
-# cargamos las variables
-MONGO_HOST = os.getenv("MONGO_HOST", "mongodb")
-MONGO_PORT = os.getenv("MONGO_PORT", "27017")
-MONGO_USER = os.getenv("MONGO_USER", "root")
-MONGO_PASSWORD = os.getenv("MONGO_PASSWORD", "example")
-MONGO_DB = os.getenv("MONGO_DB", "chefya")
-
-# aqui hacemos la conexión
-MONGO_URI = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/?authSource=admin"
-
-# estas son las variablse globales para la conexion
-client: AsyncIOMotorClient | None = None
-db = None
+app = FastAPI(version="1.0")
 
 @app.on_event("startup")
-async def startup():
-    global client, db
-    client = AsyncIOMotorClient(MONGO_URI)
-    db = client[MONGO_DB]
-    await db.command("ping")
+async def al_iniciar():
+    await conectar_a_mongo(app)
+
 
 @app.on_event("shutdown")
-async def shutdown():
-    if client:
-        client.close()
+async def al_apagar():
+    await cerrar_conexion_mongo(app)
 
-# verificamos la conexion de la base de datos
-@app.get("/health",tags=["Health"])
-async def health():
-    await db.command("ping")
+# comprobamos el estado de la conexion
+@app.get("/health", tags=["health"])
+async def verificar_salud(bd: AsyncIOMotorDatabase = Depends(obtener_bd)):
+    """Endpoint simple para comprobar que la API y la BD responden."""
+    await bd.command("ping")
     return {"ok": True}
-
-@app.get("/principal")
-def pruebe():
-    return prueba()
-

@@ -41,3 +41,20 @@ http://localhost:8000/
 ```json
 {"mensaje":"Conectado a MongoDB","base_datos":"chefya"}
 ```
+
+### modelo carpetas propuesta 
+```txt
+app/
+├─ main.py              
+│   ├─ __init__.py
+│   └─ mongo.py        
+├─ routers/
+│   ├─ __init__.py
+│   └─ restaurants.py   capa de 
+├─ services/
+│   ├─ __init__.py
+│   └─ restaurant_service.py  
+└─ schemas/
+    ├─ __init__.py
+    └─ restaurant.py 
+```
