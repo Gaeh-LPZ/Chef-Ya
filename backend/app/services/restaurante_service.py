@@ -22,6 +22,8 @@ async def crear_restaurante_servicio(
     """
     documento = datos_restaurante.dict()
 
+
+
     ahora = datetime.utcnow()
     documento["creadoEn"] = ahora
     documento["actualizadoEn"] = ahora
@@ -115,3 +117,20 @@ def _mapear_doc_a_restaurante_leer(doc: dict) -> RestauranteLeer:
         calificacion=calificacion,
         entrega=entrega,
     )
+
+# importente!, debemos asegurar que el slug no cambie al actualizar el nombre
+async def _asegurar_slug_unico(bd: AsyncIOMotorDatabase, slug_base: str) -> str:
+    """
+    funcion interna que nos permite garantizar unicidad en los slugs
+    devuelve un slug unico
+    """
+    slug = slug_base
+    contador = 1
+
+    while True:
+        existe = await bd[NOMBRE_COLECCION].find_one({"slug": slug})
+        if not existe:
+            return slug
+
+        contador += 1
+        slug = f"{slug_base}-{contador}"

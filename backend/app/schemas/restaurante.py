@@ -23,7 +23,7 @@ class Entrega(BaseModel):
 
 class RestauranteBase(BaseModel):
     nombre: str
-    slug: str
+    slug: Optional[str] = None
     descripcion: Optional[str] = None
     categorias: List[str] = []
     direccion: Direccion
