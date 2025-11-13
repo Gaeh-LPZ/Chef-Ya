@@ -24,7 +24,7 @@ async def conectar_a_mongo(aplicacion):
 
 
 async def cerrar_conexion_mongo(aplicacion):
-    """Cerrar la conexión con Mongo al apagar la app."""
+    """Cerrar la conexión con mongo al apagar la app."""
     cliente: AsyncIOMotorClient | None = getattr(aplicacion.state, "cliente_mongo", None)
     if cliente:
         cliente.close()
