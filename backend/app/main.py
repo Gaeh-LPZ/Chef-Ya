@@ -1,14 +1,13 @@
-# app/main.py
 from fastapi import FastAPI, Depends
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from routers.restaurantes import router as router_restaurantes
 from db.mongo import (
     conectar_a_mongo,
     cerrar_conexion_mongo,
     obtener_bd,
 )
 
-app = FastAPI(title="ChefYa API")
-app = FastAPI(version="1.0")
+app = FastAPI(title="ChefYa API", version="1.0")
 
 @app.on_event("startup")
 async def al_iniciar():
@@ -25,3 +24,6 @@ async def verificar_salud(bd: AsyncIOMotorDatabase = Depends(obtener_bd)):
     """Endpoint simple para comprobar que la API y la BD responden."""
     await bd.command("ping")
     return {"ok": True}
+
+# cargamos la rutas generadas de los restaurantes
+app.include_router(router_restaurantes)

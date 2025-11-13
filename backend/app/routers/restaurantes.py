@@ -1,0 +1,56 @@
+from typing import List
+from fastapi import APIRouter, Depends, HTTPException, status
+from motor.motor_asyncio import AsyncIOMotorDatabase
+
+from db.mongo import obtener_bd
+from schemas.restaurante import RestauranteCrear, RestauranteLeer
+from services.restaurante_service import (
+    crear_restaurante_servicio,
+    listar_restaurantes_servicio,
+    obtener_restaurante_por_id_servicio,
+)
+
+router = APIRouter(prefix="/restaurantes", tags=["Restaurantes"],)
+
+@router.post("/", response_model=str, status_code=status.HTTP_201_CREATED,)
+async def crear_restaurante(
+    datos_restaurante: RestauranteCrear,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    """
+    crea un nuevo restaurante en la base de datos y
+    devuelve el id generado como string.
+    """
+    nuevo_id = await crear_restaurante_servicio(bd, datos_restaurante)
+    return nuevo_id
+
+
+@router.get("/", response_model=List[RestauranteLeer],)
+async def listar_restaurantes(
+    solo_activos: bool = True,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    """
+    lista los restaurantes. Por defecto, solo los activos,
+    puedes usar ?solo_activos=false para traer todos.
+    """
+    restaurantes = await listar_restaurantes_servicio(bd, solo_activos=solo_activos)
+    return restaurantes
+
+
+@router.get("/{id_restaurante}", response_model=RestauranteLeer,)
+async def obtener_restaurante(
+    id_restaurante: str,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    """
+    Devuelve un restaurante por su id.
+    Si no existe o el id es inválido, devuelve 404.
+    """
+    restaurante = await obtener_restaurante_por_id_servicio(bd, id_restaurante)
+    if not restaurante:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Restaurante no encontrado",
+        )
+    return restaurante

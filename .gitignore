@@ -1,9 +1,12 @@
-
+# datos persistentes de la base de datos que no se suben
 backend/mongo_data/
 
-#no se sube
+# no se sube
 backend/.env
-
-#Solamete lo tenemos durante pruebas
+ 
+# solamete lo tenemos durante pruebas, son para recargar la pagina
 backend/app/__pycache__/
 backend/app/db/__pycache__/
+backend/app/routers/__pycache__/
+backend/app/schemas/__pycache__/
+backend/app/services/__pycache__/
