@@ -10,7 +10,7 @@ MONGO_PASSWORD = os.getenv("MONGO_PASSWORD", "example")
 MONGO_DB = os.getenv("MONGO_DB", "chefya")
 
 #conexion a mongo
-URI_MONGO = (
+URL_MONGO = (
     f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@"
     f"{MONGO_HOST}:{MONGO_PORT}/?authSource=admin"
 )
@@ -18,7 +18,7 @@ URI_MONGO = (
 # funciones basicas de conexion para el inicio
 async def conectar_a_mongo(aplicacion):
     """Crear el cliente de Mongo y probar la conexión."""
-    aplicacion.state.cliente_mongo = AsyncIOMotorClient(URI_MONGO)
+    aplicacion.state.cliente_mongo = AsyncIOMotorClient(URL_MONGO)
     aplicacion.state.base_datos_mongo = aplicacion.state.cliente_mongo[MONGO_DB]
     await aplicacion.state.base_datos_mongo.command("ping")
 
