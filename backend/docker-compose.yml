@@ -24,6 +24,7 @@ services:
     restart: unless-stopped
     volumes:
       #Esta parte la debemos de modificar cuando lancemos a producción
+      #puedes eliminar las lineas del __init__.py del .gitignore cuando descomentes esta linea
       #solo la comente para pruebas
       #- ./app/data:/app/data
       - ./app:/app

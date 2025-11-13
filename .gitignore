@@ -5,6 +5,7 @@ backend/mongo_data/
 backend/.env
  
 # solamete lo tenemos durante pruebas, son para recargar la pagina
+# NOTA: si ya estas en fase de despliege puedes borrar estas lineas
 backend/app/__pycache__/
 backend/app/db/__pycache__/
 backend/app/routers/__pycache__/
