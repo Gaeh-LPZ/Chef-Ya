@@ -5,7 +5,7 @@ import unicodedata
 def generar_slug(texto: str) -> str:
     """
     funcion para generar el slug en caso de que no se envie,
-    asi mantenemos unicidad
+    asi mantenemos coherencia.
     """
     # primero lo pasamos a minusculas
     texto = texto.lower().strip()
