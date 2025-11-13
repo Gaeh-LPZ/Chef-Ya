@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+from p import prueba
 
-app = FastAPI(title="Ping Mongo mínimo")
+app = FastAPI(title="ChefYa API")
 
 # cargamos las variables
 MONGO_HOST = os.getenv("MONGO_HOST", "mongodb")
@@ -30,14 +31,13 @@ async def shutdown():
     if client:
         client.close()
 
-@app.get("/")
-async def raiz():
-    return {"mensaje": "Conectado a MongoDB", "base_datos": MONGO_DB}
+# verificamos la conexion de la base de datos
+@app.get("/health",tags=["Health"])
+async def health():
+    await db.command("ping")
+    return {"ok": True}
 
-@app.get("/prueba-semilla/user")
-async def prueba_semilla_user():
-    doc = await db.usuarios.find_one(
-        {"telefono": "5512345678"},
-        {"_id": 0}  # evita problemas de serialización con ObjectId
-    )
-    return doc or {"error": "No se encontró el usuario de ejemplo"}
+@app.get("/principal")
+def pruebe():
+    return prueba()
+
