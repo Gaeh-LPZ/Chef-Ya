@@ -2,6 +2,9 @@
 from pydantic import BaseModel
 from typing import Optional, List
 
+class EstadoActivo(BaseModel):
+    activo: bool
+
 class Geo(BaseModel):
     lat: float
     lng: float
@@ -37,3 +40,11 @@ class RestauranteLeer(RestauranteBase):
     slug: Optional[str] = None
     calificacion: Optional[Calificacion] = None
     entrega: Optional[Entrega] = None
+
+class RestauranteActualizar(BaseModel):
+    nombre: Optional[str] = None
+    descripcion: Optional[str] = None
+    categorias: Optional[List[str]] = None
+    direccion: Optional[Direccion] = None
+    entrega: Optional[Entrega] = None
+    activo: Optional[bool] = None

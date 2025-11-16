@@ -11,6 +11,7 @@ from schemas.restaurante import (
     Geo,
     Calificacion,
     Entrega,
+    RestauranteActualizar
 )
 
 NOMBRE_COLECCION = "restaurantes"
@@ -90,6 +91,85 @@ async def obtener_restaurante_por_slug_servicio(
         return None
     
     return _mapear_doc_a_restaurante_leer(doc)
+
+#actualiazmos los datos del restaurante
+async def actualizar_restaurante_servicio(
+    bd: AsyncIOMotorDatabase,
+    id_restaurante: str,
+    datos_actualizacion: RestauranteActualizar,
+) -> Optional[RestauranteLeer]:
+    """
+    Actualiza los datos de un restaurante.
+    Importante: el slug NO se cambia aunque venga en la petición.
+    Devuelve el restaurante actualizado o None si no existe / id inválido.
+    """
+    try:
+        oid = ObjectId(id_restaurante)
+    except Exception:
+        return None
+
+    # Verificamos que exista
+    doc_existente = await bd[NOMBRE_COLECCION].find_one({"_id": oid})
+    if not doc_existente:
+        return None
+
+    # Tomamos solo los campos que el cliente envió
+    campos_update = datos_actualizacion.dict(exclude_unset=True)
+
+    # No permitimos cambiar el slug desde aquí
+    if "slug" in campos_update:
+        campos_update.pop("slug")
+
+    # Si no hay nada que actualizar, devolvemos el existente
+    if not campos_update:
+        return _mapear_doc_a_restaurante_leer(doc_existente)
+
+    campos_update["actualizadoEn"] = datetime.utcnow()
+
+    await bd[NOMBRE_COLECCION].update_one(
+        {"_id": oid},
+        {"$set": campos_update},
+    )
+
+    doc_actualizado = await bd[NOMBRE_COLECCION].find_one({"_id": oid})
+    if not doc_actualizado:
+        return None
+
+    return _mapear_doc_a_restaurante_leer(doc_actualizado)
+
+# aqui cambiamos el estado del reaturante
+async def cambiar_estado_activo_restaurante_servicio(
+    bd: AsyncIOMotorDatabase,
+    id_restaurante: str,
+    activo: bool,
+) -> Optional[RestauranteLeer]:
+    """
+    Cambia el campo 'activo' de un restaurante (true/false).
+    Devuelve el restaurante actualizado o None si no existe / id inválido.
+    """
+    try:
+        oid = ObjectId(id_restaurante)
+    except Exception:
+        return None
+
+    resultado = await bd[NOMBRE_COLECCION].update_one(
+        {"_id": oid},
+        {
+            "$set": {
+                "activo": activo,
+                "actualizadoEn": datetime.utcnow(),
+            }
+        },
+    )
+
+    if resultado.matched_count == 0:
+        return None
+
+    doc_actualizado = await bd[NOMBRE_COLECCION].find_one({"_id": oid})
+    if not doc_actualizado:
+        return None
+
+    return _mapear_doc_a_restaurante_leer(doc_actualizado)
 
 # aqui mapeamos al tipo RestauranteLeer cada doc de mongo
 def _mapear_doc_a_restaurante_leer(doc: dict) -> RestauranteLeer:
