@@ -4,6 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from db.mongo import obtener_bd
 from schemas.restaurante import RestauranteCrear, RestauranteLeer, EstadoActivo, RestauranteActualizar
+from schemas.usuario import UsuarioLeer
 from services.restaurante_service import (
     crear_restaurante_servicio,
     listar_restaurantes_servicio,
@@ -12,6 +13,7 @@ from services.restaurante_service import (
     actualizar_restaurante_servicio,
     cambiar_estado_activo_restaurante_servicio,
 )
+from services.auth_service import obtener_usuario_actual
 
 router = APIRouter(prefix="/restaurantes", tags=["Restaurantes"],)
 
@@ -19,6 +21,7 @@ router = APIRouter(prefix="/restaurantes", tags=["Restaurantes"],)
 async def crear_restaurante(
     datos_restaurante: RestauranteCrear,
     bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+    usuario: UsuarioLeer = Depends(obtener_usuario_actual),
 ):
     """
     crea un nuevo restaurante en la base de datos y
@@ -26,7 +29,6 @@ async def crear_restaurante(
     """
     nuevo_id = await crear_restaurante_servicio(bd, datos_restaurante)
     return nuevo_id
-
 
 @router.get("/", response_model=List[RestauranteLeer],)
 async def listar_restaurantes(

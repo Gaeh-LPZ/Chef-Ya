@@ -8,3 +8,8 @@ pymongo
 
 # para cargar variables del .env
 python-dotenv
+
+google-auth
+google-auth-oauthlib
+
+python-jose[cryptography]
