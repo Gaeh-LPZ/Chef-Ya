@@ -3,6 +3,7 @@ from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
 from services.utils import generar_slug
+
 from schemas.restaurante import (
     RestauranteCrear,
     RestauranteLeer,
@@ -74,7 +75,23 @@ async def obtener_restaurante_por_id_servicio(
 
     return _mapear_doc_a_restaurante_leer(doc)
 
-# aqui mapeamos al tipo RestauranteLeer cada doc de moncgo
+async def obtener_restaurante_por_slug_servicio(
+    bd: AsyncIOMotorDatabase,
+    slug_restaurante: str,
+) -> Optional[RestauranteLeer]:
+    """
+    devuelve un restaurante por su slug, si no existe o es invalido devuelve None
+    """
+    
+    oslug = slug_restaurante
+
+    doc = await bd[NOMBRE_COLECCION].find_one({"slug": oslug})
+    if not doc:
+        return None
+    
+    return _mapear_doc_a_restaurante_leer(doc)
+
+# aqui mapeamos al tipo RestauranteLeer cada doc de mongo
 def _mapear_doc_a_restaurante_leer(doc: dict) -> RestauranteLeer:
     """
     función interna para convertir un documento de mongo a un RestauranteLeer para

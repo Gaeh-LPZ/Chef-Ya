@@ -3,11 +3,12 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from db.mongo import obtener_bd
-from schemas.restaurante import RestauranteCrear, RestauranteLeer
+from schemas.restaurante import RestauranteCrear, RestauranteLeer, RestauranteBase
 from services.restaurante_service import (
     crear_restaurante_servicio,
     listar_restaurantes_servicio,
     obtener_restaurante_por_id_servicio,
+    obtener_restaurante_por_slug_servicio,
 )
 
 router = APIRouter(prefix="/restaurantes", tags=["Restaurantes"],)
@@ -38,16 +39,31 @@ async def listar_restaurantes(
     return restaurantes
 
 
-@router.get("/{id_restaurante}", response_model=RestauranteLeer,)
+@router.get("/id/{id_restaurante}", response_model=RestauranteLeer,)
 async def obtener_restaurante(
     id_restaurante: str,
     bd: AsyncIOMotorDatabase = Depends(obtener_bd),
 ):
     """
-    Devuelve un restaurante por su id.
-    Si no existe o el id es inválido, devuelve 404.
+    Devuelve un restaurante por su id, si no existe o el id es inválido, devuelve 404.
     """
     restaurante = await obtener_restaurante_por_id_servicio(bd, id_restaurante)
+    if not restaurante:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Restaurante no encontrado",
+        )
+    return restaurante
+
+@router.get("/slug/{slug_restaurante}", response_model=RestauranteLeer,)
+async def obtener_restaurante_slug(
+    slug_restaurante: str,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    """
+    Devuelve un restaurante por su slug, si no existe o el id es inválido, devuelve 404.
+    """
+    restaurante = await obtener_restaurante_por_slug_servicio(bd, slug_restaurante)
     if not restaurante:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

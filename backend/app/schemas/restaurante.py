@@ -34,5 +34,6 @@ class RestauranteCrear(RestauranteBase):
 
 class RestauranteLeer(RestauranteBase):
     id: str
+    slug: Optional[str] = None
     calificacion: Optional[Calificacion] = None
     entrega: Optional[Entrega] = None
