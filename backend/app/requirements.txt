@@ -13,3 +13,5 @@ google-auth
 google-auth-oauthlib
 
 python-jose[cryptography]
+
+pydantic[email]
