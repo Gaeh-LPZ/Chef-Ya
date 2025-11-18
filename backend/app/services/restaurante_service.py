@@ -2,7 +2,7 @@ from typing import List, Optional
 from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
-from services.utils import generar_slug
+from services.utils import generar_slug, _asegurar_slug_unico
 
 from schemas.restaurante import (
     RestauranteCrear,
@@ -26,7 +26,7 @@ async def crear_restaurante_servicio(
     documento = datos_restaurante.dict()
 
     slug = documento["slug"] or generar_slug(documento["nombre"])
-    slug_final = await _asegurar_slug_unico(bd, slug)
+    slug_final = await _asegurar_slug_unico(bd, slug,NOMBRE_COLECCION)
 
     documento["slug"] = slug_final
 
@@ -240,20 +240,3 @@ def _mapear_doc_a_restaurante_leer(doc: dict) -> RestauranteLeer:
         calificacion=calificacion,
         entrega=entrega,
     )
-
-# importente!, debemos asegurar que el slug no cambie al actualizar el nombre
-async def _asegurar_slug_unico(bd: AsyncIOMotorDatabase, slug_base: str) -> str:
-    """
-    funcion interna que nos permite garantizar unicidad en los slugs
-    devuelve un slug unico
-    """
-    slug = slug_base
-    contador = 1
-
-    while True:
-        existe = await bd[NOMBRE_COLECCION].find_one({"slug": slug})
-        if not existe:
-            return slug
-
-        contador += 1
-        slug = f"{slug_base}-{contador}"

@@ -1,6 +1,6 @@
 import re
 import unicodedata
-
+from motor.motor_asyncio import AsyncIOMotorDatabase
 
 def generar_slug(texto: str) -> str:
     """
@@ -26,3 +26,20 @@ def generar_slug(texto: str) -> str:
     texto = texto.strip("-")
 
     return texto
+
+#importente!, debemos asegurar que el slug no cambie al actualizar el nombre
+async def _asegurar_slug_unico(bd: AsyncIOMotorDatabase, slug_base: str,NOMBRE_COLECCION: str) -> str:
+    """
+    funcion interna que nos permite garantizar unicidad en los slugs
+    devuelve un slug unico
+    """
+    slug = slug_base
+    contador = 1
+
+    while True:
+        existe = await bd[NOMBRE_COLECCION].find_one({"slug": slug})
+        if not existe:
+            return slug
+
+        contador += 1
+        slug = f"{slug_base}-{contador}"

@@ -2,6 +2,7 @@ from fastapi import FastAPI, Depends
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from routers.restaurantes import router as router_restaurantes
 from routers.auth import router as router_auth
+from routers.categorias import router as router_categorias
 from db.mongo import (
     conectar_a_mongo,
     cerrar_conexion_mongo,
@@ -31,3 +32,6 @@ app.include_router(router_restaurantes)
 
 # cargamos el endpoint de sesion
 app.include_router(router_auth)
+
+# cargamos las rutas generadas de los retaurantes
+app.include_router(router_categorias)
