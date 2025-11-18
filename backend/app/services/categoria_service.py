@@ -13,20 +13,20 @@ async def crear_categoria_servicio(
     nombre_categoria: str,
 ) -> str:
     """
-    crea una nueva categoria en base a nombre ingresado y devuelve el slug generado
+    Crea una nueva categoría si no existe si ya existe solo devuele el slug
     """
-    # para que podamos modificarlo
+    existente = await bd[NOMBRE_COLECCION].find_one({"nombre": nombre_categoria})
+    if existente:
+        return str(existente["slug"])
+
     documento = CategoriaCrear().dict()
-
-    # generamos el slug unico
     documento["nombre"] = nombre_categoria
-    oslug = generar_slug(nombre_categoria)
-    uslug =await _asegurar_slug_unico(bd,oslug,NOMBRE_COLECCION)
 
+    oslug = generar_slug(nombre_categoria)
+    uslug = await _asegurar_slug_unico(bd, oslug, NOMBRE_COLECCION)
     documento["slug"] = uslug
-   
-    # enviamos los datos y si se realiza correctamente la insercion devuelve el slug generado
+
     resultado = await bd[NOMBRE_COLECCION].insert_one(documento)
-    dslug = await bd[NOMBRE_COLECCION].find_one({"_id": resultado.inserted_id})
-    return str(dslug["slug"])
+    nueva = await bd[NOMBRE_COLECCION].find_one({"_id": resultado.inserted_id})
+    return str(nueva["slug"])
 

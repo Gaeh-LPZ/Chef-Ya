@@ -22,7 +22,6 @@ router = APIRouter(prefix="/restaurantes", tags=["Restaurantes"],)
 async def crear_restaurante(
     datos_restaurante: RestauranteCrear,
     bd: AsyncIOMotorDatabase = Depends(obtener_bd),
-    usuario: UsuarioLeer = Depends(obtener_usuario_actual),
 ):
     """
     crea un nuevo restaurante en la base de datos y

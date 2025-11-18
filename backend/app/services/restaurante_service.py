@@ -3,6 +3,7 @@ from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
 from services.utils import generar_slug, _asegurar_slug_unico
+from services.categoria_service import crear_categoria_servicio
 
 from schemas.restaurante import (
     RestauranteCrear,
@@ -25,10 +26,16 @@ async def crear_restaurante_servicio(
     """
     documento = datos_restaurante.dict()
 
-    slug = documento["slug"] or generar_slug(documento["nombre"])
+    slug = generar_slug(documento["nombre"])
     slug_final = await _asegurar_slug_unico(bd, slug,NOMBRE_COLECCION)
-
     documento["slug"] = slug_final
+
+
+    categorias = documento.get("categorias", [])
+
+    for nombre_categoria in categorias:
+        # esto crea la categoría solo si no existe
+        await crear_categoria_servicio(bd, nombre_categoria)
 
     ahora = datetime.utcnow()
     documento["creadoEn"] = ahora

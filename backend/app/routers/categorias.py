@@ -4,7 +4,6 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from services.categoria_service import crear_categoria_servicio
 from db.mongo import obtener_bd
 from schemas.categoria import CategoriaCrear
-
 router = APIRouter(prefix="/categorias", tags=["Categorias"],)
 
 @router.post("/", response_model=str, status_code=status.HTTP_201_CREATED,)
