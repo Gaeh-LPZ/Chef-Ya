@@ -92,6 +92,28 @@ async def obtener_restaurante_por_slug_servicio(
     
     return _mapear_doc_a_restaurante_leer(doc)
 
+# devolvemos los restaurante spor categoria
+async def obtener_restaurantes_por_categoria_servicio(
+    bd: AsyncIOMotorDatabase,
+    categotria_restaurante: str,
+) -> List[RestauranteLeer]:
+    """
+    devuelve los restaurantes de la categoria enviada
+    """
+    
+    ocategoria = [categotria_restaurante]
+
+    busqueda = bd[NOMBRE_COLECCION].find({"categorias": ocategoria})
+    
+    if not busqueda:
+        return None
+    restaurantes: list[RestauranteLeer] = []
+
+    async for doc in busqueda:
+        restaurantes.append(_mapear_doc_a_restaurante_leer(doc))
+
+    return restaurantes
+
 #actualiazmos los datos del restaurante
 async def actualizar_restaurante_servicio(
     bd: AsyncIOMotorDatabase,
