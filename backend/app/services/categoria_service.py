@@ -29,4 +29,3 @@ async def crear_categoria_servicio(
     resultado = await bd[NOMBRE_COLECCION].insert_one(documento)
     nueva = await bd[NOMBRE_COLECCION].find_one({"_id": resultado.inserted_id})
     return str(nueva["slug"])
-
