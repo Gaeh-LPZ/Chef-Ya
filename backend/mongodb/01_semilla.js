@@ -39,7 +39,7 @@ dbChef.restaurantes.insertOne({
   nombre: "Taqueria",
   slug: "taqueria",
   descripcion: "Tacos al pastor y antojitos mexicanos",
-  categorias: [categoriaId],
+  categorias: ["mexicana"],
   calificacion: { promedio: 5.0, conteo: 1 },
   entrega: { minutosPromedio: 25, tarifa: 20 },
   direccion: {

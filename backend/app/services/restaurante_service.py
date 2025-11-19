@@ -31,11 +31,14 @@ async def crear_restaurante_servicio(
     documento["slug"] = slug_final
 
 
-    categorias = documento.get("categorias", [])
+    nombres_categorias = documento.get("categorias", []) or []
+    lista_slugs: list[str] = []
 
-    for nombre_categoria in categorias:
-        # esto crea la categoría solo si no existe
-        await crear_categoria_servicio(bd, nombre_categoria)
+    for nombre_categoria in nombres_categorias:
+        slug_cat = await crear_categoria_servicio(bd, nombre_categoria)
+        lista_slugs.append(slug_cat)
+
+    documento["categorias"] = lista_slugs
 
     ahora = datetime.utcnow()
     documento["creadoEn"] = ahora
@@ -155,12 +158,26 @@ async def actualizar_restaurante_servicio(
 
     campos_update["actualizadoEn"] = datetime.utcnow()
 
+    nombres_categorias = campos_update.pop("categorias", None)
+
+    if nombres_categorias is not None:
+        lista_slugs = []
+
+        for nombre_cat in nombres_categorias:
+            # Tu servicio retorna UN SLUG (string)
+            slug = await crear_categoria_servicio(bd, nombre_cat)
+            lista_slugs.append(slug)
+
+        # Guardar lista de slugs en el restaurante
+        campos_update["categorias"] = lista_slugs
+
     await bd[NOMBRE_COLECCION].update_one(
         {"_id": oid},
         {"$set": campos_update},
     )
 
     doc_actualizado = await bd[NOMBRE_COLECCION].find_one({"_id": oid})
+    
     if not doc_actualizado:
         return None
 
@@ -247,3 +264,31 @@ def _mapear_doc_a_restaurante_leer(doc: dict) -> RestauranteLeer:
         calificacion=calificacion,
         entrega=entrega,
     )
+
+async def listar_restaurantes_por_categorias_servicio(
+    bd: AsyncIOMotorDatabase,
+    categorias: List[str],
+) -> List[RestauranteLeer]:
+    """
+    Devuelve todos los restaurantes que tengan al menos una
+    de las categorías (slugs) indicadas.
+    """
+
+    # Si viene vacío, devolvemos lista vacía
+    if not categorias:
+        return []
+
+    # Opcional: normalizar a slug/minúsculas por si el cliente manda "Mexicana"
+    categorias_normalizadas = [c.strip().lower() for c in categorias if c.strip()]
+
+    if not categorias_normalizadas:
+        return []
+
+    cursor = bd[NOMBRE_COLECCION].find(
+        {"categorias": {"$in": categorias_normalizadas}}
+    )
+
+    docs = await cursor.to_list(length=None)
+
+    # asumo que ya tienes esta función en tu servicio
+    return [_mapear_doc_a_restaurante_leer(doc) for doc in docs]

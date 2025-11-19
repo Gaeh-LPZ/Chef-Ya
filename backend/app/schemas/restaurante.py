@@ -47,3 +47,6 @@ class RestauranteActualizar(BaseModel):
     direccion: Optional[Direccion] = None
     entrega: Optional[Entrega] = None
     activo: Optional[bool] = None
+
+class RestaurantesPorCategorias(BaseModel):
+    categorias: List[str]

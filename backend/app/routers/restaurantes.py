@@ -3,10 +3,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from db.mongo import obtener_bd
-from schemas.restaurante import RestauranteCrear, RestauranteLeer, EstadoActivo, RestauranteActualizar
+from schemas.restaurante import RestauranteCrear, RestauranteLeer, EstadoActivo, RestauranteActualizar, RestaurantesPorCategorias
 from schemas.usuario import UsuarioLeer
 from services.restaurante_service import (
     crear_restaurante_servicio,
+    listar_restaurantes_por_categorias_servicio,
     listar_restaurantes_servicio,
     obtener_restaurante_por_id_servicio,
     obtener_restaurante_por_slug_servicio,
@@ -78,6 +79,23 @@ async def obtener_restaurante_slug(
         )
     return restaurante
 
+@router.post(
+    "/por-categorias",
+    response_model=List[RestauranteLeer],
+    summary="Listar restaurantes por categorías",
+)
+async def listar_restaurantes_por_categorias_endpoint(
+    body: RestaurantesPorCategorias,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+) -> List[RestauranteLeer]:
+    """
+    Recibe una lista de categorías (slugs) y devuelve
+    todos los restaurantes que tengan al menos una de ellas.
+    """
+    return await listar_restaurantes_por_categorias_servicio(
+        bd,
+        categorias=body.categorias,
+    )
 
 @router.get("/categoria/{categoria_resturante}", response_model=List[RestauranteLeer],)
 async def obtener_restaurantes_categoria(
