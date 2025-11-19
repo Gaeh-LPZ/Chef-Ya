@@ -28,6 +28,7 @@ class RestauranteBase(BaseModel):
     nombre: str
     descripcion: Optional[str] = None
     categorias: List[str] = []
+    imagen: Optional[str] = None 
     direccion: Direccion
     activo: bool = True
 
@@ -43,6 +44,7 @@ class RestauranteLeer(RestauranteBase):
 class RestauranteActualizar(BaseModel):
     nombre: Optional[str] = None
     descripcion: Optional[str] = None
+    imagen: Optional[str] = None
     categorias: Optional[List[str]] = None
     direccion: Optional[Direccion] = None
     entrega: Optional[Entrega] = None

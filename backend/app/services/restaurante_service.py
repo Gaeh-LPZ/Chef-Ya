@@ -334,6 +334,7 @@ def _mapear_doc_a_restaurante_leer(doc: dict) -> RestauranteLeer:
         activo=doc.get("activo", True),
         calificacion=calificacion,
         entrega=entrega,
+        imagen=doc.get("imagen"), 
     )
 
 async def listar_restaurantes_por_categorias_servicio(

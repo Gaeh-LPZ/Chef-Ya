@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chef Ya! | La Antigua</title>
+    <title>Chef Ya! | Restaurante</title>
     <link rel="stylesheet" href="./css/restaurantes.css">
-    <script src="./js/restaurante.js" type="module"></script>
+    <script src="./js/restaurante.js" defer></script>
 </head>
 <body>
     <header class="main-header">
@@ -21,9 +21,14 @@
             </svg>
             <p>Acatlima 69004</p>
         </div>
-        <form action="">
+        <form>
             <label>
-                <input type="search" name="search-restaurants" placeholder="Buscar en Acatlima" class="search-bar">
+                <input
+                    type="search"
+                    name="search-restaurants"
+                    placeholder="Buscar en Acatlima"
+                    class="search-bar"
+                >
             </label>
         </form>
         <button type="button" id="shopping-cart" aria-label="shopping-cart button">
@@ -37,6 +42,7 @@
             </svg>
         </button>
     </header>
+
     <main>
         <div class="imagen-restaurante">
             <div class="botones-banner">  
@@ -50,18 +56,33 @@
         </div>
 
         <div class="restaurante-contenido">
-            <img class="restaurante-perfil" src="./assets/images/La-antigua-logo.png" alt="Perfil del restaurante La Antigua">
+            <!-- Esta imagen la puede sobreescribir el JS si el backend manda una URL -->
+            <img
+                class="restaurante-perfil"
+                src="./assets/images/La-antigua-logo.png"
+                alt="Perfil del restaurante"
+            >
 
             <section class="restaurante-info">
                 <article class="info-general">
-                    <h2>La Antigua (Huajuapan de León)</h2>
-                    <p class="rating"><strong>⭐ 4.3</strong> (100+)</p>
-                    <p class="categorias">Ambiente Familiar • Alitas • Pizza • Mexicana</p>
-                    <p class="direccion">Heróica de, Antonio de León 10, Centro, 69000 Heroica Cdad. de Huajuapan de León, Oax.</p>
+                    <!-- El JS sobreescribe este h2 con el nombre real + ciudad -->
+                    <h2>Nombre del restaurante</h2>
+
+                    <!-- El JS rellena rating y conteo -->
+                    <p class="rating"><strong>⭐ --</strong> (--)</p>
+
+                    <!-- El JS rellena categorías (join con “ • ”) -->
+                    <p class="categorias">Categorías del restaurante</p>
+
+                    <!-- El JS rellena calle, ciudad, estado, cp -->
+                    <p class="direccion">Dirección del restaurante</p>
+
+                    <!-- El JS puede sobrescribir esta descripción si viene en la API -->
                     <p class="descripcion">
-                        La Antigua es un restaurante-café-bar con un ambiente agradable, menú variado (fusión internacional y toques mexicanos), buena atención y ubicación céntrica en Huajuapan de León ... <strong>Más.</strong> 
+                        Descripción del restaurante...
                     </p>
                 </article>
+
                 <aside class="info-pedido">
                     <div class="botones-tipo-pedido">
                         <button class="activo">Entrega</button>
@@ -70,12 +91,13 @@
                     <button class="btn-pedir">Pedir Ahora</button>
                     <div class="info-entrega">
                         <div class="info-box">
-                            <header>costo de envio a $0</header>
+                            <header>Costo de envío</header>
                             <footer>nuevos usuarios</footer>
                         </div>
                         <div class="info-box">
-                            <header>53 min</header>
-                            <footer>Llegada más temprana 
+                            <header>-- min</header>
+                            <footer>
+                                Llegada estimada
                                 <svg width="25" height="25">
                                     <use href="./assets/icons/clock-hour-1.svg"></use>
                                 </svg>
@@ -101,7 +123,7 @@
                         <svg width="30" height="30">
                             <use href="./assets/icons/copy.svg"></use>
                         </svg>
-                        </header>
+                    </header>
                     <footer>
                         <svg width="30" height="30">
                             <use href="./assets/icons/clock-hour-1.svg"></use>
@@ -113,7 +135,7 @@
                         <svg width="30" height="30">
                             <use href="./assets/icons/chevron-compact-down.svg"></use>
                         </svg>
-                        </footer>
+                    </footer>
                 </aside>
             </section>
         </div>
