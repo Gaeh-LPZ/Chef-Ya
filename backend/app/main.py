@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Depends
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from fastapi.middleware.cors import CORSMiddleware
 from routers.restaurantes import router as router_restaurantes
 from routers.auth import router as router_auth
 from routers.categorias import router as router_categorias
@@ -12,6 +13,19 @@ from db.mongo import (
 )
 
 app = FastAPI(title="ChefYa API", version="1.0")
+
+origins = [
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 async def al_iniciar():

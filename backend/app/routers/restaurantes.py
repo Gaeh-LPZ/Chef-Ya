@@ -14,6 +14,8 @@ from services.restaurante_service import (
     actualizar_restaurante_servicio,
     cambiar_estado_activo_restaurante_servicio,
     obtener_restaurantes_por_categoria_servicio,
+    buscar_restaurantes_servicio,       
+    filtrar_restaurantes_servicio,    
 )
 from services.auth_service import obtener_usuario_actual
 
@@ -61,6 +63,42 @@ async def obtener_restaurante(
             detail="Restaurante no encontrado",
         )
     return restaurante
+
+@router.get("/buscar", response_model=List[RestauranteLeer])
+async def buscar_restaurantes(
+    q: str,
+    solo_activos: bool = True,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    """
+    Busca restaurantes por texto (nombre, descripción o slug).
+    """
+    restaurantes = await buscar_restaurantes_servicio(bd, q, solo_activos=solo_activos)
+    return restaurantes
+
+
+@router.get("/filtrar", response_model=List[RestauranteLeer])
+async def filtrar_restaurantes(
+    rating_min: float | None = None,
+    tiempo_max: int | None = None,
+    costo_envio_max: float | None = None,
+    solo_activos: bool = True,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    """
+    Filtra restaurantes por:
+    - rating mínimo (rating_min)
+    - tiempo máximo de entrega en minutos (tiempo_max)
+    - costo de envío máximo (costo_envio_max)
+    """
+    restaurantes = await filtrar_restaurantes_servicio(
+        bd,
+        rating_min=rating_min,
+        tiempo_max=tiempo_max,
+        costo_envio_max=costo_envio_max,
+        solo_activos=solo_activos,
+    )
+    return restaurantes
 
 
 @router.get("/slug/{slug_restaurante}", response_model=RestauranteLeer,)

@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chef Ya! | Home Page</title>
     <link rel="stylesheet" href="./css/principal.css">
-    <script src="./js/principal.js" type="module"></script>
+    <!-- No es necesario que sea type="module" porque el JS no usa imports -->
+    <script src="./js/principal.js" defer></script>
 </head>
+
 <body>
     <nav class="mobile-nav">
         <a href="#">Ofertas</a>
         <a href="#" class="active">Principal</a>
         <a href="#">Favoritos</a>
     </nav>
-    
+
     <header class="main-header">
         <button type="button" id="menu-button" aria-label="menu access button">
             <svg width="20" height="20">
@@ -27,7 +30,7 @@
             </svg>
             <p>Acatlima 69004</p>
         </div>
-        <form action="">
+        <form>
             <label>
                 <input type="search" name="search-restaurants" placeholder="Buscar en Acatlima" class="search-bar">
             </label>
@@ -55,158 +58,73 @@
             <button type="button">Mayor calificación</button>
             <button type="button">Menos de 30 min</button>
         </div>
+
+        <!-- Primera sección: Populares cerca de ti -->
         <div class="separacion">
             <section class="opciones">
                 <p><strong>Los más buscados</strong></p>
-                <nav>
-                    <a href="">Sushi</a>
-                    <a href="">Pizza</a>
-                    <a href="">Americana</a>
-                    <a href="">Tacos</a>
+                <nav id="nav-mas-buscados">
+                    <!-- JS llenará esto -->
                 </nav>
-                </section>
+            </section>
+
             <aside class="cartas">
                 <header>
                     <h1>Populares cerca de ti</h1>
                     <div style="display: flex; height: 20px; gap: 1rem;">
                         <nav>
-                            <a href="">Ver Todos</a>
+                            <a href="#">Ver Todos</a>
                         </nav>
-                        <button>
+                        <button type="button">
                             <svg>
                                 <use href="./assets/icons/arrow-narrow-left.svg"></use>
                             </svg>
                         </button>
-                        <button>
+                        <button type="button">
                             <svg>
                                 <use href="./assets/icons/arrow-narrow-right.svg"></use>
                             </svg>
                         </button>
                     </div>
                 </header>
-                <div class="tarjeta">
-                    <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Coffe Surf</h2>
-                    
-                    <div class="card-mobile-info">
-                        <div class="card-info-top">
-                            <span class="card-time">30-40 min</span>
-                            <span class="card-rating">4.8 ★</span>
-                        </div>
-                        <p class="card-cost">Costo de envío: $32.00MXN</p>
-                    </div>
-                    
-                    <button class="card-order-button-desktop">Ordenar ahora</button>
-                </div>
-
-                <div class="tarjeta">
-                    <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Coffe Surf</h2>
-                    
-                    <div class="card-mobile-info">
-                        <div class="card-info-top">
-                            <span class="card-time">20-30 min</span>
-                            <span class="card-rating">4.4 ★</span>
-                        </div>
-                        <p class="card-cost">Costo de envío: $26.00MXN</p>
-                    </div>
-                    
-                    <button class="card-order-button-desktop">Ordenar ahora</button>
-                </div>
-
-                <div class="tarjeta">
-                    <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                    <h2>Coffe Surf</h2>
-
-                    <div class="card-mobile-info">
-                        <div class="card-info-top">
-                            <span class="card-time">15-25 min</span>
-                            <span class="card-rating">4.5 ★</span>
-                        </div>
-                        <p class="card-cost">Costo de envío: $15.00MXN</p>
-                    </div>
-                    
-                    <button class="card-order-button-desktop">Ordenar ahora</button>
-                </div>
+                <!-- Aquí el JS insertará las tarjetas .tarjeta -->
             </aside>
         </div>
+
+        <!-- Segunda sección: Los mejores puntuados -->
         <div class="separacion">
             <section class="opciones">
-            <p><strong>Todas las categorias</strong></p>
-            <nav>
-                    <a href="">Mexicana</a>
-                    <a href="">Vegana</a>
-                    <a href="">Americana</a>
-                    <a href="">Vegetariana</a>
-                    <a href="">Pizza</a>
-            </nav>
-        </section>
-        <aside class="cartas">
-            <header>
-                <h1>Los mejores puntuados</h1>
-                <div style="display: flex; height: 20px; gap: 1rem;">
-                    <nav>
-                        <a href="">Ver Todos</a>
-                    </nav>
-                    <button>
-                        <svg>
-                            <use href="./assets/icons/arrow-narrow-left.svg"></use>
-                        </svg>
-                    </button>
-                    <button>
-                        <svg>
-                            <use href="./assets/icons/arrow-narrow-right.svg"></use>
-                        </svg>
-                    </button>
-                </div>
-            </header>
-            <div class="tarjeta">
-                <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                <h2>Coffe Surf</h2>
-                
-                <div class="card-mobile-info">
-                    <div class="card-info-top">
-                        <span class="card-time">30-40 min</span>
-                        <span class="card-rating">4.8 ★</span>
-                    </div>
-                    <p class="card-cost">Costo de envío: $32.00MXN</p>
-                </div>
-                
-                <button class="card-order-button-desktop">Ordenar ahora</button>
-            </div>
+                <p><strong>Todas las categorias</strong></p>
+                <nav id="nav-categorias">
+                    <!-- JS llenará esto -->
+                </nav>
+            </section>
 
-            <div class="tarjeta">
-                <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                <h2>Coffe Surf</h2>
-                
-                <div class="card-mobile-info">
-                    <div class="card-info-top">
-                        <span class="card-time">20-30 min</span>
-                        <span class="card-rating">4.4 ★</span>
+            <aside class="cartas">
+                <header>
+                    <h1>Los mejores puntuados</h1>
+                    <div style="display: flex; height: 20px; gap: 1rem;">
+                        <nav>
+                            <a href="#">Ver Todos</a>
+                        </nav>
+                        <button type="button">
+                            <svg>
+                                <use href="./assets/icons/arrow-narrow-left.svg"></use>
+                            </svg>
+                        </button>
+                        <button type="button">
+                            <svg>
+                                <use href="./assets/icons/arrow-narrow-right.svg"></use>
+                            </svg>
+                        </button>
                     </div>
-                    <p class="card-cost">Costo de envío: $26.00MXN</p>
-                </div>
-                
-                <button class="card-order-button-desktop">Ordenar ahora</button>
-            </div>
-
-            <div class="tarjeta">
-                <img src="./assets/images/Coffe-surf.jpg" alt="Imagen del restaurante">
-                <h2>Coffe Surf</h2>
-
-                <div class="card-mobile-info">
-                    <div class="card-info-top">
-                        <span class="card-time">15-25 min</span>
-                        <span class="card-rating">4.5 ★</span>
-                    </div>
-                    <p class="card-cost">Costo de envío: $15.00MXN</p>
-                </div>
-                
-                <button class="card-order-button-desktop">Ordenar ahora</button>
-            </div>
-        </aside>    
-    </div>
+                </header>
+                <!-- Aquí también el JS insertará las tarjetas .tarjeta -->
+            </aside>
+        </div>
     </main>
+
     <footer></footer>
 </body>
+
 </html>

@@ -4,7 +4,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
 from services.utils import generar_slug,_asegurar_slug_unico
 
-from schemas.categoria import CategoriaCrear
+from schemas.categoria import CategoriaCrear,CategoriaLeer
 
 NOMBRE_COLECCION = "categorias"
 
@@ -29,3 +29,20 @@ async def crear_categoria_servicio(
     resultado = await bd[NOMBRE_COLECCION].insert_one(documento)
     nueva = await bd[NOMBRE_COLECCION].find_one({"_id": resultado.inserted_id})
     return str(nueva["slug"])
+
+async def listar_categorias_servicio(
+    bd: AsyncIOMotorDatabase,
+) -> List[CategoriaLeer]:
+    cursor = bd[NOMBRE_COLECCION].find({})
+    categorias: list[CategoriaLeer] = []
+
+    async for doc in cursor:
+        categorias.append(
+            CategoriaLeer(
+                id=str(doc["_id"]),
+                nombre=doc.get("nombre", ""),
+                slug=doc.get("slug", ""),
+            )
+        )
+
+    return categorias

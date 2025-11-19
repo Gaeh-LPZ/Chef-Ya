@@ -12,7 +12,7 @@ from schemas.restaurante import (
     Geo,
     Calificacion,
     Entrega,
-    RestauranteActualizar
+    RestauranteActualizar,
 )
 
 NOMBRE_COLECCION = "restaurantes"
@@ -58,6 +58,77 @@ async def listar_restaurantes_servicio(
     filtro = {}
     if solo_activos:
         filtro["activo"] = True
+
+    cursor = bd[NOMBRE_COLECCION].find(filtro)
+    restaurantes: list[RestauranteLeer] = []
+
+    async for doc in cursor:
+        restaurantes.append(_mapear_doc_a_restaurante_leer(doc))
+
+    return restaurantes
+
+async def buscar_restaurantes_servicio(
+    bd: AsyncIOMotorDatabase,
+    texto: str,
+    solo_activos: bool = True,
+) -> List[RestauranteLeer]:
+    """
+    Busca restaurantes por nombre, descripción o slug usando búsqueda textual simple.
+    """
+    if not texto:
+        return []
+
+    filtro: dict = {
+        "$or": [
+            {"nombre": {"$regex": texto, "$options": "i"}},
+            {"descripcion": {"$regex": texto, "$options": "i"}},
+            {"slug": {"$regex": texto, "$options": "i"}},
+        ]
+    }
+
+    if solo_activos:
+        filtro["activo"] = True
+
+    cursor = bd[NOMBRE_COLECCION].find(filtro)
+    restaurantes: list[RestauranteLeer] = []
+
+    async for doc in cursor:
+        restaurantes.append(_mapear_doc_a_restaurante_leer(doc))
+
+    return restaurantes
+
+
+async def filtrar_restaurantes_servicio(
+    bd: AsyncIOMotorDatabase,
+    rating_min: Optional[float] = None,
+    tiempo_max: Optional[int] = None,
+    costo_envio_max: Optional[float] = None,
+    solo_activos: bool = True,
+) -> List[RestauranteLeer]:
+    """
+    Filtra restaurantes por:
+    - rating mínimo
+    - tiempo de entrega máximo
+    - costo de envío máximo
+    """
+    filtro: dict = {}
+
+    if solo_activos:
+        filtro["activo"] = True
+
+    condiciones: list = []
+
+    if rating_min is not None:
+        condiciones.append({"calificacion.promedio": {"$gte": rating_min}})
+
+    if tiempo_max is not None:
+        condiciones.append({"entrega.minutosPromedio": {"$lte": tiempo_max}})
+
+    if costo_envio_max is not None:
+        condiciones.append({"entrega.tarifa": {"$lte": costo_envio_max}})
+
+    if condiciones:
+        filtro["$and"] = condiciones
 
     cursor = bd[NOMBRE_COLECCION].find(filtro)
     restaurantes: list[RestauranteLeer] = []
