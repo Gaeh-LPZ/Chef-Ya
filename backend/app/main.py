@@ -4,6 +4,7 @@ from routers.restaurantes import router as router_restaurantes
 from routers.auth import router as router_auth
 from routers.categorias import router as router_categorias
 from routers.usuarios import router as router_usuarios
+from routers.carritos import router as router_carritos
 from db.mongo import (
     conectar_a_mongo,
     cerrar_conexion_mongo,
@@ -39,3 +40,6 @@ app.include_router(router_categorias)
 
 # cargamos rutas de usuarios
 app.include_router(router_usuarios)
+
+# cargamos rutas de carritos
+app.include_router(router_carritos)
