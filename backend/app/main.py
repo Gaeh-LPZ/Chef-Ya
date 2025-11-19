@@ -14,6 +14,7 @@ from db.mongo import (
 
 app = FastAPI(title="ChefYa API", version="1.0")
 
+#origenes que permiten lectura agregen el suyo donde les abra live server la pagina
 origins = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
