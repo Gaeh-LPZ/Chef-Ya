@@ -6,17 +6,17 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./mongo_data:/data/db
       - ./mongodb:/docker-entrypoint-initdb.d
+      - ./mongo_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "admin", "--eval", "db.adminCommand('ping').ok"]
-      interval: 10s
+      interval: 20s
       timeout: 5s
-      retries: 11
-      start_period: 30s
+      retries: 20
+      start_period: 60s
 
   api:
     build: ./app
