@@ -9,6 +9,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const navMasBuscados = document.getElementById('nav-mas-buscados');
     const navCategorias = document.getElementById('nav-categorias');
 
+    // --- Lógica de Navegación de Header (Desktop/Tablet) ---
+    const shoppingCartBtn = document.getElementById('shopping-cart');
+    const userLoginBtn = document.getElementById('user-login');
+
+    if (shoppingCartBtn) {
+        shoppingCartBtn.addEventListener('click', () => {
+            console.log('Navegando a la página de carrito.');
+            window.location.href = 'carrito.html';
+        });
+    }
+
+    if (userLoginBtn) {
+        userLoginBtn.addEventListener('click', () => {
+            console.log('Navegando a la página de login.');
+            window.location.href = 'login.html';
+        });
+    }
+
     // ------------------ helpers de UI ------------------
     async function getCategorias() {
         const url = `${API_BASE_URL}/categorias`;
