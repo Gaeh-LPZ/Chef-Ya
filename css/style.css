@@ -53,7 +53,7 @@ header {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: end;
     padding: 1rem;
     height: 10vh;
 }
@@ -208,6 +208,7 @@ main {
     background-color: transparent;
     border: none;
     cursor: pointer;
+    display: none;
 }
 
 .cta-aside {
@@ -362,5 +363,13 @@ main {
         background-position: center;
         background-repeat: no-repeat;
         min-height: 100%;
+    }
+
+    .button-beige {
+        display: none;
+    }
+
+    .button-black {
+        display: none;
     }
 }
