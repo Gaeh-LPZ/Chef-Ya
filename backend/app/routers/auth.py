@@ -1,10 +1,11 @@
+# routers/auth.py
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from db.mongo import obtener_bd
-from services.auth_service import login_con_google_servicio
 from schemas.usuario import UsuarioLeer
+from services.auth_service import login_con_google_servicio
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -24,12 +25,6 @@ async def login_google(
     datos: GoogleLoginRequest,
     bd: AsyncIOMotorDatabase = Depends(obtener_bd),
 ):
-    """
-    Login con Google:
-    - verifica el id_token (por ahora simulado),
-    - busca/crea usuario,
-    - devuelve token propio + datos de usuario.
-    """
     resultado = await login_con_google_servicio(bd, datos.id_token)
     if not resultado:
         raise HTTPException(
