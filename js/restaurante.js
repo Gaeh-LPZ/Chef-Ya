@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Helpers para URL y fetch ---
 
+    // --- Lógica de Navegación de Header (Desktop/Tablet) ---
+    const shoppingCartBtn = document.getElementById('shopping-cart');
+    const userLoginBtn = document.getElementById('user-login');
+
+    if (shoppingCartBtn) {
+        shoppingCartBtn.addEventListener('click', () => {
+            console.log('Navegando a la página de carrito.');
+            window.location.href = 'carrito.html';
+        });
+    }
+
+    if (userLoginBtn) {
+        userLoginBtn.addEventListener('click', () => {
+            console.log('Navegando a la página de login.');
+            window.location.href = 'login.html';
+        });
+    }
+    
     function getRestaurantIdFromUrl() {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
