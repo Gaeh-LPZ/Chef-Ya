@@ -1,0 +1,108 @@
+/* Estilos Globales y Reset */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #ffffff; /* Fondo blanco */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Contenedor Principal de Autenticación */
+.auth-container {
+    width: 100%;
+    max-width: 400px; /* Ancho máximo para simular la vista móvil */
+    text-align: center;
+    padding: 20px;
+}
+
+/* Header (Logo y Título) */
+.logo-header {
+    margin-bottom: 40px;
+}
+
+/* Dentro de styles.css */
+.logo-image {
+    /* Estilos para el elemento IMG */
+    display: block; /* Para que el margin: auto funcione */
+    margin: 0 auto; /* Para centrar la imagen */
+    height: auto; 
+    width: 60%; /* Ajusta el ancho para que se vea del tamaño deseado */
+    max-width: 100%;
+    margin-bottom: 30px;
+}
+
+.logo-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #000000;
+    margin: 0;
+}
+
+/* Sección Principal (Mensajes y Botón) */
+.auth-main {
+    margin-bottom: 50px;
+}
+
+.auth-main h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 5px;
+}
+
+.auth-main p {
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 30px;
+    line-height: 1.4;
+    padding: 0 10px; /* Pequeño padding para centrar mejor el texto */
+}
+
+/* Botón de Google */
+.google-signin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #dadce0; /* Borde sutil */
+    border-radius: 8px;
+    background-color: #ffffff; /* Fondo blanco */
+    color: #000000; /* Texto oscuro de Google */
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.google-signin-btn:hover {
+    background-color: #f6f6f6;
+}
+
+.google-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* Footer (Términos y Privacidad) */
+.auth-footer p {
+    font-size: 12px;
+    color: #000000;
+    line-height: 1.4;
+    padding: 0 20px;
+}
+
+.link {
+    color: #337ab7; /* Un color de enlace estándar, puedes ajustarlo */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
