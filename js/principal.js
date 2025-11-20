@@ -1,123 +1,47 @@
 // js/principal.js
 document.addEventListener('DOMContentLoaded', () => {
-    // Cambia esto si tu backend corre en otra URL/puerto
     const API_BASE_URL = 'http://localhost:8000';
 
-    const asideCartas = document.querySelectorAll('.cartas');
     const searchBar = document.querySelector('.search-bar');
     const filterButtons = document.querySelectorAll('.filtros button');
     const navMasBuscados = document.getElementById('nav-mas-buscados');
     const navCategorias = document.getElementById('nav-categorias');
 
-    // --- Lógica de Navegación de Header (Desktop/Tablet) ---
     const shoppingCartBtn = document.getElementById('shopping-cart');
     const userLoginBtn = document.getElementById('user-login');
 
+    // -------- Navegación header --------
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
-            console.log('Navegando a la página de carrito.');
             window.location.href = 'carrito.html';
         });
     }
 
     if (userLoginBtn) {
         userLoginBtn.addEventListener('click', () => {
-            console.log('Navegando a la página de login.');
             window.location.href = 'login.html';
         });
     }
 
-    // ------------------ helpers de UI ------------------
+    // -------- Helpers de fetch --------
+    async function fetchJson(url) {
+        try {
+            const resp = await fetch(url);
+            if (!resp.ok) {
+                console.error('Error al llamar a la API:', resp.status, resp.statusText);
+                return [];
+            }
+            return await resp.json();
+        } catch (err) {
+            console.error('Error de red al llamar a la API:', err);
+            return [];
+        }
+    }
+
     async function getCategorias() {
         const url = `${API_BASE_URL}/categorias`;
         return fetchJson(url);
     }
-
-    function renderCategorias(categorias) {
-        if (navCategorias) {
-            navCategorias.innerHTML = '';
-            categorias.forEach(cat => {
-                const a = document.createElement('a');
-                a.href = '#';
-                a.textContent = cat.nombre;
-                navCategorias.appendChild(a);
-            });
-        }
-
-        // Para "Los más buscados" puedes tomar, por ejemplo, las primeras 4
-        if (navMasBuscados) {
-            navMasBuscados.innerHTML = '';
-            categorias.slice(0, 4).forEach(cat => {
-                const a = document.createElement('a');
-                a.href = '#';
-                a.textContent = cat.nombre;
-                navMasBuscados.appendChild(a);
-            });
-        }
-    }
-
-
-    function createRestaurantCard(restaurante) {
-        const card = document.createElement('div');
-        card.className = 'tarjeta';
-        card.setAttribute('data-id', restaurante.id);
-
-        // Campos que vienen de la API
-        const nombre = restaurante.nombre ?? 'Restaurante';
-        const minutosProm = restaurante.entrega?.minutosPromedio ?? '–';
-        const calificacion = restaurante.calificacion?.promedio ?? '–';
-        const tarifaEnvio = restaurante.entrega?.tarifa ?? 0;
-
-        // Como aún no tenemos imagen en la API, usamos una por defecto
-        const imagenUrl = restaurante.imagen || restaurante.imageUrl || './assets/images/Coffe-surf.jpg';
-
-        card.innerHTML = `
-            <img src="${imagenUrl}" alt="Imagen del restaurante">
-            <h2>${nombre}</h2>
-            
-            <div class="card-mobile-info">
-                <div class="card-info-top">
-                    <span class="card-time">${minutosProm} min</span>
-                    <span class="card-rating">${calificacion} ★</span>
-                </div>
-                <p class="card-cost">Costo de envío: $${tarifaEnvio} MXN</p>
-            </div>
-            
-            <button class="card-order-button-desktop">Ordenar ahora</button>
-        `;
-
-        // Click en la tarjeta → ir a la página del restaurante
-        card.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('card-order-button-desktop')) {
-                window.location.href = `restaurante.html?id=${restaurante.id}`;
-            }
-        });
-
-        // Click en "Ordenar ahora"
-        card.querySelector('.card-order-button-desktop').addEventListener('click', (e) => {
-            e.stopPropagation();
-            console.log(`Iniciando pedido para ${nombre} (ID: ${restaurante.id})`);
-            window.location.href = `restaurante.html?id=${restaurante.id}`;
-        });
-
-        return card;
-    }
-
-    function renderRestaurants(restaurantes) {
-        asideCartas.forEach((cartasContainer) => {
-            // limpiar tarjetas previas
-            const existingCards = cartasContainer.querySelectorAll('.tarjeta');
-            existingCards.forEach(card => card.remove());
-
-            // agregar nuevas tarjetas
-            restaurantes.forEach(rest => {
-                const card = createRestaurantCard(rest);
-                cartasContainer.appendChild(card);
-            });
-        });
-    }
-
-    // ------------------ llamadas a la API ------------------
 
     async function getRestaurantesTodos() {
         const url = `${API_BASE_URL}/restaurantes?solo_activos=true`;
@@ -141,70 +65,232 @@ document.addEventListener('DOMContentLoaded', () => {
         return fetchJson(url);
     }
 
-    async function fetchJson(url) {
-        try {
-            const resp = await fetch(url);
-            if (!resp.ok) {
-                console.error('Error al llamar a la API:', resp.status, resp.statusText);
-                return [];
-            }
-            return await resp.json();
-        } catch (err) {
-            console.error('Error de red al llamar a la API:', err);
-            return [];
+    // -------- Render categorías en los menús laterales --------
+    function renderCategorias(categorias) {
+        if (navCategorias) {
+            navCategorias.innerHTML = '';
+            categorias.forEach(cat => {
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = cat.nombre;
+                navCategorias.appendChild(a);
+            });
+        }
+
+        if (navMasBuscados) {
+            navMasBuscados.innerHTML = '';
+            categorias.slice(0, 4).forEach(cat => {
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = cat.nombre;
+                navMasBuscados.appendChild(a);
+            });
         }
     }
 
-    // ------------------ lógica principal ------------------
+    // -------- Crear tarjeta de restaurante --------
+    function createRestaurantCard(restaurante) {
+        const card = document.createElement('div');
+        card.className = 'tarjeta';
+        card.setAttribute('data-id', restaurante.id);
 
-    async function cargarRestaurantesIniciales() {
-        console.log('Cargando restaurantes iniciales...');
-        const restaurantes = await getRestaurantesTodos();
-        renderRestaurants(restaurantes);
+        const nombre = restaurante.nombre ?? 'Restaurante';
+        const minutosProm = restaurante.entrega?.minutosPromedio ?? '–';
+        const calificacion = restaurante.calificacion?.promedio ?? '–';
+        const tarifaEnvio = restaurante.entrega?.tarifa ?? 0;
+
+        const imagenUrl = restaurante.imagen || restaurante.imageUrl || './assets/images/Coffe-surf.jpg';
+
+        card.innerHTML = `
+            <img src="${imagenUrl}" alt="Imagen del restaurante">
+            <h2>${nombre}</h2>
+
+            <div class="card-mobile-info">
+                <div class="card-info-top">
+                    <span class="card-time">${minutosProm} min</span>
+                    <span class="card-rating">${calificacion} ★</span>
+                </div>
+                <p class="card-cost">Costo de envío: $${tarifaEnvio} MXN</p>
+            </div>
+
+            <button class="card-order-button-desktop">Ordenar ahora</button>
+        `;
+
+        // Click en la tarjeta
+        card.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('card-order-button-desktop')) {
+                window.location.href = `restaurante.html?id=${restaurante.id}`;
+            }
+        });
+
+        // Click en "Ordenar ahora"
+        card.querySelector('.card-order-button-desktop').addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.location.href = `restaurante.html?id=${restaurante.id}`;
+        });
+
+        return card;
     }
 
-    // búsqueda
+    // =====================================================
+    //               LÓGICA DE CARRUSEL
+    // =====================================================
+
+    let baseRestaurantes = [];
+    const carousels = []; // [{aside, track, prevBtn, nextBtn, data, visibleCount, startIndex}]
+
+    function createCarouselStructure() {
+        const asides = document.querySelectorAll('.cartas');
+
+        asides.forEach((aside, index) => {
+            // Crear track si no existe
+            let track = aside.querySelector('.carousel-track');
+            if (!track) {
+                track = document.createElement('div');
+                track.className = 'carousel-track';
+                aside.appendChild(track);
+            }
+
+            const prevBtn = aside.querySelector('header .carousel-prev');
+            const nextBtn = aside.querySelector('header .carousel-next');
+
+            const carousel = {
+                aside,
+                track,
+                prevBtn,
+                nextBtn,
+                data: [],
+                visibleCount: 3,
+                startIndex: 0,
+                type: index === 0 ? 'populares' : 'mejores' // 1er aside → Populares, 2do → Mejores
+            };
+
+            carousels.push(carousel);
+
+            // Eventos de botones
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    moveCarousel(carousel, -1);
+                });
+            }
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    moveCarousel(carousel, +1);
+                });
+            }
+
+            // Scroll + Shift para navegar
+            track.addEventListener('wheel', (e) => {
+                if (e.shiftKey) {
+                    e.preventDefault();
+                    if (e.deltaY > 0 || e.deltaX > 0) {
+                        moveCarousel(carousel, +1);
+                    } else if (e.deltaY < 0 || e.deltaX < 0) {
+                        moveCarousel(carousel, -1);
+                    }
+                }
+            }, { passive: false });
+        });
+    }
+
+    function computeCarouselData(restaurantes) {
+        // Populares cerca de ti → ordenados por menor tiempo de entrega
+        const porCercania = [...restaurantes].sort((a, b) => {
+            const ta = a.entrega?.minutosPromedio ?? 999;
+            const tb = b.entrega?.minutosPromedio ?? 999;
+            return ta - tb;
+        });
+
+        // Mejores puntuados → ordenados por rating desc
+        const porRating = [...restaurantes].sort((a, b) => {
+            const ra = a.calificacion?.promedio ?? 0;
+            const rb = b.calificacion?.promedio ?? 0;
+            return rb - ra;
+        });
+
+        carousels.forEach(carousel => {
+            if (carousel.type === 'populares') {
+                carousel.data = porCercania;
+            } else {
+                carousel.data = porRating;
+            }
+            carousel.startIndex = 0;
+            renderCarousel(carousel);
+        });
+    }
+
+    function renderCarousel(carousel) {
+        const { track, data, visibleCount, startIndex } = carousel;
+        track.innerHTML = '';
+
+        const total = data.length;
+        if (!total) return;
+
+        const maxVisible = Math.min(visibleCount, total);
+
+        for (let i = 0; i < maxVisible; i++) {
+            const idx = (startIndex + i) % total; // carrusel circular
+            const restaurante = data[idx];
+            const card = createRestaurantCard(restaurante);
+            track.appendChild(card);
+        }
+    }
+
+    function moveCarousel(carousel, step) {
+        const total = carousel.data.length;
+        if (!total) return;
+
+        carousel.startIndex = (carousel.startIndex + step + total) % total;
+        renderCarousel(carousel);
+    }
+
+    // =====================================================
+    //               LÓGICA PRINCIPAL
+    // =====================================================
+
+    async function cargarRestaurantesIniciales() {
+        baseRestaurantes = await getRestaurantesTodos();
+        computeCarouselData(baseRestaurantes);
+    }
+
+    // Búsqueda
     if (searchBar) {
         const form = searchBar.closest('form');
         if (form) {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const query = searchBar.value.trim();
+
                 if (!query) {
-                    // si no hay texto, volvemos a listar todos
-                    await cargarRestaurantesIniciales();
-                    return;
+                    // reset → todos los restaurantes
+                    baseRestaurantes = await getRestaurantesTodos();
+                } else {
+                    baseRestaurantes = await getRestaurantesBusqueda(query);
                 }
-                console.log(`Buscando restaurantes: ${query}`);
-                const restaurantes = await getRestaurantesBusqueda(query);
-                renderRestaurants(restaurantes);
+
+                computeCarouselData(baseRestaurantes);
             });
         }
     }
 
-    // filtros (solo manejo dos de tus botones por ahora)
+    // Filtros
     filterButtons.forEach(button => {
         button.addEventListener('click', async () => {
             const texto = button.textContent.trim();
-            console.log(`Aplicando filtro: ${texto}`);
-
-            let restaurantes = [];
 
             if (texto.includes('Mayor calificación')) {
-                // por ejemplo, rating mínimo 4.5
-                restaurantes = await getRestaurantesFiltrados({ ratingMin: 4.5 });
+                baseRestaurantes = await getRestaurantesFiltrados({ ratingMin: 4.5 });
             } else if (texto.includes('Menos de 30 min')) {
-                restaurantes = await getRestaurantesFiltrados({ tiempoMax: 30 });
+                baseRestaurantes = await getRestaurantesFiltrados({ tiempoMax: 30 });
             } else {
-                // otros filtros futuros / reset
-                restaurantes = await getRestaurantesTodos();
+                baseRestaurantes = await getRestaurantesTodos();
             }
 
-            renderRestaurants(restaurantes);
+            computeCarouselData(baseRestaurantes);
         });
     });
 
-    // navegación móvil (simulado)
+    // Navegación móvil (simulado)
     const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
     if (mobileNavLinks) {
         mobileNavLinks.forEach(link => {
@@ -212,12 +298,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 mobileNavLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
-                console.log(`Navegación móvil a: ${link.textContent}`);
             });
         });
     }
 
+    // Init
     async function init() {
+        createCarouselStructure();
+
         await cargarRestaurantesIniciales();
 
         const categorias = await getCategorias();

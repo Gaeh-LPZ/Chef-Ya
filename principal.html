@@ -68,6 +68,7 @@
                 </nav>
             </section>
 
+            <!-- Primera sección: Populares cerca de ti -->
             <aside class="cartas">
                 <header>
                     <h1>Populares cerca de ti</h1>
@@ -75,31 +76,22 @@
                         <nav>
                             <a href="#">Ver Todos</a>
                         </nav>
-                        <button type="button">
+                        <button type="button" class="carousel-prev" aria-label="Anterior populares">
                             <svg>
                                 <use href="./assets/icons/arrow-narrow-left.svg"></use>
                             </svg>
                         </button>
-                        <button type="button">
+                        <button type="button" class="carousel-next" aria-label="Siguiente populares">
                             <svg>
                                 <use href="./assets/icons/arrow-narrow-right.svg"></use>
                             </svg>
                         </button>
                     </div>
                 </header>
-                <!-- Aquí el JS insertará las tarjetas .tarjeta -->
+                <!-- El JS creará aquí dentro un div .carousel-track -->
             </aside>
-        </div>
 
-        <!-- Segunda sección: Los mejores puntuados -->
-        <div class="separacion">
-            <section class="opciones">
-                <p><strong>Todas las categorias</strong></p>
-                <nav id="nav-categorias">
-                    <!-- JS llenará esto -->
-                </nav>
-            </section>
-
+            <!-- Segunda sección: Los mejores puntuados -->
             <aside class="cartas">
                 <header>
                     <h1>Los mejores puntuados</h1>
@@ -107,19 +99,18 @@
                         <nav>
                             <a href="#">Ver Todos</a>
                         </nav>
-                        <button type="button">
+                        <button type="button" class="carousel-prev" aria-label="Anterior mejores puntuados">
                             <svg>
                                 <use href="./assets/icons/arrow-narrow-left.svg"></use>
                             </svg>
                         </button>
-                        <button type="button">
+                        <button type="button" class="carousel-next" aria-label="Siguiente mejores puntuados">
                             <svg>
                                 <use href="./assets/icons/arrow-narrow-right.svg"></use>
                             </svg>
                         </button>
                     </div>
                 </header>
-                <!-- Aquí también el JS insertará las tarjetas .tarjeta -->
             </aside>
         </div>
     </main>
