@@ -331,3 +331,18 @@ main {
     }
 }
 
+.cartas {
+    position: relative;
+}
+
+.cartas .carousel-track {
+    display: flex;
+    gap: 1rem;
+    overflow: hidden;
+    padding-top: 1rem;
+}
+
+.cartas .tarjeta {
+    flex: 0 0 calc((100% - 2rem) / 3);
+    box-sizing: border-box;
+}

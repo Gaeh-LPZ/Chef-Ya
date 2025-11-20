@@ -133,75 +133,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // =====================================================
-    //               LÓGICA DE CARRUSEL
+    //               LÓGICA DE CARRUSELES
     // =====================================================
 
     let baseRestaurantes = [];
-    const carousels = []; // [{aside, track, prevBtn, nextBtn, data, visibleCount, startIndex}]
+    const carousels = []; // [{aside, prevBtn, nextBtn, data, visibleCount, startIndex, type}]
 
-    function createCarouselStructure() {
+    function createCarousels() {
         const asides = document.querySelectorAll('.cartas');
 
         asides.forEach((aside, index) => {
-            // Crear track si no existe
-            let track = aside.querySelector('.carousel-track');
-            if (!track) {
-                track = document.createElement('div');
-                track.className = 'carousel-track';
-                aside.appendChild(track);
-            }
+            // Intentar encontrar botones con clase, si no, tomar los dos primeros del header
+            const header = aside.querySelector('header');
+            let prevBtn = aside.querySelector('.carousel-prev');
+            let nextBtn = aside.querySelector('.carousel-next');
 
-            const prevBtn = aside.querySelector('header .carousel-prev');
-            const nextBtn = aside.querySelector('header .carousel-next');
+            if (!prevBtn && header) {
+                prevBtn = header.querySelector('button:nth-of-type(1)');
+            }
+            if (!nextBtn && header) {
+                nextBtn = header.querySelector('button:nth-of-type(2)');
+            }
 
             const carousel = {
                 aside,
-                track,
                 prevBtn,
                 nextBtn,
                 data: [],
                 visibleCount: 3,
                 startIndex: 0,
-                type: index === 0 ? 'populares' : 'mejores' // 1er aside → Populares, 2do → Mejores
+                // Primer aside -> "Populares cerca de ti", segundo -> "Los mejores puntuados"
+                type: index === 0 ? 'populares' : 'mejores'
             };
 
             carousels.push(carousel);
 
-            // Eventos de botones
             if (prevBtn) {
-                prevBtn.addEventListener('click', () => {
-                    moveCarousel(carousel, -1);
-                });
+                prevBtn.addEventListener('click', () => moveCarousel(carousel, -1));
             }
             if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    moveCarousel(carousel, +1);
-                });
+                nextBtn.addEventListener('click', () => moveCarousel(carousel, +1));
             }
 
             // Scroll + Shift para navegar
-            track.addEventListener('wheel', (e) => {
-                if (e.shiftKey) {
-                    e.preventDefault();
-                    if (e.deltaY > 0 || e.deltaX > 0) {
-                        moveCarousel(carousel, +1);
-                    } else if (e.deltaY < 0 || e.deltaX < 0) {
-                        moveCarousel(carousel, -1);
-                    }
+            aside.addEventListener('wheel', (e) => {
+                if (!e.shiftKey) return;
+                e.preventDefault();
+                if (e.deltaY > 0 || e.deltaX > 0) {
+                    moveCarousel(carousel, +1);
+                } else if (e.deltaY < 0 || e.deltaX < 0) {
+                    moveCarousel(carousel, -1);
                 }
             }, { passive: false });
         });
     }
 
     function computeCarouselData(restaurantes) {
-        // Populares cerca de ti → ordenados por menor tiempo de entrega
+        // Populares cerca de ti → por menor tiempo de entrega
         const porCercania = [...restaurantes].sort((a, b) => {
             const ta = a.entrega?.minutosPromedio ?? 999;
             const tb = b.entrega?.minutosPromedio ?? 999;
             return ta - tb;
         });
 
-        // Mejores puntuados → ordenados por rating desc
+        // Mejores puntuados → por mayor rating
         const porRating = [...restaurantes].sort((a, b) => {
             const ra = a.calificacion?.promedio ?? 0;
             const rb = b.calificacion?.promedio ?? 0;
@@ -209,19 +204,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         carousels.forEach(carousel => {
-            if (carousel.type === 'populares') {
-                carousel.data = porCercania;
-            } else {
-                carousel.data = porRating;
-            }
+            carousel.data = carousel.type === 'populares' ? porCercania : porRating;
             carousel.startIndex = 0;
             renderCarousel(carousel);
         });
     }
 
     function renderCarousel(carousel) {
-        const { track, data, visibleCount, startIndex } = carousel;
-        track.innerHTML = '';
+        const { aside, data, visibleCount, startIndex } = carousel;
+
+        // borrar tarjetas actuales (no tocamos el header)
+        aside.querySelectorAll('.tarjeta').forEach(card => card.remove());
 
         const total = data.length;
         if (!total) return;
@@ -229,10 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const maxVisible = Math.min(visibleCount, total);
 
         for (let i = 0; i < maxVisible; i++) {
-            const idx = (startIndex + i) % total; // carrusel circular
+            const idx = (startIndex + i) % total; // circular
             const restaurante = data[idx];
             const card = createRestaurantCard(restaurante);
-            track.appendChild(card);
+            aside.appendChild(card); // se posicionan en el grid según tu CSS
         }
     }
 
@@ -262,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const query = searchBar.value.trim();
 
                 if (!query) {
-                    // reset → todos los restaurantes
                     baseRestaurantes = await getRestaurantesTodos();
                 } else {
                     baseRestaurantes = await getRestaurantesBusqueda(query);
@@ -304,10 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init
     async function init() {
-        createCarouselStructure();
-
+        createCarousels();                // detecta los 2 asides .cartas
         await cargarRestaurantesIniciales();
-
         const categorias = await getCategorias();
         renderCategorias(categorias);
     }
