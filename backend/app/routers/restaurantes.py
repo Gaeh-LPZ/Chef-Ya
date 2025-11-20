@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from db.mongo import obtener_bd
@@ -7,6 +7,7 @@ from schemas.restaurante import RestauranteCrear, RestauranteLeer, EstadoActivo,
 from schemas.usuario import UsuarioLeer
 from services.restaurante_service import (
     crear_restaurante_servicio,
+    listar_restaurantes_populares_servicio,
     listar_restaurantes_por_categorias_servicio,
     listar_restaurantes_servicio,
     obtener_restaurante_por_id_servicio,
@@ -44,6 +45,22 @@ async def listar_restaurantes(
     """
     restaurantes = await listar_restaurantes_servicio(bd, solo_activos=solo_activos)
     return restaurantes
+
+
+@router.get(
+    "/populares",
+    response_model=list[RestauranteLeer],
+    summary="Listar restaurantes populares",
+)
+async def listar_restaurantes_populares(
+    limite: int = Query(6, ge=1, le=50, description="Número máximo de restaurantes a devolver"),
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    """
+    Devuelve los restaurantes más populares, ordenados por calificación
+    (promedio y conteo de reseñas). Solo incluye restaurantes activos.
+    """
+    return await listar_restaurantes_populares_servicio(bd, limite=limite)
 
 
 @router.get("/{id_restaurante}", response_model=RestauranteLeer,)

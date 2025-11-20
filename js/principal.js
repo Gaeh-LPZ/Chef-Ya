@@ -65,6 +65,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return fetchJson(url);
     }
 
+    // 👉 NUEVO: endpoint de populares
+    async function getRestaurantesPopulares(limite = 6) {
+        const url = `${API_BASE_URL}/restaurantes/populares?limite=${limite}`;
+        return fetchJson(url);
+    }
+
     // -------- Render categorías en los menús laterales --------
     function renderCategorias(categorias) {
         if (navCategorias) {
@@ -136,18 +142,19 @@ document.addEventListener('DOMContentLoaded', () => {
     //               LÓGICA DE CARRUSELES
     // =====================================================
 
-    let baseRestaurantes = [];
-    const carousels = []; // [{aside, prevBtn, nextBtn, data, visibleCount, startIndex, type}]
+    let baseRestaurantes = [];       // para "mejores puntuados"
+    let popularesRestaurantes = [];  // para "populares cerca de ti"
+    const carousels = [];            // [{aside, prevBtn, nextBtn, data, visibleCount, startIndex, type}]
 
     function createCarousels() {
         const asides = document.querySelectorAll('.cartas');
 
         asides.forEach((aside, index) => {
-            // Intentar encontrar botones con clase, si no, tomar los dos primeros del header
             const header = aside.querySelector('header');
             let prevBtn = aside.querySelector('.carousel-prev');
             let nextBtn = aside.querySelector('.carousel-next');
 
+            // Si no tienen clase, tomamos los dos primeros <button> del header
             if (!prevBtn && header) {
                 prevBtn = header.querySelector('button:nth-of-type(1)');
             }
@@ -162,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 data: [],
                 visibleCount: 3,
                 startIndex: 0,
-                // Primer aside -> "Populares cerca de ti", segundo -> "Los mejores puntuados"
                 type: index === 0 ? 'populares' : 'mejores'
             };
 
@@ -188,26 +194,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function computeCarouselData(restaurantes) {
-        // Populares cerca de ti → por menor tiempo de entrega
-        const porCercania = [...restaurantes].sort((a, b) => {
-            const ta = a.entrega?.minutosPromedio ?? 999;
-            const tb = b.entrega?.minutosPromedio ?? 999;
-            return ta - tb;
-        });
-
-        // Mejores puntuados → por mayor rating
-        const porRating = [...restaurantes].sort((a, b) => {
-            const ra = a.calificacion?.promedio ?? 0;
-            const rb = b.calificacion?.promedio ?? 0;
-            return rb - ra;
-        });
-
-        carousels.forEach(carousel => {
-            carousel.data = carousel.type === 'populares' ? porCercania : porRating;
-            carousel.startIndex = 0;
-            renderCarousel(carousel);
-        });
+    function setCarouselData(type, data) {
+        const carousel = carousels.find(c => c.type === type);
+        if (!carousel) return;
+        carousel.data = data || [];
+        carousel.startIndex = 0;
+        renderCarousel(carousel);
     }
 
     function renderCarousel(carousel) {
@@ -242,11 +234,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // =====================================================
 
     async function cargarRestaurantesIniciales() {
+        // 1) Populares: viene del nuevo endpoint y se usa SOLO en el primer carrusel
+        popularesRestaurantes = await getRestaurantesPopulares(6);
+        setCarouselData('populares', popularesRestaurantes);
+
+        // 2) Todos: se usan para "mejores puntuados"
         baseRestaurantes = await getRestaurantesTodos();
-        computeCarouselData(baseRestaurantes);
+        const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
+            const ra = a.calificacion?.promedio ?? 0;
+            const rb = b.calificacion?.promedio ?? 0;
+            return rb - ra;
+        });
+        setCarouselData('mejores', mejoresOrdenados);
     }
 
-    // Búsqueda
+    // Búsqueda → solo afecta "mejores puntuados"
     if (searchBar) {
         const form = searchBar.closest('form');
         if (form) {
@@ -260,12 +262,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     baseRestaurantes = await getRestaurantesBusqueda(query);
                 }
 
-                computeCarouselData(baseRestaurantes);
+                const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
+                    const ra = a.calificacion?.promedio ?? 0;
+                    const rb = b.calificacion?.promedio ?? 0;
+                    return rb - ra;
+                });
+                setCarouselData('mejores', mejoresOrdenados);
+                // NOTA: Populares se queda con los más populares globales
             });
         }
     }
 
-    // Filtros
+    // Filtros → también solo afectan "mejores puntuados"
     filterButtons.forEach(button => {
         button.addEventListener('click', async () => {
             const texto = button.textContent.trim();
@@ -278,11 +286,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 baseRestaurantes = await getRestaurantesTodos();
             }
 
-            computeCarouselData(baseRestaurantes);
+            const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
+                const ra = a.calificacion?.promedio ?? 0;
+                const rb = b.calificacion?.promedio ?? 0;
+                return rb - ra;
+            });
+            setCarouselData('mejores', mejoresOrdenados);
         });
     });
 
-    // Navegación móvil (simulado)
+    // Navegación móvil (simulada)
     const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
     if (mobileNavLinks) {
         mobileNavLinks.forEach(link => {

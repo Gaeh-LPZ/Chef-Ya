@@ -67,6 +67,55 @@ async def listar_restaurantes_servicio(
 
     return restaurantes
 
+from typing import List, Optional
+from datetime import datetime
+from motor.motor_asyncio import AsyncIOMotorDatabase
+from bson import ObjectId
+
+from schemas.restaurante import (
+    RestauranteCrear,
+    RestauranteLeer,
+    Direccion,
+    Geo,
+    Calificacion,
+    Entrega,
+)
+from services.utils import generar_slug
+
+NOMBRE_COLECCION = "restaurantes"
+
+# ... aquí van crear_restaurante_servicio, listar_restaurantes_servicio, etc. ...
+
+
+async def listar_restaurantes_populares_servicio(
+    bd: AsyncIOMotorDatabase,
+    limite: int = 6,
+) -> List[RestauranteLeer]:
+    """
+    Devuelve una lista de restaurantes populares, ordenados por:
+    - calificacion.promedio (desc)
+    - calificacion.conteo (desc)
+
+    Solo toma restaurantes activos.
+    """
+    cursor = (
+        bd[NOMBRE_COLECCION]
+        .find({"activo": True})
+        .sort([
+            ("calificacion.promedio", -1),
+            ("calificacion.conteo", -1),
+        ])
+        .limit(limite)
+    )
+
+    restaurantes: list[RestauranteLeer] = []
+
+    async for doc in cursor:
+        restaurantes.append(_mapear_doc_a_restaurante_leer(doc))
+
+    return restaurantes
+
+
 async def buscar_restaurantes_servicio(
     bd: AsyncIOMotorDatabase,
     texto: str,
