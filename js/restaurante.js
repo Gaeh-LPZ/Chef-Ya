@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderButton = document.querySelector('.btn-pedir');
     const favoriteButton = document.querySelector('.botones-banner button:first-child');
 
+    const imgBanner = document.querySelector(".imagen-restaurante-banner")
     const imgPerfil = document.querySelector('.restaurante-perfil');
     const tituloElem = document.querySelector('.info-general h2');
     const ratingElem = document.querySelector('.info-general .rating');
@@ -92,6 +93,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 : r.nombre;
         }
 
+        if (imgBanner) {
+            const imagen_banner = r.imagen_banner || imgBanner.getAttribute("src")
+            imgBanner.setAttribute("src", imagen_banner)
+        }
         // Imagen de perfil (si en un futuro tu API tiene campo imagen)
         if (imgPerfil) {
             const imagen = r.imagen || imgPerfil.getAttribute('src'); // si no hay, dejamos la que estaba

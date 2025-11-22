@@ -66,17 +66,20 @@ body {
     box-shadow: 0px 5px 13px var(--shadow);
 }
 
+.imagen-restaurante-banner {
+    width: 100%;
+    height: 100%;
+}
 .imagen-restaurante {
     position: relative;
     height: 350px;
-    background-image: url('../assets/images/La\ Antigua.png');
+    /*background-image: url('../assets/images/La\ Antigua.png');*/
     background-size: cover;
     background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-
 .botones-banner {
     position: absolute;
     top: 1.5rem;

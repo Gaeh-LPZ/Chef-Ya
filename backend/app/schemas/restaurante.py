@@ -29,6 +29,7 @@ class RestauranteBase(BaseModel):
     descripcion: Optional[str] = None
     categorias: List[str] = []
     imagen: Optional[str] = None 
+    imagen_banner: Optional[str] = None
     direccion: Direccion
     activo: bool = True
 

@@ -15,10 +15,14 @@ from db.mongo import (
 app = FastAPI(title="ChefYa API", version="1.0")
 
 #origenes que permiten lectura agregen el suyo donde les abra live server la pagina
+# No borren las de los demas solo agregen las suyas para pruebas, cuando desplegemos dejamos 
+# el link de verdad
 origins = [
     "http://localhost:8000",
     "http://127.0.0.1:3000",
     "http://localhost:3000",
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
     "https://gaeh-lpz.github.io"  # <-- ¡IMPORTANTE! Agrega esta línea
 ]
 
