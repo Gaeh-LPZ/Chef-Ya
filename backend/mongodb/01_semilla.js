@@ -41,6 +41,7 @@ dbChef.restaurantes.insertOne({
   descripcion: "Tacos al pastor y antojitos mexicanos",
   categorias: ["mexicana"],
   imagen: "https://www.shutterstock.com/image-vector/tacos-logo-vector-illustration-template-260nw-2505335541.jpg",
+  imagen_banner: "https://www.shutterstock.com/image-vector/tacos-logo-vector-illustration-template-260nw-2505335541.jpg",
   calificacion: { promedio: 5.0, conteo: 1 },
   entrega: { minutosPromedio: 25, tarifa: 20 },
   direccion: {

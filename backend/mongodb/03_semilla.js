@@ -187,6 +187,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Chilaquiles, hot cakes y jugos frescos",
     categorias: ["desayunos"],
     imagen: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 20, tarifa: 20 },
     direccion: {
@@ -206,6 +207,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Hamburguesas gourmet y papas a la francesa",
     categorias: ["hamburguesas"],
     imagen: "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/1639557/pexels-photo-1639557.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 30, tarifa: 30 },
     direccion: {
@@ -225,6 +227,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Ceviches, cocteles y tacos de mariscos",
     categorias: ["mariscos"],
     imagen: "https://images.pexels.com/photos/3296273/pexels-photo-3296273.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/3296273/pexels-photo-3296273.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 35, tarifa: 35 },
     direccion: {
@@ -244,6 +247,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Comida corrida y guisos caseros",
     categorias: ["comida-casera"],
     imagen: "https://images.pexels.com/photos/4109990/pexels-photo-4109990.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/4109990/pexels-photo-4109990.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 25, tarifa: 20 },
     direccion: {
@@ -263,6 +267,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Café de especialidad, pan y sándwiches",
     categorias: ["cafeteria"],
     imagen: "https://images.pexels.com/photos/374885/pexels-photo-374885.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/374885/pexels-photo-374885.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 18, tarifa: 15 },
     direccion: {
@@ -276,6 +281,7 @@ dbChef.restaurantes.insertMany([
     actualizadoEn: ahora
   }
 ]);
+
 
 // =====================
 // PRODUCTOS (10 NUEVOS)

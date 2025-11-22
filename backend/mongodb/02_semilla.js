@@ -187,6 +187,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Tacos, tortas y gringas al pastor en el corazón de la ciudad",
     categorias: ["mexicana-tradicional"],
     imagen: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 20, tarifa: 25 },
     direccion: {
@@ -206,6 +207,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Pizzas artesanales al horno de piedra",
     categorias: ["italiana"],
     imagen: "https://images.pexels.com/photos/1438672/pexels-photo-1438672.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/1438672/pexels-photo-1438672.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 30, tarifa: 30 },
     direccion: {
@@ -225,6 +227,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Sushi, bowls y rollos frescos",
     categorias: ["japonesa"],
     imagen: "https://images.pexels.com/photos/3577566/pexels-photo-3577566.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/3577566/pexels-photo-3577566.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 35, tarifa: 35 },
     direccion: {
@@ -244,6 +247,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Repostería, pasteles y postres individuales",
     categorias: ["postres"],
     imagen: "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 25, tarifa: 20 },
     direccion: {
@@ -263,6 +267,7 @@ dbChef.restaurantes.insertMany([
     descripcion: "Ensaladas, bowls y comida saludable",
     categorias: ["saludable"],
     imagen: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
+    imagen_banner: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg",
     calificacion: { promedio: 0, conteo: 0 },
     entrega: { minutosPromedio: 28, tarifa: 25 },
     direccion: {
@@ -276,6 +281,7 @@ dbChef.restaurantes.insertMany([
     actualizadoEn: ahora
   }
 ]);
+
 
 // =====================
 // PRODUCTOS (10)
