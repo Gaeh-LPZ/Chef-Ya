@@ -2,8 +2,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'http://localhost:8000'; // ajusta si tu API tiene prefijo /api/v1
 
-    // --- Helpers para URL y fetch ---
-
     // --- Lógica de Navegación de Header (Desktop/Tablet) ---
     const shoppingCartBtn = document.getElementById('shopping-cart');
     const userLoginBtn = document.getElementById('user-login');
@@ -11,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
             console.log('Navegando a la página de carrito.');
+            // aquí luego puedes agregar el id_usuario en la URL
             window.location.href = 'carrito.html';
         });
     }
@@ -22,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // --- Helpers ---
+
     function getRestaurantIdFromUrl() {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
@@ -47,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const orderButton = document.querySelector('.btn-pedir');
     const favoriteButton = document.querySelector('.botones-banner button:first-child');
 
-    const imgBanner = document.querySelector(".imagen-restaurante-banner")
+    const imgBanner = document.querySelector(".imagen-restaurante-banner");
     const imgPerfil = document.querySelector('.restaurante-perfil');
     const tituloElem = document.querySelector('.info-general h2');
     const ratingElem = document.querySelector('.info-general .rating');
@@ -56,6 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const descripcionElem = document.querySelector('.info-general .descripcion');
 
     const infoBoxes = document.querySelectorAll('.info-entrega .info-box'); // [0] envío, [1] tiempo
+
+    const productosSection = document.getElementById('productos-restaurante');
+    const listaProductosElem = productosSection
+        ? productosSection.querySelector('.lista-productos')
+        : null;
 
     let deliveryType = 'Entrega'; // estado inicial
     let restauranteActual = null; // guardamos los datos del restaurante
@@ -71,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('Cargando restaurante con id:', restauranteId);
 
-        // Endpoint: GET /restaurantes/id/{id}
+        // Endpoint: GET /restaurantes/{id_restaurante}
         const url = `${API_BASE_URL}/restaurantes/${restauranteId}`;
         const datos = await fetchJson(url);
 
@@ -82,6 +88,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         restauranteActual = datos;
         rellenarDatosRestaurante(datos);
+
+        // Después de cargar el restaurante, cargamos sus productos
+        await cargarProductosRestaurante(restauranteId);
     }
 
     function rellenarDatosRestaurante(r) {
@@ -94,10 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (imgBanner) {
-            const imagen_banner = r.imagen_banner || imgBanner.getAttribute("src")
-            imgBanner.setAttribute("src", imagen_banner)
+            const imagen_banner = r.imagen_banner || imgBanner.getAttribute("src");
+            imgBanner.setAttribute("src", imagen_banner);
         }
-        // Imagen de perfil (si en un futuro tu API tiene campo imagen)
+
+        // Imagen de perfil
         if (imgPerfil) {
             const imagen = r.imagen || imgPerfil.getAttribute('src'); // si no hay, dejamos la que estaba
             imgPerfil.setAttribute('src', imagen);
@@ -110,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ratingElem.innerHTML = `<strong>⭐ ${promedio}</strong> (${conteo}+)`;
         }
 
-        // Categorías (por ahora solo mostramos los ids/strings que vengan)
+        // Categorías
         if (categoriasElem) {
             if (Array.isArray(r.categorias) && r.categorias.length > 0) {
                 categoriasElem.textContent = r.categorias.join(' • ');
@@ -165,13 +175,72 @@ document.addEventListener('DOMContentLoaded', () => {
                 tiempoHeader.textContent = minutos ? `${minutos} min` : '—';
             }
             if (tiempoFooter) {
-                // dejamos el texto original y solo lo ajustamos si quieres:
-                // tiempoFooter.firstChild.nodeValue = 'Llegada estimada ';
+                // dejamos el texto original
             }
         }
 
         // Cambiar título de la pestaña
         document.title = `Chef Ya! | ${r.nombre}`;
+    }
+
+    // --- Cargar productos del restaurante ---
+
+    async function cargarProductosRestaurante(idRestaurante) {
+        if (!listaProductosElem) return;
+
+        console.log('Cargando productos del restaurante:', idRestaurante);
+
+        const url = `${API_BASE_URL}/productos/restaurante/${idRestaurante}`;
+        const productos = await fetchJson(url);
+
+        if (!productos || !Array.isArray(productos) || productos.length === 0) {
+            listaProductosElem.innerHTML = '<p>No hay productos disponibles en este momento.</p>';
+            return;
+        }
+
+        renderProductos(productos);
+    }
+
+    function formatearPrecio(valor) {
+        if (typeof valor !== 'number') return '$0.00';
+        return `$${valor.toFixed(2)}`;
+    }
+
+    function renderProductos(productos) {
+        listaProductosElem.innerHTML = ''; // limpiar
+
+        productos.forEach(prod => {
+            const card = document.createElement('article');
+            card.className = 'tarjeta-producto';
+
+            const imagen = prod.imagen || './assets/images/placeholder-producto.png';
+            const nombre = prod.nombre || 'Producto';
+            const descripcion = prod.descripcion || '';
+            const precio = formatearPrecio(prod.precio);
+
+            card.innerHTML = `
+                <div class="tarjeta-producto-imagen">
+                    <img src="${imagen}" alt="${nombre}">
+                </div>
+                <div class="tarjeta-producto-contenido">
+                    <h4>${nombre}</h4>
+                    <p class="tarjeta-producto-descripcion">${descripcion}</p>
+                    <div class="tarjeta-producto-footer">
+                        <span class="tarjeta-producto-precio">${precio}</span>
+                        <button type="button" class="btn-agregar-producto">
+                            Agregar
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            const btnAgregar = card.querySelector('.btn-agregar-producto');
+            btnAgregar.addEventListener('click', () => {
+                console.log('Click en Agregar producto:', prod);
+            });
+
+            listaProductosElem.appendChild(card);
+        });
     }
 
     // --- 1. Lógica del Toggle Entrega/Recolección ---
@@ -200,9 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             console.log(`Iniciando pedido para restaurante ${restauranteId} con servicio de: ${deliveryType}`);
 
-            // Aquí podrías redirigir a la página del menú del restaurante
-            // o iniciar el flujo de carrito.
-            // Por ahora: redirigimos a una página hipotética menu.html
+            // Podrías redirigir al menú o al carrito
             window.location.href = `menu.html?restauranteId=${restauranteId}&tipo=${encodeURIComponent(deliveryType)}`;
         });
     }
@@ -218,19 +285,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             console.log('Click favorito para restaurante:', restauranteId);
 
-            // Por ahora mantenemos un toggle en el front.
-            // Cuando tengas auth y endpoint real, aquí llamarías a:
-            // POST /usuarios/{id_usuario}/favoritos/{id_restaurante}
             const isFavorite = favoriteButton.classList.toggle('is-favorite');
             const message = isFavorite ? 'Añadido a favoritos' : 'Eliminado de favoritos';
             alert(message);
-
-            // Si quieres cambiar el icono (por ejemplo, relleno/outline),
-            // puedes agregar estilos en CSS para .is-favorite
         });
     }
-
-    // --- Inicio: cargar datos del restaurante ---
 
     cargarRestaurante();
 });
