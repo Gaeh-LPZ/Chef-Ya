@@ -11,7 +11,7 @@ from schemas.usuario import UsuarioLeer
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-SECRET_KEY = "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"
+SECRET_KEY = ""
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 
