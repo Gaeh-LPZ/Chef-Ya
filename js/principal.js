@@ -9,11 +9,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const shoppingCartBtn = document.getElementById('shopping-cart');
     const userLoginBtn = document.getElementById('user-login');
-
+    //Este lo coloque de prueba debemos hacer que mande el id del usuario con las sesion iniciada
+    const idUsuario = "6921cd23fb6bbd52c2ce5f47"
     // -------- Navegación header --------
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
-            window.location.href = 'carrito.html';
+          //  const usuarioStr = localStorage.getItem('usuario');
+            //if (!usuarioStr) {
+              //  console.error('No hay usuario en localStorage');
+                //return;
+            //}
+
+            //const usuario = JSON.parse(usuarioStr);
+            //const idUsuario = usuario.id; // o usuario.usuarioId según tu modelo
+            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`;
         });
     }
 
