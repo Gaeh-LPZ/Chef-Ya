@@ -1,6 +1,7 @@
 // js/restaurante.js
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'http://localhost:8000'; // ajusta si tu API tiene prefijo /api/v1
+    const TEST_USER_ID = '6921cd24502884b6d7ce5f48'; // <-- remplaza por el id real de prueba
 
     // --- Lógica de Navegación de Header (Desktop/Tablet) ---
     const shoppingCartBtn = document.getElementById('shopping-cart');
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shoppingCartBtn.addEventListener('click', () => {
             console.log('Navegando a la página de carrito.');
             // aquí luego puedes agregar el id_usuario en la URL
-            window.location.href = 'carrito.html';
+            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(TEST_USER_ID)}`;
         });
     }
 
@@ -235,8 +236,57 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             const btnAgregar = card.querySelector('.btn-agregar-producto');
-            btnAgregar.addEventListener('click', () => {
+            btnAgregar.addEventListener('click', async () => {
                 console.log('Click en Agregar producto:', prod);
+
+                try {
+                    // 1) Obtener (o crear) carrito del usuario de prueba
+                    const carritoResp = await fetch(`${API_BASE_URL}/carritos/usuario/${TEST_USER_ID}`);
+                    if (!carritoResp.ok) {
+                        console.error('Error al obtener/crear carrito:', carritoResp.status, carritoResp.statusText);
+                        alert('No se pudo obtener el carrito del usuario.');
+                        return;
+                    }
+                    const carrito = await carritoResp.json();
+                    if (!carrito || !carrito.id) {
+                        console.error('Respuesta de carrito inesperada:', carrito);
+                        alert('No se pudo obtener el carrito del usuario.');
+                        return;
+                    }
+
+                    const carritoId = carrito.id;
+
+                    // 2) Agregar item al carrito
+                    // CarritoItemCrear: { restauranteId, productoId, nombre, precio, cantidad }
+                    const body = {
+                        restauranteId: restauranteId,    // de la URL
+                        productoId: prod.id,            // ajusta si tu API usa otro campo
+                        nombre: prod.nombre,
+                        precio: prod.precio,
+                        cantidad: 1
+                    };
+
+                    const addResp = await fetch(`${API_BASE_URL}/carritos/${carritoId}/items`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(body),
+                    });
+
+                    if (!addResp.ok) {
+                        console.error('Error al agregar item al carrito:', addResp.status, addResp.statusText);
+                        alert('No se pudo agregar el producto al carrito.');
+                        return;
+                    }
+
+                    const carritoActualizado = await addResp.json();
+                    console.log('Carrito actualizado:', carritoActualizado);
+                    alert(`"${prod.nombre}" se agregó al carrito.`);
+                } catch (err) {
+                    console.error('Error de red al agregar producto al carrito:', err);
+                    alert('Error de conexión al intentar agregar al carrito.');
+                }
             });
 
             listaProductosElem.appendChild(card);
