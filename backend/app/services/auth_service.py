@@ -8,10 +8,14 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from jose import jwt, JWTError
 from db.mongo import obtener_bd
 from schemas.usuario import UsuarioLeer
+from google.oauth2 import id_token
+from google.auth.transport import requests
 
-SECRET_KEY = "CAMBIA_ESTA_CLAVE_SUPER_SECRETA"
+SECRET_KEY = "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"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
+
+GOOGLE_CLIENT_ID = "238762521740-mc98cb31hle19kaug7nkkie8nu4ou99u.apps.googleusercontent.com"
 
 NOMBRE_COLECCION_USUARIOS = "usuarios"
 
@@ -61,26 +65,26 @@ async def obtener_usuario_actual(
 
 
 
-async def verificar_token_google(id_token: str) -> Optional[dict]:
-    """
-    por el momento solo simulamos pero aquí en deberíamos verificar el id_token con Google:
-      - firma
-      - expiración
-      - aud, iss y asis
-    """
+async def verificar_token_google(token_google: str) -> Optional[dict]:
     try:
-        partes = id_token.split("|")
-        google_id = partes[0]
-        correo = partes[1]
-        nombre = partes[2]
-    except Exception:
-        return None
+        # Esta función llama a Google y verifica que el token sea válido y para tu APP
+        idinfo = id_token.verify_oauth2_token(
+            token_google, 
+            requests.Request(), 
+            GOOGLE_CLIENT_ID
+        )
 
-    return {
-        "sub": google_id,
-        "email": correo,
-        "name": nombre,
-    }
+        # Si todo sale bien, extraemos la info del usuario
+        return {
+            "sub": idinfo["sub"],      # ID único de Google
+            "email": idinfo["email"],
+            "name": idinfo.get("name"),
+            "picture": idinfo.get("picture")
+        }
+    except ValueError as e:
+        # Si el token es falso o expiró, entra aquí
+        print(f"Error al verificar token: {e}")
+        return None
 
 
 async def login_con_google_servicio(
