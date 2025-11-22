@@ -45,13 +45,20 @@
         <!-- Desktop: original Categories aside (kept for web) -->
         <aside class="categories-aside" aria-label="Categorias">
             <h1>Categorias</h1>
-            <form action="" class="Formulario">
+            <form action="./principal.html" class="Formulario" style="position: relative;">
                 <label>
-                    <input type="search" name="Categorias" placeholder="Buscar comida">
+                    <input 
+                        type="search" 
+                        id="input-categorias" 
+                        name="Categorias" 
+                        placeholder="Buscar comida"
+                        autocomplete="off"
+                    >
                     <svg width="20" height="20" role="img">
                         <use href="./assets/icons/search.svg"></use>
                     </svg>
                 </label>
+                <div id="sugerencias-categorias" class="suggestions-box"></div>
             </form>
         </aside>
 

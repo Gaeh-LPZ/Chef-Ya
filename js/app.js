@@ -60,4 +60,76 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Por favor, ingresa tu dirección para ver los restaurantes disponibles.');
         });
     }
+
+    const inputCategorias = document.getElementById('input-categorias');
+    const boxSugerencias = document.getElementById('sugerencias-categorias');
+    let listaCategorias = []; // Aquí guardaremos las categorías de la BD
+
+    // 1. Cargar las categorías desde el backend al iniciar
+    async function cargarCategorias() {
+        try {
+            // Asegúrate de que tu backend esté corriendo en el puerto 8000
+            const response = await fetch('http://localhost:8000/categorias');
+            if (response.ok) {
+                const data = await response.json();
+                // Guardamos solo los nombres o el objeto completo según necesites
+                // Tu endpoint devuelve objetos: { nombre: "...", slug: "..." }
+                listaCategorias = data; 
+                console.log('Categorías cargadas:', listaCategorias);
+            }
+        } catch (error) {
+            console.error('Error al cargar categorías:', error);
+        }
+    }
+
+    cargarCategorias();
+
+    // 2. Escuchar lo que escribe el usuario
+    if (inputCategorias && boxSugerencias) {
+        inputCategorias.addEventListener('input', (e) => {
+            const texto = e.target.value.toLowerCase();
+            boxSugerencias.innerHTML = ''; // Limpiar sugerencias anteriores
+
+            if (texto.length === 0) {
+                boxSugerencias.style.display = 'none';
+                return;
+            }
+
+            // Filtrar categorías que coincidan
+            const coincidencias = listaCategorias.filter(cat => 
+                cat.nombre.toLowerCase().includes(texto)
+            );
+
+            // Si hay coincidencias, las mostramos
+            if (coincidencias.length > 0) {
+                coincidencias.forEach(cat => {
+                    const item = document.createElement('div');
+                    item.classList.add('suggestion-item');
+                    item.textContent = cat.nombre;
+
+                    // Al hacer click en una sugerencia
+                    item.addEventListener('click', () => {
+                        inputCategorias.value = cat.nombre; // Rellenar el input
+                        boxSugerencias.style.display = 'none'; // Ocultar caja
+                        
+                        // OPCIONAL: Redirigir directamente a resultados
+                        console.log(`Navegar a categoría: ${cat.slug}`);
+                        // window.location.href = `principal.html?categoria=${cat.slug}`;
+                    });
+
+                    boxSugerencias.appendChild(item);
+                });
+                boxSugerencias.style.display = 'block';
+            } else {
+                boxSugerencias.style.display = 'none';
+            }
+        });
+
+        // Ocultar si el usuario hace clic fuera
+        document.addEventListener('click', (e) => {
+            if (!inputCategorias.contains(e.target) && !boxSugerencias.contains(e.target)) {
+                boxSugerencias.style.display = 'none';
+            }
+        });
+    }
 });
