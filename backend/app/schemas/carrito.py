@@ -9,6 +9,7 @@ class CarritoItemBase(BaseModel):
     nombre: str
     precio: float
     cantidad: int
+    imagen: Optional[str] = None
 
 
 class CarritoItemCrear(CarritoItemBase):

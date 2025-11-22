@@ -3,7 +3,7 @@ from datetime import datetime
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
-
+from services.producto_service import obtener_producto_por_id_servicio
 from schemas.carrito import (
     CarritoLeer,
     CarritoItemCrear,
@@ -82,17 +82,33 @@ def _recalcular_montos(carrito: dict) -> None:
     carrito["actualizadoEn"] = datetime.utcnow()
 
 
-def _mapear_doc_a_carrito_leer(doc: dict) -> CarritoLeer:
+async def _mapear_doc_a_carrito_leer(
+    doc: dict,
+    bd: AsyncIOMotorDatabase,
+) -> CarritoLeer:
     items: List[CarritoItemLeer] = []
+
     for it in doc.get("items", []):
+        # it["productoId"] viene del documento del carrito
+        id_producto_str = str(it["productoId"])
+
+        # Llamamos al servicio de productos para traer la info
+        producto = await obtener_producto_por_id_servicio(bd, id_producto_str)
+
+        # Si encontramos el producto, usamos su imagen
+        imagen = None
+        if producto and producto.imagen:
+            imagen = producto.imagen
+
         items.append(
             CarritoItemLeer(
                 restauranteId=str(it["restauranteId"]),
-                productoId=str(it["productoId"]),
+                productoId=id_producto_str,
                 nombre=it["nombre"],
                 precio=it["precio"],
                 cantidad=it["cantidad"],
                 subtotal=it.get("subtotal", it["precio"] * it["cantidad"]),
+                imagen=imagen,  # 👈 ahora sí viene del producto
             )
         )
 
@@ -115,6 +131,7 @@ def _mapear_doc_a_carrito_leer(doc: dict) -> CarritoLeer:
         total=doc.get("total", 0.0),
     )
 
+
 async def obtener_o_crear_carrito_por_usuario_servicio(
     bd: AsyncIOMotorDatabase,
     id_usuario: str,
@@ -128,7 +145,7 @@ async def obtener_o_crear_carrito_por_usuario_servicio(
     except ValueError:
         return None
 
-    return _mapear_doc_a_carrito_leer(doc)
+    return await _mapear_doc_a_carrito_leer(doc,bd)
 
 
 async def obtener_carrito_por_id_servicio(
@@ -138,7 +155,7 @@ async def obtener_carrito_por_id_servicio(
     doc = await _obtener_carrito_doc_por_id(bd, id_carrito)
     if not doc:
         return None
-    return _mapear_doc_a_carrito_leer(doc)
+    return await _mapear_doc_a_carrito_leer(doc,bd)
 
 
 async def agregar_item_carrito_servicio(
@@ -185,7 +202,7 @@ async def agregar_item_carrito_servicio(
     )
 
     doc_actualizado = await bd[NOMBRE_COLECCION_CARRITOS].find_one({"_id": carrito["_id"]})
-    return _mapear_doc_a_carrito_leer(doc_actualizado)
+    return await _mapear_doc_a_carrito_leer(doc_actualizado,bd)
 
 
 async def actualizar_item_carrito_servicio(
@@ -217,7 +234,7 @@ async def actualizar_item_carrito_servicio(
     )
 
     doc_actualizado = await bd[NOMBRE_COLECCION_CARRITOS].find_one({"_id": carrito["_id"]})
-    return _mapear_doc_a_carrito_leer(doc_actualizado)
+    return await _mapear_doc_a_carrito_leer(doc_actualizado,bd)
 
 
 async def eliminar_item_carrito_servicio(
@@ -243,7 +260,7 @@ async def eliminar_item_carrito_servicio(
     )
 
     doc_actualizado = await bd[NOMBRE_COLECCION_CARRITOS].find_one({"_id": carrito["_id"]})
-    return _mapear_doc_a_carrito_leer(doc_actualizado)
+    return await _mapear_doc_a_carrito_leer(doc_actualizado,bd)
 
 
 async def vaciar_carrito_servicio(
@@ -267,7 +284,7 @@ async def vaciar_carrito_servicio(
     )
 
     doc_actualizado = await bd[NOMBRE_COLECCION_CARRITOS].find_one({"_id": carrito["_id"]})
-    return _mapear_doc_a_carrito_leer(doc_actualizado)
+    return await _mapear_doc_a_carrito_leer(doc_actualizado,bd)
 
 
 async def aplicar_cupon_carrito_servicio(
@@ -309,4 +326,4 @@ async def aplicar_cupon_carrito_servicio(
     )
 
     doc_actualizado = await bd[NOMBRE_COLECCION_CARRITOS].find_one({"_id": carrito["_id"]})
-    return _mapear_doc_a_carrito_leer(doc_actualizado)
+    return await _mapear_doc_a_carrito_leer(doc_actualizado,bd)

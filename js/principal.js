@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const shoppingCartBtn = document.getElementById('shopping-cart');
     const userLoginBtn = document.getElementById('user-login');
     //Este lo coloque de prueba debemos hacer que mande el id del usuario con las sesion iniciada
-    const idUsuario = "6921cd23fb6bbd52c2ce5f47"
+    const idUsuario = "6921cd24502884b6d7ce5f48"
     // -------- Navegación header --------
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {

@@ -66,24 +66,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Si luego agregas imagen y nombre de restaurante a tu API,
             // aquí puedes reemplazar el contenido correspondiente.
             itemDiv.innerHTML = `
-                <!-- Image -->
-                <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
-                    <!-- Aquí podrías poner una imagen real si tu API la proporciona -->
+            <!-- Image -->
+            <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
+                <img 
+                    src="${item.imagen || ''}" 
+                    class="imagen-comida-carrito" 
+                    alt="imagen comida"
+                >
+            </div>
+            
+            <!-- Details -->
+            <div class="flex-1 flex justify-between">
+                <div class="flex flex-col justify-center">
+                    <span class="text-xs text-gray-400 mb-1">
+                        Restaurante ${item.restauranteId || ''}
+                    </span>
+                    <h3 class="text-sm font-medium text-gray-900">${item.nombre}</h3>
+                    <span class="text-sm text-gray-500 mt-1">Cantidad: ${item.cantidad}</span>
                 </div>
-                
-                <!-- Details -->
-                <div class="flex-1 flex justify-between">
-                    <div class="flex flex-col justify-center">
-                        <span class="text-xs text-gray-400 mb-1">
-                            Restaurante ${item.restauranteId || ''}
-                        </span>
-                        <h3 class="text-sm font-medium text-gray-900">${item.nombre}</h3>
-                        <span class="text-sm text-gray-500 mt-1">Cantidad: ${item.cantidad}</span>
-                    </div>
-                    <div class="font-medium text-sm pt-5 md:pt-0 flex items-center">
-                        ${monedaSymbol}${item.subtotal.toFixed(2)}
-                    </div>
+                <div class="font-medium text-sm pt-5 md:pt-0 flex items-center">
+                    ${monedaSymbol}${item.subtotal.toFixed(2)}
                 </div>
+            </div>
             `;
 
             itemsContainer.appendChild(itemDiv);
@@ -112,7 +116,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         section.addEventListener('click', () => {
             const sectionName = section.querySelector('span:first-child').textContent.trim();
             console.log(`Click en sección: ${sectionName}. Redirigir o mostrar modal de edición.`);
-            
+
             // Aquí podrías navegar a páginas específicas:
             // window.location.href = `edit-${sectionName.toLowerCase()}.html`;
         });
