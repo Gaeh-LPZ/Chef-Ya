@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const idToken = response.credential;
         console.log('ID token de Google:', idToken);
 
-        const apiUrl = 'http://localhost:8000/auth/google'; // ajusta a tu ruta real
+        const apiUrl = 'https://chef-ya-api.onrender.com/auth/google'; // ajusta a tu ruta real
 
         try {
             const resp = await fetch(apiUrl, {
