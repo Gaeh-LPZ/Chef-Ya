@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Si tu API está en el mismo dominio/puerto que el frontend, deja esto vacío.
     // Si no, pon algo tipo: 'http://localhost:8000'
-    const API_BASE_URL = 'https://chef-ya-api.onrender.com/';
+    const API_BASE_URL = 'https://chef-ya-api.onrender.com';
 
     // === 1. Llamar a la API de carrito y pintar la vista ===
     async function cargarCarrito() {
