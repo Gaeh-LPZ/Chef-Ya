@@ -12,8 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
             client_id: document
                 .querySelector('meta[name="google-signin-client_id"]')
                 .getAttribute('content'),
-            callback: handleGoogleCredentialResponse
+            callback: handleGoogleCredentialResponse,
+            auto_select: false,            // 👈 NUEVO: NO reusar cuenta automáticamente
+            cancel_on_tap_outside: true,   // opcional, UX
+            //
         });
+
     }
 
     /**
