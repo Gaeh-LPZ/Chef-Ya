@@ -1,7 +1,7 @@
 // js/restaurante.js
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
-    const TEST_USER_ID = '6921cd24502884b6d7ce5f48'; // <-- remplaza por el id real de prueba
+    // const TEST_USER_ID = '6921cd24502884b6d7ce5f48'; // ELIMINADO: ya no usaremos un id fijo
 
     // --- Lógica de Navegación de Header (Desktop/Tablet) ---
     const shoppingCartBtn = document.getElementById('shopping-cart');
@@ -10,8 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
             console.log('Navegando a la página de carrito.');
-            // aquí luego puedes agregar el id_usuario en la URL
-            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(TEST_USER_ID)}`;
+
+            // NUEVO: obtenemos el id del usuario logueado desde localStorage
+            const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
+
+            if (!idUsuario) { // NUEVO
+                console.warn('No hay usuario_id en localStorage, redirigiendo a login...'); // NUEVO
+                window.location.href = 'login.html'; // NUEVO
+                return; // NUEVO
+            } // NUEVO
+
+            // MODIFICADO: ahora usamos el id real del usuario logueado
+            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`; // MODIFICADO
         });
     }
 
@@ -239,9 +249,19 @@ document.addEventListener('DOMContentLoaded', () => {
             btnAgregar.addEventListener('click', async () => {
                 console.log('Click en Agregar producto:', prod);
 
+                // NUEVO: verificar usuario logueado antes de tocar el carrito
+                const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
+                if (!idUsuario) { // NUEVO
+                    alert('Debes iniciar sesión para agregar productos al carrito.'); // NUEVO
+                    window.location.href = 'login.html'; // NUEVO
+                    return; // NUEVO
+                } // NUEVO
+
                 try {
-                    // 1) Obtener (o crear) carrito del usuario de prueba
-                    const carritoResp = await fetch(`${API_BASE_URL}/carritos/usuario/${TEST_USER_ID}`);
+                    // 1) Obtener (o crear) carrito del usuario logueado
+                    // MODIFICADO: antes usaba TEST_USER_ID, ahora usamos idUsuario
+                    const carritoResp = await fetch(`${API_BASE_URL}/carritos/usuario/${idUsuario}`); // MODIFICADO
+
                     if (!carritoResp.ok) {
                         console.error('Error al obtener/crear carrito:', carritoResp.status, carritoResp.statusText);
                         alert('No se pudo obtener el carrito del usuario.');
@@ -257,13 +277,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const carritoId = carrito.id;
 
                     // 2) Agregar item al carrito
-                    // CarritoItemCrear: { restauranteId, productoId, nombre, precio, cantidad }
+                    // CarritoItemCrear: { restauranteId, productoId, nombre, precio, cantidad, imagen? }
                     const body = {
                         restauranteId: restauranteId,    // de la URL
-                        productoId: prod.id,            // ajusta si tu API usa otro campo
+                        productoId: prod.id,            // según tu API ProductoLeer
                         nombre: prod.nombre,
                         precio: prod.precio,
-                        cantidad: 1
+                        cantidad: 1,
+                        imagen: prod.imagen || null
                     };
 
                     const addResp = await fetch(`${API_BASE_URL}/carritos/${carritoId}/items`, {
