@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // NUEVO: obtenemos el id del usuario logueado desde localStorage
             const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
+            console.log('idUsuario desde localStorage (header restaurante.js):', idUsuario); // DEBUG
 
             if (!idUsuario) { // NUEVO
                 console.warn('No hay usuario_id en localStorage, redirigiendo a login...'); // NUEVO
@@ -251,6 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // NUEVO: verificar usuario logueado antes de tocar el carrito
                 const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
+                console.log('idUsuario desde localStorage (restaurante.js, agregar):', idUsuario); // DEBUG
+
                 if (!idUsuario) { // NUEVO
                     alert('Debes iniciar sesión para agregar productos al carrito.'); // NUEVO
                     window.location.href = 'login.html'; // NUEVO
@@ -259,8 +262,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 try {
                     // 1) Obtener (o crear) carrito del usuario logueado
-                    // MODIFICADO: antes usaba TEST_USER_ID, ahora usamos idUsuario
-                    const carritoResp = await fetch(`${API_BASE_URL}/carritos/usuario/${idUsuario}`); // MODIFICADO
+                    const carritoUrl = `${API_BASE_URL}/carritos/usuario/${idUsuario}`; // MODIFICADO
+                    console.log('GET carrito URL:', carritoUrl); // DEBUG
+
+                    const carritoResp = await fetch(carritoUrl);
+                    console.log('Respuesta GET carrito status:', carritoResp.status); // DEBUG
 
                     if (!carritoResp.ok) {
                         console.error('Error al obtener/crear carrito:', carritoResp.status, carritoResp.statusText);
@@ -268,6 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     const carrito = await carritoResp.json();
+                    console.log('Carrito recibido en restaurante.js (antes de agregar):', carrito); // DEBUG
+
                     if (!carrito || !carrito.id) {
                         console.error('Respuesta de carrito inesperada:', carrito);
                         alert('No se pudo obtener el carrito del usuario.');
@@ -286,14 +294,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         cantidad: 1,
                         imagen: prod.imagen || null
                     };
+                    console.log('Body para agregar item:', body); // DEBUG
 
-                    const addResp = await fetch(`${API_BASE_URL}/carritos/${carritoId}/items`, {
+                    const addUrl = `${API_BASE_URL}/carritos/${carritoId}/items`;
+                    console.log('POST agregar item URL:', addUrl); // DEBUG
+
+                    const addResp = await fetch(addUrl, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
                         body: JSON.stringify(body),
                     });
+
+                    console.log('Respuesta POST agregar item status:', addResp.status); // DEBUG
 
                     if (!addResp.ok) {
                         console.error('Error al agregar item al carrito:', addResp.status, addResp.statusText);
@@ -302,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     const carritoActualizado = await addResp.json();
-                    console.log('Carrito actualizado:', carritoActualizado);
+                    console.log('Carrito actualizado en restaurante.js:', carritoActualizado); // DEBUG
                     alert(`"${prod.nombre}" se agregó al carrito.`);
                 } catch (err) {
                     console.error('Error de red al agregar producto al carrito:', err);
