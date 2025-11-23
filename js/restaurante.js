@@ -1,6 +1,6 @@
 // js/restaurante.js
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE_URL = 'https://chef-ya-api.onrender.com'; // ajusta si tu API tiene prefijo /api/v1
+    const API_BASE_URL = 'https://chef-ya-api.onrender.com';
     const TEST_USER_ID = '6921cd24502884b6d7ce5f48'; // <-- remplaza por el id real de prueba
 
     // --- Lógica de Navegación de Header (Desktop/Tablet) ---

@@ -48,6 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
             // Guarda el token de tu backend (no el de Google) para futuras peticiones
             localStorage.setItem('auth_token', data.access_token);
 
+            // NUEVO: guardamos también el usuario que regresa tu backend
+            // para poder usar su id en otras páginas (principal, carrito, etc.)
+            if (data.usuario) { // NUEVO
+                localStorage.setItem('usuario', JSON.stringify(data.usuario)); // NUEVO
+            } // NUEVO
+
             alert('¡Inicio de sesión exitoso!');
             window.location.href = 'principal.html';
         } catch (error) {

@@ -9,20 +9,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const shoppingCartBtn = document.getElementById('shopping-cart');
     const userLoginBtn = document.getElementById('user-login');
-    //Este lo coloque de prueba debemos hacer que mande el id del usuario con las sesion iniciada
-    const idUsuario = "6921cd24502884b6d7ce5f48"
+
+    // ELIMINADO: id de usuario hardcodeado de prueba
+    // const idUsuario = "6921cd24502884b6d7ce5f48"
+
     // -------- Navegación header --------
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
-          //  const usuarioStr = localStorage.getItem('usuario');
-            //if (!usuarioStr) {
-              //  console.error('No hay usuario en localStorage');
-                //return;
-            //}
+            // NUEVO: ahora leemos el usuario real desde localStorage
+            const usuarioStr = localStorage.getItem('usuario'); // NUEVO
 
-            //const usuario = JSON.parse(usuarioStr);
-            //const idUsuario = usuario.id; // o usuario.usuarioId según tu modelo
-            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`;
+            if (!usuarioStr) { // NUEVO
+                console.warn('No hay usuario en localStorage, redirigiendo a login...'); // NUEVO
+                window.location.href = 'login.html'; // NUEVO
+                return; // NUEVO
+            } // NUEVO
+
+            const usuario = JSON.parse(usuarioStr); // NUEVO
+            const idUsuario = usuario.id; // NUEVO  (según tu esquema UsuarioLeer de la API)
+
+            // MODIFICADO: ahora usamos el id del usuario logueado
+            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`; // MODIFICADO
         });
     }
 
