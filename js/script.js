@@ -48,14 +48,28 @@ document.addEventListener('DOMContentLoaded', () => {
             // Guarda el token de tu backend (no el de Google) para futuras peticiones
             localStorage.setItem('auth_token', data.access_token);
 
-            // NUEVO: guardamos también el usuario que regresa tu backend
-            // para poder usar su id en otras páginas (principal, carrito, etc.)
-            if (data.usuario) { // NUEVO
-                localStorage.setItem('usuario', JSON.stringify(data.usuario)); // NUEVO
-            } // NUEVO
+            // NUEVO: obtenemos el usuario que llega del backend
+            const user = data.usuario; // NUEVO
+            if (user) {                // NUEVO
+                // NUEVO: intentamos detectar el id aunque el backend use id / _id / usuarioId
+                const userId = user.id || user._id || user.usuarioId; // NUEVO
+
+                if (userId) { // NUEVO
+                    // NUEVO: guardamos el id en una clave sencilla
+                    localStorage.setItem('usuario_id', userId); // NUEVO
+                } else { // NUEVO
+                    console.warn('No se encontró un campo de id en data.usuario'); // NUEVO
+                } // NUEVO
+
+                // Seguimos guardando el usuario completo por si lo necesitas después
+                localStorage.setItem('usuario', JSON.stringify(user)); // MODIFICADO (usa user)
+            } else {
+                console.warn('data.usuario no viene en la respuesta del backend'); // NUEVO
+            }
 
             alert('¡Inicio de sesión exitoso!');
             window.location.href = 'principal.html';
+
         } catch (error) {
             console.error('Error al llamar al backend:', error);
             alert('Error al conectar con el servidor de autenticación.');

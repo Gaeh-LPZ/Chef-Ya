@@ -10,28 +10,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const shoppingCartBtn = document.getElementById('shopping-cart');
     const userLoginBtn = document.getElementById('user-login');
 
-    // ELIMINADO: id de usuario hardcodeado de prueba
-    // const idUsuario = "6921cd24502884b6d7ce5f48"
-
     // -------- Navegación header --------
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
-            // NUEVO: ahora leemos el usuario real desde localStorage
-            const usuarioStr = localStorage.getItem('usuario'); // NUEVO
+            // NUEVO: tomamos el id de usuario directamente de localStorage
+            const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
 
-            if (!usuarioStr) { // NUEVO
-                console.warn('No hay usuario en localStorage, redirigiendo a login...'); // NUEVO
+            if (!idUsuario) { // NUEVO
+                console.warn('No hay usuario_id en localStorage, redirigiendo a login...'); // NUEVO
                 window.location.href = 'login.html'; // NUEVO
                 return; // NUEVO
             } // NUEVO
 
-            const usuario = JSON.parse(usuarioStr); // NUEVO
-            const idUsuario = usuario.id; // NUEVO  (según tu esquema UsuarioLeer de la API)
-
-            // MODIFICADO: ahora usamos el id del usuario logueado
+            // MODIFICADO: ya no usamos un id hardcodeado, sino el real
             window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`; // MODIFICADO
         });
     }
+
 
     if (userLoginBtn) {
         userLoginBtn.addEventListener('click', () => {

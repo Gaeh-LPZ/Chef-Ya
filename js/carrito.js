@@ -11,20 +11,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     // AHORA: Preferimos el usuario guardado por el login con Google, y usamos
     // el query string solo como respaldo.
 
-    let idUsuario = null; // NUEVO
+    // === 0. Obtener id_usuario desde localStorage o, en su defecto, desde el query string ===
 
-    // NUEVO: intentamos obtener el usuario desde localStorage
-    const usuarioStr = localStorage.getItem('usuario'); // NUEVO
-    if (usuarioStr) { // NUEVO
-        try { // NUEVO
-            const usuario = JSON.parse(usuarioStr); // NUEVO
-            idUsuario = usuario.id; // NUEVO (según tu modelo UsuarioLeer)
-        } catch (e) { // NUEVO
-            console.error('Error al parsear "usuario" desde localStorage:', e); // NUEVO
-        } // NUEVO
-    } // NUEVO
+    // NUEVO: intentamos primero desde localStorage
+    let idUsuario = localStorage.getItem('usuario_id'); // NUEVO
 
-    // NUEVO: si no lo obtuvimos de localStorage, intentamos desde la URL (compatibilidad)
+    // NUEVO: si no está en localStorage, probamos con el query string (compatibilidad)
     if (!idUsuario) { // NUEVO
         const params = new URLSearchParams(window.location.search); // NUEVO
         idUsuario = params.get('id_usuario'); // NUEVO
@@ -34,8 +26,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!idUsuario) { // NUEVO
         console.error('No se encontró usuario (ni en localStorage ni en la URL). Redirigiendo a login...'); // NUEVO
         window.location.href = 'login.html'; // NUEVO
-        return; // NUEVO: detenemos la ejecución del resto del script
+        return; // NUEVO
     } // NUEVO
+
 
     // (ELIMINADO el bloque anterior que solo revisaba el query string):
     // const params = new URLSearchParams(window.location.search);
