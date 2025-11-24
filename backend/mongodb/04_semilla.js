@@ -303,8 +303,119 @@ dbChef.restaurantes.insertMany([
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
-    }
-
+    },
+    
+    //ATENCION PENDIENTES DE UBICACION LOS SIGUIENTES 5 RESTAURANTES EN OAXACA DE JUAREZ
+    {
+    _id: restauranteId21,
+    nombre: "Fonda Doña Chica",
+    slug: "fonda-dona-chica",
+    descripcion: "Comida casera oaxaqueña",
+    categorias: ["oaxaqueña"],
+    imagen: "https://tse4.mm.bing.net/th/id/OIP.XZavIxm6gWkCrrccDvgqGwHaHY?rs=1&pid=ImgDetMain&o=7&rm=3",
+    imagen_banner: "https://resizer.otstatic.com/v3/photos/76768535-2?width=1280&height=720&webp=true",
+    calificacion: { promedio: 0, conteo: 0 },
+    entrega: { minutosPromedio: 18, tarifa: 20 },
+    direccion: {
+        calle: "M. Bravo #209",
+        colonia: "Centro",
+        ciudad: "Oaxaca de Juárez",
+        estado: "Oaxaca",
+        cp: "68000",
+        geo: { lat: 17.0591, lng: -96.7246 }
+    },
+    activo: true,
+    creadoEn: ahora,
+    actualizadoEn: ahora
+},
+{
+    _id: restauranteId22,
+    nombre: "La Tlayudería del Centro",
+    slug: "la-tlayuderia-del-centro",
+    descripcion: "Tlayudas y antojitos oaxaqueños",
+    categorias: ["antojitos"],
+    imagen: "https://tse1.mm.bing.net/th/id/OIP.4VZTCoq--UJUBs2I8j5XsgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+    imagen_banner: "https://tse4.mm.bing.net/th/id/OIP.wTYa4HHuEwDaEXhk42SlFAHaC0?rs=1&pid=ImgDetMain&o=7&rm=3",//esta imagen se va a cambiar 
+    calificacion: { promedio: 0, conteo: 0 },
+    entrega: { minutosPromedio: 25, tarifa: 22 },
+    direccion: {
+        calle: "Armenta y López #312",
+        colonia: "Centro",
+        ciudad: "Oaxaca de Juárez",
+        estado: "Oaxaca",
+        cp: "68000",
+        geo: { lat: 17.0569, lng: -96.7242 }
+    },
+    activo: true,
+    creadoEn: ahora,
+    actualizadoEn: ahora
+},
+{
+    _id: restauranteId23,
+    nombre: "Comedor La Abuelita",
+    slug: "comedor-la-abuelita",
+    descripcion: "Platillos económicos y tradicionales",
+    categorias: ["comida-casera"],
+    imagen: "https://www.prosaypolitica.cl/wp-content/uploads/2023/04/9788413431727.jpg",
+    imagen_banner: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/ad/5f/0d/interior.jpg?w=1200&h=-1&s=1",
+    calificacion: { promedio: 0, conteo: 0 },
+    entrega: { minutosPromedio: 14, tarifa: 10 },
+    direccion: {
+        calle: "20 de Noviembre #108",
+        colonia: "Centro",
+        ciudad: "Oaxaca de Juárez",
+        estado: "Oaxaca",
+        cp: "68000",
+        geo: { lat: 17.0560, lng: -96.7249 }
+    },
+    activo: true,
+    creadoEn: ahora,
+    actualizadoEn: ahora
+},
+{
+    _id: restauranteId24,
+    nombre: "Sazón Oaxaqueño",
+    slug: "sazon-oaxaqueno",
+    descripcion: "Moles, tasajo y comida típica",
+    categorias: ["oaxaqueña"],
+    imagen: "https://tse3.mm.bing.net/th/id/OIP.ZXBzR-2FfdlQCeHFuodkZgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+    imagen_banner: "https://tse1.mm.bing.net/th/id/OIP._3hSRJ3F8C7uvGx0ceudbwHaCv?rs=1&pid=ImgDetMain&o=7&rm=3",
+    calificacion: { promedio: 0, conteo: 0 },
+    entrega: { minutosPromedio: 30, tarifa: 25 },
+    direccion: {
+        calle: "Independencia #501",
+        colonia: "Centro",
+        ciudad: "Oaxaca de Juárez",
+        estado: "Oaxaca",
+        cp: "68020",
+        geo: { lat: 17.0628, lng: -96.7230 }
+    },
+    activo: true,
+    creadoEn: ahora,
+    actualizadoEn: ahora
+},
+{
+    _id: restauranteId25,
+    nombre: "Mercado 20 de Noviembre Pasillo de Humo",
+    slug: "pasillo-de-humo",
+    descripcion: "Carnes asadas estilo tradicional",
+    categorias: ["grill"],
+    imagen: "https://i.ytimg.com/vi/OYHv8ACdlHA/maxresdefault.jpg",
+    imagen_banner: "https://oaxaca.quadratin.com.mx/www/wp-content/uploads/2021/05/20nov-1160x700.jpg",
+    calificacion: { promedio: 0, conteo: 0 },
+    entrega: { minutosPromedio: 20, tarifa: 18 },
+    direccion: {
+        calle: "20 de Noviembre s/n",
+        colonia: "Centro",
+        ciudad: "Oaxaca de Juárez",
+        estado: "Oaxaca",
+        cp: "68000",
+        geo: { lat: 17.0563, lng: -96.7245 }
+    },
+    activo: true,
+    creadoEn: ahora,
+    actualizadoEn: ahora
+}
 
 
 
@@ -1152,10 +1263,340 @@ dbChef.productos.insertMany([
         categoriaMenu: "Pan dulce",
         creadoEn: ahora,
         actualizadoEn: ahora
-    }
+    },
 
+// RESTAURANTE: Fonda Doña Chica
+    {
+        _id: productoId101,
+        restauranteId: restauranteId21,
+        nombre: "Enchiladas verdes",
+        descripcion: "Tortillas rellenas de pollo bañadas en salsa verde.",
+        precio: 65,
+        imagen: "https://cdn.tasteatlas.com/images/dishes/419e9618f6104bf2a29cd88bb64d2bc5.jpg",
+        disponible: true,
+        etiquetas: ["comida", "platillo"],
+        categoriaMenu: "Platos fuertes",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId102,
+        restauranteId: restauranteId21,
+        nombre: "Huevos al gusto",
+        descripcion: "A la mexicana, revueltos o estrellados.",
+        precio: 40,
+        imagen: "https://1.bp.blogspot.com/-pnvkoRBso8g/W8mDP9DOt7I/AAAAAAAAJNs/M7qxa4tezjk0HFVBSgk0B05imVYWBxb4ACLcBGAs/s1600/receta.jpg",
+        disponible: true,
+        etiquetas: ["desayuno"],
+        categoriaMenu: "Desayunos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId103,
+        restauranteId: restauranteId21,
+        nombre: "Tamal oaxaqueño",
+        descripcion: "De mole negro con pollo.",
+        precio: 32,
+        imagen: "https://thumbs.dreamstime.com/b/tamales-mexicanos-en-hojas-de-pl%C3%A1tano-sobre-fondo-madera-tradicionales-203146624.jpg",
+        disponible: true,
+        etiquetas: ["antojitos","tamales"],
+        categoriaMenu: "Antojitos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId104,
+         restauranteId: restauranteId21,
+        nombre: "Atole de panela",
+        descripcion: "Atole caliente endulzado con panela.",
+        precio: 20,
+        imagen: "https://www.maricruzavalos.com/wp-content/uploads/2021/09/atole_mexican_drink.jpg",
+        disponible: true,
+        etiquetas: ["bebidas"],
+        categoriaMenu: "Bebidas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId105,
+        restauranteId: restauranteId21,
+        nombre: "Tlayuda sencilla",
+        descripcion: "Con asiento, quesillo y lechuga.",
+        precio: 55,
+        imagen: "https://s.hdnux.com/photos/54/42/52/11676317/5/1200x0.jpg",
+        disponible: true,
+        etiquetas: ["antojitos","tlayudas","especialidades"],
+        categoriaMenu: "Antojitos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
 
-
-]);
-
-
+// RESTAURANT: La Tlayudería del Centro
+     {
+         _id: productoId106,
+         restauranteId: restauranteId22,
+         nombre: "Tlayuda con tasajo",
+         descripcion: "Tlayuda grande con tasajo a las brasas.",
+         precio: 85,
+         imagen: "https://www.brooklyntropicali.com/wp-content/uploads/2017/06/IMG_4018LR.jpg",
+         disponible: true,
+         etiquetas: ["antojitos","tlayudas","especialidades"],
+         categoriaMenu: "Tlayudas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId107,
+         restauranteId: restauranteId22,
+         nombre: "Tlayuda con cecina enchilada",
+         descripcion: "Crujiente y con sabor tradicional.",
+         precio: 90,
+         imagen: "https://tvazteca.brightspotcdn.com/e0/f8/ca7e732749008a721bd7c4cd7a1c/feria-del-huarache-toluca-2023-cuando-es.jpg",
+         disponible: true,
+         etiquetas: ["antojitos","tlayudas","especialidades"],
+         categoriaMenu: "Tlayudas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId108,
+         restauranteId: restauranteId22,
+         nombre: "Memela sencilla",
+         descripcion: "Con asiento, frijol y queso fresco.",
+         precio: 18,
+         imagen: "https://masienda.com/cdn/shop/articles/ConvertOut-Resized-Memela6_Klein_June24_600x.jpg?v=1719604770",
+         disponible: true,
+         etiquetas: ["antojitos"],
+         categoriaMenu: "Memelas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId109,
+         restauranteId: restauranteId22,
+         nombre: "Agua de horchata con tuna",
+         descripcion: "Refrescante y tradicional.",
+         precio: 22,
+         imagen: "https://i.pinimg.com/736x/88/4e/26/884e262270513b17f8be54e445f52289--aguas-frescas-horchata.jpg",
+         disponible: true,
+         etiquetas: ["bebidas"],
+         categoriaMenu: "Bebidas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId110,
+         restauranteId: restauranteId22,
+         nombre: "Empanada de amarillo",
+         descripcion: "Empanada grande hecha al comal.",
+         precio: 28,
+         imagen: "https://i.pinimg.com/736x/99/8a/7e/998a7e50cbea0893dbcceb4195f39dbb--empanada-oaxaca.jpg",
+         disponible: true,
+         etiquetas: ["antojitos", "empanadas"],
+         categoriaMenu: "Empanadas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     
+     // RESTAURANTE: Comedor La Abuelita
+     {
+         _id: productoId111,
+         restauranteId: restauranteId23,
+         nombre: "Comida corrida",
+         descripcion: "Incluye sopa, arroz, guisado y bebida.",
+         precio: 70,
+         imagen: "https://media-cdn.tripadvisor.com/media/photo-s/1a/e0/1d/42/photo0jpg.jpg",
+         disponible: true,
+         etiquetas: ["comida"],
+         categoriaMenu: "Platillos del día",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId112,
+         restauranteId: restauranteId23,
+         nombre: "Caldo de res",
+         descripcion: "Caliente y tradicional, con verduras frescas.",
+         precio: 60,
+         imagen: "https://i.pinimg.com/1200x/a5/11/3f/a5113fc5471eab14181b6cf7e99c29b2.jpg",
+         disponible: true,
+         etiquetas: ["sopas"],
+         categoriaMenu: "Sopas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId113,
+         restauranteId: restauranteId23,
+         nombre: "Arroz rojo",
+         descripcion: "Guarnición casera.",
+         precio: 20,
+         imagen: "https://i.pinimg.com/1200x/94/73/4b/94734bec4d9a06bf7e0afdf52b7151ed.jpg",
+         disponible: true,
+         etiquetas: ["guarniciones"],
+         categoriaMenu: "Guarniciones",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId114,
+         restauranteId: restauranteId23,
+         nombre: "Té de hierbabuena",
+         descripcion: "Infusión fresca y ligera.",
+         precio: 15,
+         imagen: "https://i.pinimg.com/736x/fa/a2/fb/faa2fbd924cb4c2ff038702e3e2aa0d5.jpg",
+         disponible: true,
+         etiquetas: ["bebidas"],
+         categoriaMenu: "Bebidas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId115,
+         restauranteId: restauranteId23,
+         nombre: "Pollo en salsa verde",
+         descripcion: "Acompañado de arroz y frijoles.",
+         precio: 55,
+         imagen: "https://i.pinimg.com/originals/a3/cc/2d/a3cc2dc0f182fe3a7fc2fd811ff1387f.jpg",
+         disponible: true,
+         etiquetas: ["platillos"],
+         categoriaMenu: "Platos fuertes",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     
+     // RESTAURANT: Sazón Oaxaqueño
+     {
+         _id: productoId116,
+         restauranteId: restauranteId24,
+         nombre: "Mole negro",
+         descripcion: "Platillo tradicional acompañado con arroz.",
+         precio: 95,
+         imagen: "https://mujer.com.mx/cdn/recipes/IRecipes_030659700157966185669_orig.jpg",
+         disponible: true,
+         etiquetas: ["oaxaqueña"],
+         categoriaMenu: "Platos fuertes",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId117,
+         restauranteId: restauranteId24,
+         nombre: "Tasajo asado",
+         descripcion: "Carne asada con guarniciones.",
+         precio: 110,
+         imagen: "https://cocineo.com.mx/wp-content/uploads/2024/02/Receta-de-tasajo-1536x864.jpg",
+         disponible: true,
+         etiquetas: ["oaxaqueña"],
+         categoriaMenu: "Carnes",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId118,
+         restauranteId: restauranteId24,
+         nombre: "Estofado oaxaqueño",
+         descripcion: "Guiso tradicional con pollo.",
+         precio: 80,
+         imagen: "https://th.bing.com/th/id/R.990c115c1f59ce4d0838c5eb2a7521d3?rik=rpgF%2bBSOSIztvg&pid=ImgRaw&r=0",
+         disponible: true,
+         etiquetas: ["platillos", "oaxaqueña"],
+         categoriaMenu: "Platos fuertes",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId119,
+         restauranteId: restauranteId24,
+         nombre: "Agua de chilacayota",
+         descripcion: "Refrescante y endulzada con piloncillo.",
+         precio: 20,
+         imagen: "https://tse3.mm.bing.net/th/id/OIP.4vlRQsVXj3kJUbtih2fYJAHaEZ?rs=1&pid=ImgDetMain&o=7&rm=3",
+         disponible: true,
+         etiquetas: ["bebidas"],
+         categoriaMenu: "Bebidas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId120,
+         restauranteId: restauranteId24,
+         nombre: "Tamales de chepil",
+         descripcion: "Tamales de masa con chepil y salsa.",
+         precio: 25,
+         imagen: "https://i.ytimg.com/vi/UPhzAkTvCOs/maxresdefault.jpg",
+         disponible: true,
+         etiquetas: ["antojitos", "tamales"],
+         categoriaMenu: "Antojitos",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     
+     // RESTAURANTE: Pasillo de Humo 
+     {
+         _id: productoId121,
+         restauranteId: restauranteId25,
+         nombre: "Carne asada al carbón",
+         descripcion: "Carne seleccionada preparada al instante.",
+         precio: 75,
+         imagen: "https://tse1.mm.bing.net/th/id/OIP.NPcKqxW5M1XAGxNkI_EQnwHaFP?rs=1&pid=ImgDetMain&o=7&rm=3",
+         disponible: true,
+         etiquetas: ["grill","carnes"],
+         categoriaMenu: "Carnes",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId122,
+         restauranteId: restauranteId25,
+         nombre: "Chorizo oaxaqueño",
+         descripcion: "Asado al carbón, perfecto para acompañar.",
+         precio: 40,
+         imagen: "https://i0.wp.com/gudomagazine.com/wp-content/uploads/2022/12/chorizo-oaxaqueno-valles-1.jpg?resize=768%2C448&ssl=1",
+         disponible: true,
+         etiquetas: ["grill","carnes"],
+         categoriaMenu: "Carnes",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId123,
+         restauranteId: restauranteId25,
+         nombre: "Cecina enchilada",
+         descripcion: "Asada al momento, suave y con sabor intenso.",
+         precio: 65,
+         imagen: "https://tse3.mm.bing.net/th/id/OIP.uyPLotpmdPqNyHcajiQFngHaFj?rs=1&pid=ImgDetMain&o=7&rm=3",
+         disponible: true,
+         etiquetas: ["grill","carnes"],
+         categoriaMenu: "Carnes",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId124,
+         restauranteId: restauranteId25,
+         nombre: "Ensalada fresca",
+         descripcion: "Lechuga, jitomate, pepino y aderezo.",
+         precio: 20,
+         imagen: "https://tse2.mm.bing.net/th/id/OIP.iTiFcT5nehPrdfxNMa8Y5gHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
+         disponible: true,
+         etiquetas: ["guarniciones","ensaladas"],
+         categoriaMenu: "Guarniciones",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     },
+     {
+         _id: productoId125,
+         restauranteId: restauranteId25,
+         nombre: "Agua de jamaica",
+         descripcion: "Natural y refrescante.",
+         precio: 15,
+         imagen: "https://tse1.mm.bing.net/th/id/OIP.i60GMwChW72nDwAhPkfETAAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+         disponible: true,
+         etiquetas: ["bebidas"],
+         categoriaMenu: "Bebidas",
+         creadoEn: ahora,
+         actualizadoEn: ahora
+     }
+     ]);
