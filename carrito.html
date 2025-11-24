@@ -17,7 +17,7 @@
     <!-- Main Container -->
     <div class="max-w-6xl mx-auto bg-white min-h-screen shadow-sm md:my-8 md:rounded-2xl md:min-h-0 md:overflow-hidden">
 
-        <!-- Header (Mobile Only / Modified for Desktop) -->
+        <!-- Header -->
         <div class="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-4 md:px-8 md:py-6">
             <div class="relative flex items-center justify-center md:justify-start">
                 <button class="absolute left-0 p-2 hover:bg-gray-100 rounded-full md:hidden">
@@ -35,7 +35,7 @@
 
                 <!-- Section: ENVÍO -->
                 <div
-                    class="py-4 border-b border-gray-100 cursor-pointer group hover:bg-gray-50 transition-colors -mx-4 px-4 md:mx-0 md:rounded-lg">
+                    class="checkout-section-envio py-4 border-b border-gray-100 cursor-pointer group hover:bg-gray-50 transition-colors -mx-4 px-4 md:mx-0 md:rounded-lg">
                     <div class="flex items-center justify-between">
                         <div class="flex flex-col md:flex-row md:items-center w-full">
                             <span class="text-xs font-bold uppercase tracking-wider w-24 mb-1 md:mb-0">ENVÍO</span>
@@ -60,17 +60,21 @@
                     </div>
                 </div>
 
-                <!-- Section: PAGO -->
+                <!-- Section: PAGO (solo informativo, no clickeable) -->
                 <div
-                    class="py-4 border-b border-gray-100 cursor-pointer group hover:bg-gray-50 transition-colors -mx-4 px-4 md:mx-0 md:rounded-lg md:border-b-0">
+                    class="py-4 border-b border-gray-100 -mx-4 px-4 md:mx-0 md:rounded-lg md:border-b-0">
                     <div class="flex items-center justify-between">
                         <div class="flex flex-col md:flex-row md:items-center w-full">
                             <span class="text-xs font-bold uppercase tracking-wider w-24 mb-1 md:mb-0">PAGO</span>
-                            <div class="flex items-center gap-2">
-                                <span class="text-sm md:text-base font-medium">Visa *1234</span>
+                            <div class="flex flex-col">
+                                <span class="text-sm md:text-base font-medium">
+                                    Tarjeta de crédito o débito
+                                </span>
+                                <span class="text-xs text-gray-400">
+                                    Pago seguro procesado por Stripe
+                                </span>
                             </div>
                         </div>
-                        <i class="fa-solid fa-chevron-right text-gray-300 text-xs"></i>
                     </div>
                 </div>
             </div>
@@ -93,10 +97,12 @@
                     </div>
                 </div>
 
-                <!-- LISTA DE ITEMS DEL CARRITO (Dinámica, pero mismo estilo) -->
+                <!-- LISTA DE ITEMS DEL CARRITO (Dinámica) -->
                 <div id="cart-items">
-                    <!-- Aquí JS insertará los items del carrito con el mismo layout -->
+                    <!-- JS insertará los items aquí -->
                 </div>
+
+                <!-- Cupón -->
                 <div class="mt-6">
                     <label for="coupon-code" class="block text-sm font-medium text-gray-700 mb-1">
                         ¿Tienes un cupón?
@@ -111,6 +117,7 @@
                         </button>
                     </div>
                 </div>
+
                 <!-- Financial Summary -->
                 <div class="pt-6 pb-2 space-y-3">
                     <div class="flex justify-between text-sm text-gray-600">
@@ -139,6 +146,9 @@
                         class="w-full bg-black text-white font-medium py-4 rounded-xl hover:bg-gray-800 active:scale-[0.99] transition-all shadow-lg">
                         Hacer pedido
                     </button>
+                    <p class="mt-2 text-xs text-gray-400 text-center">
+                        Serás redirigido a Stripe para completar tu pago de forma segura.
+                    </p>
                 </div>
 
             </div>

@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const hacerPedidoBtn = document.getElementById('hacer-pedido-btn');
-    const checkoutSections = document.querySelectorAll('.group.hover\\:bg-gray-50');
+    const API_BASE_URL = 'https://chef-ya-api.onrender.com';
+
+    // === 0. Obtener usuario y parámetros de la URL ===
+    const params = new URLSearchParams(window.location.search);
 
     let idUsuario = localStorage.getItem('usuario_id');
-
     if (!idUsuario) {
-        const params = new URLSearchParams(window.location.search);
         idUsuario = params.get('id_usuario');
     }
 
@@ -15,30 +16,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    const API_BASE_URL = 'https://chef-ya-api.onrender.com';
+    const pagoExitoso = params.get('pago_exitoso');
+    const carritoIdFromUrl = params.get('carritoId');
 
     let carritoActual = null;
 
-    // === 1. Llamar a la API de carrito y pintar la vista ===
-    async function cargarCarrito() {
-        if (!idUsuario) return;
-
-        try {
-            const response = await fetch(`${API_BASE_URL}/carritos/usuario/${idUsuario}`);
-
-            if (!response.ok) {
-                console.error('Error al obtener el carrito:', response.status, response.statusText);
-                return;
-            }
-
-            carritoActual = await response.json();   // MODIFICADO: guardamos carrito
-            console.log('Carrito cargado:', carritoActual); // DEBUG
-            renderCarrito(carritoActual);
-        } catch (error) {
-            console.error('Error de red al obtener el carrito:', error);
-        }
-    }
-
+    // === 1. Utilidades ===
     function obtenerSimboloMoneda(moneda) {
         if (moneda === 'MXN') return '$';
         if (moneda === 'USD') return 'US$';
@@ -56,7 +39,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         itemsContainer.innerHTML = ''; // limpiar items previos
 
-        const monedaSymbol = obtenerSimboloMoneda(carrito.moneda);
+        if (!carrito) {
+            // Carrito nulo o indefinido --> mostrar todo en 0
+            if (itemsCountSpan) itemsCountSpan.textContent = '0';
+            if (subtotalSpan) subtotalSpan.textContent = '$0.00';
+            if (shippingSpan) shippingSpan.textContent = '$0.00';
+            if (totalSpan) totalSpan.textContent = '$0.00';
+            return;
+        }
+
+        const monedaSymbol = obtenerSimboloMoneda(carrito.moneda || 'MXN');
         const totalItems = carrito.items.reduce((acc, item) => acc + item.cantidad, 0);
 
         carrito.items.forEach((item) => {
@@ -68,8 +60,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
                 <img 
                     src="${item.imagen || ''}" 
-                    class="imagen-comida-carrito" 
+                    class="imagen-comida-carrito w-full h-full object-cover" 
                     alt="imagen comida"
+                    onerror="this.style.display='none';"
                 >
             </div>
             
@@ -105,16 +98,68 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Cargar carrito al entrar a la página
-    await cargarCarrito();
+    // === 2. Cargar carrito desde la API ===
+    async function cargarCarrito() {
+        if (!idUsuario) return;
 
-    // === 1.5 Lógica de aplicar cupón (con delegación) ===
+        try {
+            const response = await fetch(`${API_BASE_URL}/carritos/usuario/${idUsuario}`);
+
+            if (!response.ok) {
+                console.error('Error al obtener el carrito:', response.status, response.statusText);
+                return;
+            }
+
+            carritoActual = await response.json();
+            console.log('Carrito cargado:', carritoActual);
+            renderCarrito(carritoActual);
+        } catch (error) {
+            console.error('Error de red al obtener el carrito:', error);
+        }
+    }
+
+    // === 3. Vaciar carrito si venimos de un pago exitoso ===
+    async function vaciarCarritoSiPagoExitoso() {
+        if (pagoExitoso === '1' && carritoIdFromUrl) {
+            try {
+                console.log('Pago exitoso detectado. Vaciando carrito:', carritoIdFromUrl);
+
+                const resp = await fetch(`${API_BASE_URL}/carritos/${carritoIdFromUrl}`, {
+                    method: 'DELETE',
+                });
+
+                if (!resp.ok) {
+                    console.error('Error al vaciar carrito tras pago exitoso:', resp.status, resp.statusText);
+                    // Igual seguimos, pero mostramos el carrito luego
+                    return;
+                }
+
+                const carritoVacio = await resp.json();
+                carritoActual = carritoVacio;
+                renderCarrito(carritoVacio);
+
+                alert('¡Pago procesado correctamente! Tu carrito ha sido vaciado.');
+            } catch (error) {
+                console.error('Error de red al vaciar carrito tras pago exitoso:', error);
+            }
+        }
+    }
+
+    // === 4. Flujo inicial al cargar la página ===
+    // 4.1. Si venimos de un pago exitoso, intentamos vaciar el carrito primero
+    await vaciarCarritoSiPagoExitoso();
+
+    // 4.2. Si todavía no tenemos carritoActual (no venía de pago exitoso), lo cargamos normalmente
+    if (!carritoActual) {
+        await cargarCarrito();
+    }
+
+    // === 5. Lógica de aplicar cupón (delegación de eventos) ===
     document.addEventListener('click', async (event) => {
         const target = event.target;
 
-        // Nos aseguramos de atrapar clicks en el botón de aplicar cupón
         if (target && target.id === 'apply-coupon-btn') {
-            console.log('Click en botón "Aplicar cupón"'); // DEBUG
+            console.log('Click en botón "Aplicar cupón"');
 
             const couponInput = document.getElementById('coupon-code');
             if (!couponInput) {
@@ -136,16 +181,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             try {
-                console.log('Aplicando cupón con código:', codigo); // DEBUG
+                console.log('Aplicando cupón con código:', codigo);
                 const resp = await fetch(`${API_BASE_URL}/carritos/${carritoActual.id}/cupon`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ codigo }), // CarritoAplicarCuponRequest
+                    body: JSON.stringify({ codigo }),
                 });
 
-                console.log('Respuesta al aplicar cupón, status:', resp.status); // DEBUG
+                console.log('Respuesta al aplicar cupón, status:', resp.status);
 
                 if (!resp.ok) {
                     console.error('Error al aplicar cupón:', resp.status, resp.statusText);
@@ -154,7 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
                 const carritoActualizado = await resp.json();
-                console.log('Carrito actualizado tras aplicar cupón:', carritoActualizado); // DEBUG
+                console.log('Carrito actualizado tras aplicar cupón:', carritoActualizado);
 
                 carritoActual = carritoActualizado;
                 renderCarrito(carritoActualizado);
@@ -168,47 +213,57 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // === 2. Lógica de Interacción en Secciones (Envío, Pago) ===
-    checkoutSections.forEach(section => {
-        section.addEventListener('click', () => {
-            const sectionNameElem = section.querySelector('span:first-child');
-            const sectionName = sectionNameElem ? sectionNameElem.textContent.trim() : 'Sección';
-            console.log(`Click en sección: ${sectionName}. Redirigir o mostrar modal de edición.`);
+    // === 6. Lógica de interacción en sección ENVÍO (opcional) ===
+    const envioSection = document.querySelector('.checkout-section-envio');
+    if (envioSection) {
+        envioSection.addEventListener('click', () => {
+            console.log('Click en sección ENVÍO. Aquí podrías abrir un modal para editar dirección.');
         });
-    });
+    }
 
-    // === 3. Lógica de Finalización del Pedido (aún hipotética) ===
+    // === 7. Lógica de Finalización del Pedido con Stripe ===
     if (hacerPedidoBtn) {
         hacerPedidoBtn.addEventListener('click', async () => {
-            console.log('Iniciando proceso de "Hacer pedido"...');
+            console.log('Iniciando proceso de "Hacer pedido" con Stripe...');
 
-            const apiUrl = '/api/v1/orders/create';
-
-            const orderDetails = {
-                carritoId: carritoActual ? carritoActual.id : null,
-                usuarioId: idUsuario,
-            };
+            if (!carritoActual || !carritoActual.id || !Array.isArray(carritoActual.items) || carritoActual.items.length === 0) {
+                alert('Tu carrito está vacío o no se pudo cargar correctamente.');
+                return;
+            }
 
             try {
-                const response = await fetch(apiUrl, {
+                const basePath = `${window.location.origin}${window.location.pathname}`;
+                const successUrl = `${basePath}?pago_exitoso=1&carritoId=${encodeURIComponent(
+                    carritoActual.id
+                )}&session_id={CHECKOUT_SESSION_ID}`;
+                const cancelUrl = basePath;
+
+                const response = await fetch(`${API_BASE_URL}/pagos/stripe/checkout`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(orderDetails),
+                    body: JSON.stringify({
+                        carritoId: carritoActual.id,
+                        successUrl,
+                        cancelUrl,
+                    }),
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    console.log('Pedido realizado con éxito:', result);
-                    alert(`¡Tu pedido (${result.order_id || 'sin id'}) ha sido realizado con éxito!`);
-                } else {
-                    console.error('Error al crear el pedido:', response.status, response.statusText);
-                    alert('Error: No se pudo procesar tu pedido. Por favor, revisa tus datos de pago.');
+                if (!response.ok) {
+                    console.error('Error al crear sesión de Stripe Checkout:', response.status, response.statusText);
+                    alert('No se pudo iniciar el pago. Intenta de nuevo.');
+                    return;
                 }
+
+                const data = await response.json();
+                console.log('Stripe Checkout URL:', data.checkoutUrl);
+
+                // Redirigir a Stripe Checkout
+                window.location.href = data.checkoutUrl;
             } catch (error) {
-                console.error('Error de red o servidor:', error);
-                alert('Error de conexión al intentar realizar el pedido.');
+                console.error('Error de red o servidor al iniciar Stripe:', error);
+                alert('Error de conexión al intentar iniciar el pago.');
             }
         });
     }
