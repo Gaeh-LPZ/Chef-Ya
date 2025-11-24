@@ -54,9 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctaMore = document.querySelector('.cta-more');
     if (ctaMore) {
         ctaMore.addEventListener('click', () => {
-            // En la versión mobile, al no haber categorías visibles, el botón 
-            // puede redirigir directamente a la página principal después de ingresar ubicación.
-            // Para este ejemplo, solo simularemos un mensaje.
             alert('Por favor, ingresa tu dirección para ver los restaurantes disponibles.');
         });
     }
@@ -72,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const response = await fetch('http://localhost:8000/categorias');
             if (response.ok) {
                 const data = await response.json();
-                // Guardamos solo los nombres o el objeto completo según necesites
                 // Tu endpoint devuelve objetos: { nombre: "...", slug: "..." }
                 listaCategorias = data; 
                 console.log('Categorías cargadas:', listaCategorias);
@@ -112,9 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         inputCategorias.value = cat.nombre; // Rellenar el input
                         boxSugerencias.style.display = 'none'; // Ocultar caja
                         
-                        // OPCIONAL: Redirigir directamente a resultados
-                        console.log(`Navegar a categoría: ${cat.slug}`);
-                        // window.location.href = `principal.html?categoria=${cat.slug}`;
+                        const slug = cat.slug || cat.nombre; // por si acaso
+                        window.location.href = `principal.html?categoria=${encodeURIComponent(slug)}`;
                     });
 
                     boxSugerencias.appendChild(item);

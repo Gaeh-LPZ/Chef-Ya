@@ -369,3 +369,10 @@ main {
     cursor: pointer;
     font-weight: 600;
 }
+
+/* categoría seleccionada */
+.active-categoria {
+    font-weight: 700;
+    text-decoration: underline;
+    /* o el estilo que tú quieras: fondo, color, etc. */
+}

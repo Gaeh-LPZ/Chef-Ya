@@ -9,23 +9,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const shoppingCartBtn = document.getElementById('shopping-cart');
     const userLoginBtn = document.getElementById('user-login');
 
+    // NUEVO: título dinámico para el carrusel "mejores"
+    let tituloMejoresElem = null;                          // NUEVO
+    const DEFAULT_MEJORES_TITLE = 'Los mejores puntuados'; // NUEVO
+
     // -------- Navegación header --------
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
-            // NUEVO: tomamos el id de usuario directamente de localStorage
-            const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
+            const idUsuario = localStorage.getItem('usuario_id');
 
-            if (!idUsuario) { // NUEVO
-                console.warn('No hay usuario_id en localStorage, redirigiendo a login...'); // NUEVO
-                window.location.href = 'login.html'; // NUEVO
-                return; // NUEVO
-            } // NUEVO
+            if (!idUsuario) {
+                console.warn('No hay usuario_id en localStorage, redirigiendo a login...');
+                window.location.href = 'login.html';
+                return;
+            }
 
-            // MODIFICADO: ya no usamos un id hardcodeado, sino el real
-            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`; // MODIFICADO
+            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`;
         });
     }
-
 
     if (userLoginBtn) {
         userLoginBtn.addEventListener('click', () => {
@@ -81,30 +82,97 @@ document.addEventListener('DOMContentLoaded', () => {
         return fetchJson(url);
     }
 
+    // 👉 NUEVO: restaurantes por categoría usando slugs y POST /restaurantes/por-categorias
+    async function getRestaurantesPorCategoriaSlug(slugCategoria) {          // NUEVO
+        const url = `${API_BASE_URL}/restaurantes/por-categorias`;          // NUEVO
+        const body = { categorias: [slugCategoria] };                       // NUEVO
+
+        try {                                                               // NUEVO
+            const resp = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (!resp.ok) {
+                console.error('Error al obtener restaurantes por categoría:', resp.status, resp.statusText);
+                return [];
+            }
+
+            return await resp.json();
+        } catch (err) {
+            console.error('Error de red en restaurantes por categoría:', err);
+            return [];
+        }
+    }
+
     // -------- Render categorías en los menús laterales --------
     function renderCategorias(categorias) {
         if (navCategorias) {
             navCategorias.innerHTML = '';
 
-            // NUEVO: hacemos scroll vertical y limitamos altura para que se vean aprox 6
-            navCategorias.style.minHeight = '230px';    // NUEVO (ajusta si quieres más/menos alto)
-            navCategorias.style.overflowY = 'auto';     // NUEVO
+            navCategorias.style.minHeight = '230px';
+            navCategorias.style.overflowY = 'auto';
 
             categorias.forEach(cat => {
                 const a = document.createElement('a');
                 a.href = '#';
                 a.textContent = cat.nombre;
+
+                // IMPORTANTE: usamos el slug que viene de la API
+                const slug = cat.slug || cat.nombre; // NUEVO (fallback por si acaso)
+
+                a.addEventListener('click', async (e) => { // NUEVO
+                    e.preventDefault();
+
+                    // Pedimos a la API los restaurantes de esa categoría (por slug)
+                    baseRestaurantes = await getRestaurantesPorCategoriaSlug(slug);
+
+                    const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
+                        const ra = a.calificacion?.promedio ?? 0;
+                        const rb = b.calificacion?.promedio ?? 0;
+                        return rb - ra;
+                    });
+                    setCarouselData('mejores', mejoresOrdenados);
+
+                    // Cambiamos el título del carrusel de "Los mejores puntuados"
+                    if (tituloMejoresElem) {                    // NUEVO
+                        tituloMejoresElem.textContent = cat.nombre;
+                    }
+                });
+
                 navCategorias.appendChild(a);
             });
         }
 
         if (navMasBuscados) {
             navMasBuscados.innerHTML = '';
-            // MODIFICADO: antes .slice(0, 4) → ahora mostramos 6
-            categorias.slice(0, 6).forEach(cat => { // MODIFICADO
+            categorias.slice(0, 6).forEach(cat => {
                 const a = document.createElement('a');
                 a.href = '#';
                 a.textContent = cat.nombre;
+
+                const slug = cat.slug || cat.nombre; // NUEVO (mismo que arriba)
+
+                a.addEventListener('click', async (e) => { // NUEVO
+                    e.preventDefault();
+
+                    baseRestaurantes = await getRestaurantesPorCategoriaSlug(slug);
+
+                    const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
+                        const ra = a.calificacion?.promedio ?? 0;
+                        const rb = b.calificacion?.promedio ?? 0;
+                        return rb - ra;
+                    });
+                    setCarouselData('mejores', mejoresOrdenados);
+
+                    if (tituloMejoresElem) {                    // NUEVO
+                        tituloMejoresElem.textContent = cat.nombre;
+                    }
+                });
+
                 navMasBuscados.appendChild(a);
             });
         }
@@ -169,6 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const header = aside.querySelector('header');
             let prevBtn = aside.querySelector('.carousel-prev');
             let nextBtn = aside.querySelector('.carousel-next');
+
+            // NUEVO: guardamos el <h1> del segundo carrusel ("Los mejores puntuados")
+            if (index === 1 && header) {                            // NUEVO
+                tituloMejoresElem = header.querySelector('h1');     // NUEVO
+            }                                                       // NUEVO
 
             // Si no tienen clase, tomamos los dos primeros <button> del header
             if (!prevBtn && header) {
@@ -250,7 +323,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // =====================================================
 
     async function cargarRestaurantesIniciales() {
-        // 1) Populares: viene del nuevo endpoint y se usa SOLO en el primer carrusel
+        // Aseguramos que el título del carrusel de "mejores" arranque bien
+        if (tituloMejoresElem) {
+            tituloMejoresElem.textContent = DEFAULT_MEJORES_TITLE; // NUEVO
+        }
+
+        // 1) Populares
         popularesRestaurantes = await getRestaurantesPopulares(6);
         setCarouselData('populares', popularesRestaurantes);
 
@@ -272,6 +350,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 const query = searchBar.value.trim();
 
+                // Al buscar, regresamos el título a su valor por defecto
+                if (tituloMejoresElem) {                       // NUEVO
+                    tituloMejoresElem.textContent = DEFAULT_MEJORES_TITLE;
+                }
+
                 if (!query) {
                     baseRestaurantes = await getRestaurantesTodos();
                 } else {
@@ -284,7 +367,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     return rb - ra;
                 });
                 setCarouselData('mejores', mejoresOrdenados);
-                // NOTA: Populares se queda con los más populares globales
             });
         }
     }
@@ -293,6 +375,11 @@ document.addEventListener('DOMContentLoaded', () => {
     filterButtons.forEach(button => {
         button.addEventListener('click', async () => {
             const texto = button.textContent.trim();
+
+            // Al usar filtros, devolvemos también el título original
+            if (tituloMejoresElem) {                       // NUEVO
+                tituloMejoresElem.textContent = DEFAULT_MEJORES_TITLE;
+            }
 
             if (texto.includes('Mayor calificación')) {
                 baseRestaurantes = await getRestaurantesFiltrados({ ratingMin: 4.5 });
@@ -325,11 +412,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Init
     async function init() {
-        createCarousels();                // detecta los 2 asides .cartas
+    createCarousels();
+
+    const params = new URLSearchParams(window.location.search);
+    const categoriaSlug = params.get('categoria');
+
+    // 1) Populares siempre
+    popularesRestaurantes = await getRestaurantesPopulares(6);
+    setCarouselData('populares', popularesRestaurantes);
+
+    // 2) Si viene ?categoria=..., filtramos por esa categoría
+    if (categoriaSlug) {
+        baseRestaurantes = await getRestaurantesPorCategoriaSlug(categoriaSlug);
+
+        const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
+            const ra = a.calificacion?.promedio ?? 0;
+            const rb = b.calificacion?.promedio ?? 0;
+            return rb - ra;
+        });
+        setCarouselData('mejores', mejoresOrdenados);
+
+        // si ya cargaste las categorías, puedes buscar el nombre por slug y
+        // ponerlo como título; si no, podrías usar el slug directo
+        if (tituloMejoresElem) {
+            tituloMejoresElem.textContent = categoriaSlug;
+        }
+    } else {
+        // Comportamiento normal
         await cargarRestaurantesIniciales();
-        const categorias = await getCategorias();
-        renderCategorias(categorias);
     }
+
+    const categorias = await getCategorias();
+    renderCategorias(categorias);
+}
+
 
     init();
 });

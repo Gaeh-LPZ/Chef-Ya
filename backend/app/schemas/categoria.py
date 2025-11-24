@@ -7,6 +7,7 @@ class CategoriaBase(BaseModel):
 
 class CategoriaLeer(BaseModel):
     nombre: str
+    slug: str
 
 class CategoriaCrear(CategoriaBase):
     pass
