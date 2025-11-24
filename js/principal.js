@@ -85,6 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCategorias(categorias) {
         if (navCategorias) {
             navCategorias.innerHTML = '';
+
+            // NUEVO: hacemos scroll vertical y limitamos altura para que se vean aprox 6
+            navCategorias.style.maxHeight = '160px';    // NUEVO (ajusta si quieres más/menos alto)
+            navCategorias.style.overflowY = 'auto';     // NUEVO
+
             categorias.forEach(cat => {
                 const a = document.createElement('a');
                 a.href = '#';
@@ -95,7 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (navMasBuscados) {
             navMasBuscados.innerHTML = '';
-            categorias.slice(0, 4).forEach(cat => {
+            // MODIFICADO: antes .slice(0, 4) → ahora mostramos 6
+            categorias.slice(0, 6).forEach(cat => { // MODIFICADO
                 const a = document.createElement('a');
                 a.href = '#';
                 a.textContent = cat.nombre;
