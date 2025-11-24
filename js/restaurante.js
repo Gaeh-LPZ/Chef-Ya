@@ -1,7 +1,6 @@
-// js/restaurante.js
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
-    // const TEST_USER_ID = '6921cd24502884b6d7ce5f48'; // ELIMINADO: ya no usaremos un id fijo
+    //ya edscomente el id fijo que teniamos
 
     // --- Lógica de Navegación de Header (Desktop/Tablet) ---
     const shoppingCartBtn = document.getElementById('shopping-cart');
@@ -13,16 +12,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // NUEVO: obtenemos el id del usuario logueado desde localStorage
             const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
-            console.log('idUsuario desde localStorage (header restaurante.js):', idUsuario); // DEBUG
+            console.log('idUsuario desde localStorage (header restaurante.js):', idUsuario);
 
             if (!idUsuario) { // NUEVO
-                console.warn('No hay usuario_id en localStorage, redirigiendo a login...'); // NUEVO
+                console.warn('No hay usuario_id en localStorage, redirigiendo a login...');
                 window.location.href = 'login.html'; // NUEVO
                 return; // NUEVO
             } // NUEVO
 
-            // MODIFICADO: ahora usamos el id real del usuario logueado
-            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`; // MODIFICADO
+            // ahora usamos el id real del usuario logueado
+            window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`;
         });
     }
 

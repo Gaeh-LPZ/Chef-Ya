@@ -1,46 +1,22 @@
-// ./js/carrito.js
 document.addEventListener('DOMContentLoaded', async () => {
     const hacerPedidoBtn = document.getElementById('hacer-pedido-btn');
     const checkoutSections = document.querySelectorAll('.group.hover\\:bg-gray-50'); // Envío, Pago
 
-    // === 0. Obtener id_usuario desde localStorage o, en su defecto, desde el query string ===
-    // ANTES: Solo se obtenía desde la URL:
-    // const params = new URLSearchParams(window.location.search);
-    // const idUsuario = params.get('id_usuario');
-    //
-    // AHORA: Preferimos el usuario guardado por el login con Google, y usamos
-    // el query string solo como respaldo.
+    let idUsuario = localStorage.getItem('usuario_id'); 
 
-    // === 0. Obtener id_usuario desde localStorage o, en su defecto, desde el query string ===
-
-    // NUEVO: intentamos primero desde localStorage
-    let idUsuario = localStorage.getItem('usuario_id'); // NUEVO
-
-    // NUEVO: si no está en localStorage, probamos con el query string (compatibilidad)
-    if (!idUsuario) { // NUEVO
-        const params = new URLSearchParams(window.location.search); // NUEVO
-        idUsuario = params.get('id_usuario'); // NUEVO
-    } // NUEVO
-
-    // NUEVO: si aún no hay idUsuario, exigimos inicio de sesión
-    if (!idUsuario) { // NUEVO
-        console.error('No se encontró usuario (ni en localStorage ni en la URL). Redirigiendo a login...'); // NUEVO
-        window.location.href = 'login.html'; // NUEVO
-        return; // NUEVO
-    } // NUEVO
+   
+    if (!idUsuario) { 
+        const params = new URLSearchParams(window.location.search); 
+        idUsuario = params.get('id_usuario'); 
+    } 
 
 
-    // (ELIMINADO el bloque anterior que solo revisaba el query string):
-    // const params = new URLSearchParams(window.location.search);
-    // const idUsuario = params.get('id_usuario');
-    //
-    // if (!idUsuario) {
-    //     console.error('No se encontró el parámetro "id_usuario" en la URL.');
-    //     // Podrías mostrar un mensaje al usuario aquí si quieres
-    // }
+    if (!idUsuario) { 
+        console.error('No se encontró usuario (ni en localStorage ni en la URL). Redirigiendo a login...'); 
+        window.location.href = 'login.html'; 
+        return; 
+    } 
 
-    // Si tu API está en el mismo dominio/puerto que el frontend, deja esto vacío.
-    // Si no, pon algo tipo: 'http://localhost:8000'
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
 
     // === 1. Llamar a la API de carrito y pintar la vista ===
@@ -89,8 +65,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'flex gap-4 py-4 border-b border-gray-100';
 
-            // Si luego agregas imagen y nombre de restaurante a tu API,
-            // aquí puedes reemplazar el contenido correspondiente.
             itemDiv.innerHTML = `
             <!-- Image -->
             <div class="w-20 h-20 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100">
