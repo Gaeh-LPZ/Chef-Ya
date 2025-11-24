@@ -12,6 +12,11 @@ const restauranteId17 = new ObjectId();
 const restauranteId18 = new ObjectId();
 const restauranteId19 = new ObjectId();
 const restauranteId20 = new ObjectId();
+const restauranteId21 = new ObjectId();
+const restauranteId22 = new ObjectId();
+const restauranteId23 = new ObjectId();
+const restauranteId24 = new ObjectId();
+const restauranteId25 = new ObjectId();
 
 
 
@@ -84,6 +89,31 @@ const productoId77 = new ObjectId();
 const productoId78 = new ObjectId();
 const productoId79 = new ObjectId();
 const productoId80 = new ObjectId();
+const productoId81 = new ObjectId();
+const productoId82 = new ObjectId();
+const productoId83 = new ObjectId();
+const productoId84 = new ObjectId();
+const productoId85 = new ObjectId();
+const productoId86 = new ObjectId();
+const productoId87 = new ObjectId();
+const productoId88 = new ObjectId();
+const productoId89 = new ObjectId();
+const productoId90 = new ObjectId();
+const productoId91 = new ObjectId();
+const productoId92 = new ObjectId();
+const productoId93 = new ObjectId();
+const productoId94 = new ObjectId();
+const productoId95 = new ObjectId();
+const productoId96 = new ObjectId();
+const productoId97 = new ObjectId();
+const productoId98 = new ObjectId();
+const productoId99 = new ObjectId();
+const productoId100 = new ObjectId();
+const productoId101 = new ObjectId();
+const productoId102 = new ObjectId();
+const productoId103 = new ObjectId();
+const productoId104 = new ObjectId();
+const productoId105 = new ObjectId();
 
 dbChef.restaurantes.insertMany([
     {
@@ -1267,7 +1297,7 @@ dbChef.productos.insertMany([
 
 // RESTAURANTE: Fonda Doña Chica
     {
-        _id: productoId101,
+        _id: productoId81,
         restauranteId: restauranteId21,
         nombre: "Enchiladas verdes",
         descripcion: "Tortillas rellenas de pollo bañadas en salsa verde.",
@@ -1280,7 +1310,7 @@ dbChef.productos.insertMany([
         actualizadoEn: ahora
     },
     {
-        _id: productoId102,
+        _id: productoId82,
         restauranteId: restauranteId21,
         nombre: "Huevos al gusto",
         descripcion: "A la mexicana, revueltos o estrellados.",
@@ -1293,7 +1323,7 @@ dbChef.productos.insertMany([
         actualizadoEn: ahora
     },
     {
-        _id: productoId103,
+        _id: productoId83,
         restauranteId: restauranteId21,
         nombre: "Tamal oaxaqueño",
         descripcion: "De mole negro con pollo.",
@@ -1306,7 +1336,7 @@ dbChef.productos.insertMany([
         actualizadoEn: ahora
     },
     {
-        _id: productoId104,
+        _id: productoId84,
          restauranteId: restauranteId21,
         nombre: "Atole de panela",
         descripcion: "Atole caliente endulzado con panela.",
@@ -1319,7 +1349,7 @@ dbChef.productos.insertMany([
         actualizadoEn: ahora
     },
     {
-        _id: productoId105,
+        _id: productoId85,
         restauranteId: restauranteId21,
         nombre: "Tlayuda sencilla",
         descripcion: "Con asiento, quesillo y lechuga.",
@@ -1334,7 +1364,7 @@ dbChef.productos.insertMany([
 
 // RESTAURANT: La Tlayudería del Centro
      {
-         _id: productoId106,
+         _id: productoId86,
          restauranteId: restauranteId22,
          nombre: "Tlayuda con tasajo",
          descripcion: "Tlayuda grande con tasajo a las brasas.",
@@ -1347,7 +1377,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId107,
+         _id: productoId87,
          restauranteId: restauranteId22,
          nombre: "Tlayuda con cecina enchilada",
          descripcion: "Crujiente y con sabor tradicional.",
@@ -1360,7 +1390,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId108,
+         _id: productoId88,
          restauranteId: restauranteId22,
          nombre: "Memela sencilla",
          descripcion: "Con asiento, frijol y queso fresco.",
@@ -1373,7 +1403,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId109,
+         _id: productoId89,
          restauranteId: restauranteId22,
          nombre: "Agua de horchata con tuna",
          descripcion: "Refrescante y tradicional.",
@@ -1386,7 +1416,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId110,
+         _id: productoId90,
          restauranteId: restauranteId22,
          nombre: "Empanada de amarillo",
          descripcion: "Empanada grande hecha al comal.",
@@ -1401,7 +1431,7 @@ dbChef.productos.insertMany([
      
      // RESTAURANTE: Comedor La Abuelita
      {
-         _id: productoId111,
+         _id: productoId91,
          restauranteId: restauranteId23,
          nombre: "Comida corrida",
          descripcion: "Incluye sopa, arroz, guisado y bebida.",
@@ -1414,7 +1444,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId112,
+         _id: productoId92,
          restauranteId: restauranteId23,
          nombre: "Caldo de res",
          descripcion: "Caliente y tradicional, con verduras frescas.",
@@ -1427,7 +1457,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId113,
+         _id: productoId93,
          restauranteId: restauranteId23,
          nombre: "Arroz rojo",
          descripcion: "Guarnición casera.",
@@ -1440,7 +1470,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId114,
+         _id: productoId94,
          restauranteId: restauranteId23,
          nombre: "Té de hierbabuena",
          descripcion: "Infusión fresca y ligera.",
@@ -1453,7 +1483,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId115,
+         _id: productoId95,
          restauranteId: restauranteId23,
          nombre: "Pollo en salsa verde",
          descripcion: "Acompañado de arroz y frijoles.",
@@ -1468,7 +1498,7 @@ dbChef.productos.insertMany([
      
      // RESTAURANT: Sazón Oaxaqueño
      {
-         _id: productoId116,
+         _id: productoId96,
          restauranteId: restauranteId24,
          nombre: "Mole negro",
          descripcion: "Platillo tradicional acompañado con arroz.",
@@ -1481,7 +1511,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId117,
+         _id: productoId97,
          restauranteId: restauranteId24,
          nombre: "Tasajo asado",
          descripcion: "Carne asada con guarniciones.",
@@ -1494,12 +1524,12 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId118,
+         _id: productoId98,
          restauranteId: restauranteId24,
          nombre: "Estofado oaxaqueño",
          descripcion: "Guiso tradicional con pollo.",
          precio: 80,
-         imagen: "https://th.bing.com/th/id/R.990c115c1f59ce4d0838c5eb2a7521d3?rik=rpgF%2bBSOSIztvg&pid=ImgRaw&r=0",
+         imagen: "https://gourmetdemexico.com.mx/wp-content/uploads/2023/03/diseno-sin-titulo-8-10-1024x597.jpg",
          disponible: true,
          etiquetas: ["platillos", "oaxaqueña"],
          categoriaMenu: "Platos fuertes",
@@ -1507,12 +1537,12 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId119,
+         _id: productoId99,
          restauranteId: restauranteId24,
          nombre: "Agua de chilacayota",
          descripcion: "Refrescante y endulzada con piloncillo.",
          precio: 20,
-         imagen: "https://tse3.mm.bing.net/th/id/OIP.4vlRQsVXj3kJUbtih2fYJAHaEZ?rs=1&pid=ImgDetMain&o=7&rm=3",
+         imagen: "https://www.mexicodesconocido.com.mx/wp-content/uploads/2019/01/agua-chilcayota.jpg",
          disponible: true,
          etiquetas: ["bebidas"],
          categoriaMenu: "Bebidas",
@@ -1520,7 +1550,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId120,
+         _id: productoId100,
          restauranteId: restauranteId24,
          nombre: "Tamales de chepil",
          descripcion: "Tamales de masa con chepil y salsa.",
@@ -1535,12 +1565,12 @@ dbChef.productos.insertMany([
      
      // RESTAURANTE: Pasillo de Humo 
      {
-         _id: productoId121,
+         _id: productoId101,
          restauranteId: restauranteId25,
          nombre: "Carne asada al carbón",
          descripcion: "Carne seleccionada preparada al instante.",
          precio: 75,
-         imagen: "https://tse1.mm.bing.net/th/id/OIP.NPcKqxW5M1XAGxNkI_EQnwHaFP?rs=1&pid=ImgDetMain&o=7&rm=3",
+         imagen: "https://i0.wp.com/www.atiempo.mx/wp-content/uploads/2023/03/230308-carne-asada-1-800x533-atiempo.jpg?resize=780%2C470&ssl=1",
          disponible: true,
          etiquetas: ["grill","carnes"],
          categoriaMenu: "Carnes",
@@ -1548,7 +1578,7 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId122,
+         _id: productoId102,
          restauranteId: restauranteId25,
          nombre: "Chorizo oaxaqueño",
          descripcion: "Asado al carbón, perfecto para acompañar.",
@@ -1561,12 +1591,12 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId123,
+         _id: productoId103,
          restauranteId: restauranteId25,
          nombre: "Cecina enchilada",
          descripcion: "Asada al momento, suave y con sabor intenso.",
          precio: 65,
-         imagen: "https://tse3.mm.bing.net/th/id/OIP.uyPLotpmdPqNyHcajiQFngHaFj?rs=1&pid=ImgDetMain&o=7&rm=3",
+         imagen: "https://media-cdn.tripadvisor.com/media/photo-s/12/2b/2e/c2/lomito-al-chipotle-chipotle.jpg",
          disponible: true,
          etiquetas: ["grill","carnes"],
          categoriaMenu: "Carnes",
@@ -1574,12 +1604,12 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId124,
+         _id: productoId104,
          restauranteId: restauranteId25,
          nombre: "Ensalada fresca",
          descripcion: "Lechuga, jitomate, pepino y aderezo.",
          precio: 20,
-         imagen: "https://tse2.mm.bing.net/th/id/OIP.iTiFcT5nehPrdfxNMa8Y5gHaE7?rs=1&pid=ImgDetMain&o=7&rm=3",
+         imagen: "https://cdn.kiwilimon.com/recetaimagen/25914/22610.jpg",
          disponible: true,
          etiquetas: ["guarniciones","ensaladas"],
          categoriaMenu: "Guarniciones",
@@ -1587,12 +1617,12 @@ dbChef.productos.insertMany([
          actualizadoEn: ahora
      },
      {
-         _id: productoId125,
+         _id: productoId105,
          restauranteId: restauranteId25,
          nombre: "Agua de jamaica",
          descripcion: "Natural y refrescante.",
          precio: 15,
-         imagen: "https://tse1.mm.bing.net/th/id/OIP.i60GMwChW72nDwAhPkfETAAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+         imagen: "https://www.mexicodesconocido.com.mx/wp-content/uploads/2017/03/Nuevo-proyecto-74.png",
          disponible: true,
          etiquetas: ["bebidas"],
          categoriaMenu: "Bebidas",
