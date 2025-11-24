@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function cargarCategorias() {
         try {
             // Asegúrate de que tu backend esté corriendo en el puerto 8000
-            const response = await fetch('http://localhost:8000/categorias');
+            const response = await fetch('https://chef-ya-api.onrender.com/categorias');
             if (response.ok) {
                 const data = await response.json();
                 // Tu endpoint devuelve objetos: { nombre: "...", slug: "..." }
