@@ -1,23 +1,23 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const hacerPedidoBtn = document.getElementById('hacer-pedido-btn');
-    const checkoutSections = document.querySelectorAll('.group.hover\\:bg-gray-50'); // Envío, Pago
+    const checkoutSections = document.querySelectorAll('.group.hover\\:bg-gray-50');
 
-    let idUsuario = localStorage.getItem('usuario_id'); 
+    let idUsuario = localStorage.getItem('usuario_id');
 
-   
-    if (!idUsuario) { 
-        const params = new URLSearchParams(window.location.search); 
-        idUsuario = params.get('id_usuario'); 
-    } 
+    if (!idUsuario) {
+        const params = new URLSearchParams(window.location.search);
+        idUsuario = params.get('id_usuario');
+    }
 
-
-    if (!idUsuario) { 
-        console.error('No se encontró usuario (ni en localStorage ni en la URL). Redirigiendo a login...'); 
-        window.location.href = 'login.html'; 
-        return; 
-    } 
+    if (!idUsuario) {
+        console.error('No se encontró usuario (ni en localStorage ni en la URL). Redirigiendo a login...');
+        window.location.href = 'login.html';
+        return;
+    }
 
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
+
+    let carritoActual = null;
 
     // === 1. Llamar a la API de carrito y pintar la vista ===
     async function cargarCarrito() {
@@ -31,16 +31,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            /** @type {import('./types').CarritoLeer} (si tuvieras types) */
-            const carrito = await response.json();
-            renderCarrito(carrito);
+            carritoActual = await response.json();   // MODIFICADO: guardamos carrito
+            console.log('Carrito cargado:', carritoActual); // DEBUG
+            renderCarrito(carritoActual);
         } catch (error) {
             console.error('Error de red al obtener el carrito:', error);
         }
     }
 
     function obtenerSimboloMoneda(moneda) {
-        // Ajusta según cómo manejes la moneda en tu API
         if (moneda === 'MXN') return '$';
         if (moneda === 'USD') return 'US$';
         return '$';
@@ -60,7 +59,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const monedaSymbol = obtenerSimboloMoneda(carrito.moneda);
         const totalItems = carrito.items.reduce((acc, item) => acc + item.cantidad, 0);
 
-        // Pintar cada item del carrito
         carrito.items.forEach((item) => {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'flex gap-4 py-4 border-b border-gray-100';
@@ -93,7 +91,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             itemsContainer.appendChild(itemDiv);
         });
 
-        // Actualizar totales
         if (itemsCountSpan) {
             itemsCountSpan.textContent = totalItems.toString();
         }
@@ -111,14 +108,72 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Cargar carrito al entrar a la página
     await cargarCarrito();
 
+    // === 1.5 Lógica de aplicar cupón (con delegación) ===
+    document.addEventListener('click', async (event) => {
+        const target = event.target;
+
+        // Nos aseguramos de atrapar clicks en el botón de aplicar cupón
+        if (target && target.id === 'apply-coupon-btn') {
+            console.log('Click en botón "Aplicar cupón"'); // DEBUG
+
+            const couponInput = document.getElementById('coupon-code');
+            if (!couponInput) {
+                console.error('No se encontró el input de cupón (#coupon-code)');
+                alert('No se encontró el campo para el cupón.');
+                return;
+            }
+
+            if (!carritoActual || !carritoActual.id) {
+                console.error('No hay carrito cargado para aplicar cupón', carritoActual);
+                alert('No se encontró un carrito para aplicar el cupón.');
+                return;
+            }
+
+            const codigo = couponInput.value.trim();
+            if (!codigo) {
+                alert('Por favor ingresa un código de cupón.');
+                return;
+            }
+
+            try {
+                console.log('Aplicando cupón con código:', codigo); // DEBUG
+                const resp = await fetch(`${API_BASE_URL}/carritos/${carritoActual.id}/cupon`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ codigo }), // CarritoAplicarCuponRequest
+                });
+
+                console.log('Respuesta al aplicar cupón, status:', resp.status); // DEBUG
+
+                if (!resp.ok) {
+                    console.error('Error al aplicar cupón:', resp.status, resp.statusText);
+                    alert('El cupón no es válido, ha expirado o no existe.');
+                    return;
+                }
+
+                const carritoActualizado = await resp.json();
+                console.log('Carrito actualizado tras aplicar cupón:', carritoActualizado); // DEBUG
+
+                carritoActual = carritoActualizado;
+                renderCarrito(carritoActualizado);
+
+                couponInput.value = '';
+                alert('¡Cupón aplicado correctamente!');
+            } catch (error) {
+                console.error('Error de red al aplicar cupón:', error);
+                alert('Hubo un error al aplicar el cupón. Intenta de nuevo.');
+            }
+        }
+    });
+
     // === 2. Lógica de Interacción en Secciones (Envío, Pago) ===
     checkoutSections.forEach(section => {
         section.addEventListener('click', () => {
-            const sectionName = section.querySelector('span:first-child').textContent.trim();
+            const sectionNameElem = section.querySelector('span:first-child');
+            const sectionName = sectionNameElem ? sectionNameElem.textContent.trim() : 'Sección';
             console.log(`Click en sección: ${sectionName}. Redirigir o mostrar modal de edición.`);
-
-            // Aquí podrías navegar a páginas específicas:
-            // window.location.href = `edit-${sectionName.toLowerCase()}.html`;
         });
     });
 
@@ -127,14 +182,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         hacerPedidoBtn.addEventListener('click', async () => {
             console.log('Iniciando proceso de "Hacer pedido"...');
 
-            // Aquí podrías usar la info real del carrito para crear el pedido.
-            // Por ahora lo dejo similar a tu ejemplo original.
-            const apiUrl = '/api/v1/orders/create'; // Ajusta a tu endpoint real cuando lo tengas
+            const apiUrl = '/api/v1/orders/create';
 
             const orderDetails = {
-                carritoId: null,
+                carritoId: carritoActual ? carritoActual.id : null,
                 usuarioId: idUsuario,
-                // Podrías incluir items, totales, dirección seleccionada, etc.
             };
 
             try {
