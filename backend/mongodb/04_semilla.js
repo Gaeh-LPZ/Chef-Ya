@@ -44,6 +44,46 @@ const productoId37 = new ObjectId();
 const productoId38 = new ObjectId();
 const productoId39 = new ObjectId();
 const productoId40 = new ObjectId();
+const productoId41 = new ObjectId();
+const productoId42 = new ObjectId();
+const productoId43 = new ObjectId();
+const productoId44 = new ObjectId();
+const productoId45 = new ObjectId();
+const productoId46 = new ObjectId();
+const productoId47 = new ObjectId();
+const productoId48 = new ObjectId();
+const productoId49 = new ObjectId();
+const productoId50 = new ObjectId();
+const productoId51 = new ObjectId();
+const productoId52 = new ObjectId();
+const productoId53 = new ObjectId();
+const productoId54 = new ObjectId();
+const productoId55 = new ObjectId();
+const productoId56 = new ObjectId();
+const productoId57 = new ObjectId();
+const productoId58 = new ObjectId();
+const productoId59 = new ObjectId();
+const productoId60 = new ObjectId();
+const productoId61 = new ObjectId();
+const productoId62 = new ObjectId();
+const productoId63 = new ObjectId();
+const productoId64 = new ObjectId();
+const productoId65 = new ObjectId();
+const productoId66 = new ObjectId();
+const productoId67 = new ObjectId();
+const productoId68 = new ObjectId();
+const productoId69 = new ObjectId();
+const productoId70 = new ObjectId();
+const productoId71 = new ObjectId();
+const productoId72 = new ObjectId();
+const productoId73 = new ObjectId();
+const productoId74 = new ObjectId();
+const productoId75 = new ObjectId();
+const productoId76 = new ObjectId();
+const productoId77 = new ObjectId();
+const productoId78 = new ObjectId();
+const productoId79 = new ObjectId();
+const productoId80 = new ObjectId();
 
 dbChef.restaurantes.insertMany([
     {
@@ -582,7 +622,540 @@ dbChef.productos.insertMany([
         categoriaMenu: "Infantil",
         creadoEn: ahora,
         actualizadoEn: ahora
+    },
+    // === TAQUERÍA EL PAISA ===
+    {
+        _id: productoId41,
+        restauranteId: restauranteId13,
+        nombre: "Tacos de Pastor",
+        descripcion: "Tortilla de maíz, carne de pastor, piña y cebolla.",
+        precio: 18,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957629/download_o77qg4.jpg",
+        disponible: true,
+        etiquetas: ["tacos", "pastor", "mexicana"],
+        categoriaMenu: "Tacos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId42,
+        restauranteId: restauranteId13,
+        nombre: "Quesadillas de Asada",
+        descripcion: "Queso derretido con carne asada en tortilla grande.",
+        precio: 40,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957645/download_uwc8by.jpg",
+        disponible: true,
+        etiquetas: ["quesadilla", "asada", "mexicana"],
+        categoriaMenu: "Antojitos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId43,
+        restauranteId: restauranteId13,
+        nombre: "Taco de Tripa Dorada",
+        descripcion: "Tripa bien doradita, cebolla y cilantro.",
+        precio: 22,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957667/download_r51rpl.jpg",
+        disponible: true,
+        etiquetas: ["tacos", "tripa", "mexicana"],
+        categoriaMenu: "Tacos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId44,
+        restauranteId: restauranteId13,
+        nombre: "Gringas de Pastor",
+        descripcion: "Tortilla de harina con queso y pastor.",
+        precio: 55,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957683/download_g1u74k.jpg",
+        disponible: true,
+        etiquetas: ["gringa", "pastor", "mexicana"],
+        categoriaMenu: "Antojitos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId45,
+        restauranteId: restauranteId13,
+        nombre: "Pizza Mexicana",
+        descripcion: "Pizza estilo taquería con carne al gusto.",
+        precio: 120,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957703/download_fam2jv.jpg",
+        disponible: true,
+        etiquetas: ["pizza", "mexicana"],
+        categoriaMenu: "Especialidades",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+
+    // === RESTAURANT GARCÍA PERAL ===
+    {
+        _id: productoId46,
+        restauranteId: restauranteId14,
+        nombre: "Pechuga en Salsa de Tamarindo",
+        descripcion: "Pechuga asada con salsa fina de tamarindo.",
+        precio: 165,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957778/download_o0ksrd.jpg",
+        disponible: true,
+        etiquetas: ["gourmet", "pollo", "platillo-fuerte"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId47,
+        restauranteId: restauranteId14,
+        nombre: "Crema de Elote",
+        descripcion: "Crema suave con elote tierno y crotones.",
+        precio: 85,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957794/download_ixu0js.jpg",
+        disponible: true,
+        etiquetas: ["crema", "sopa", "gourmet"],
+        categoriaMenu: "Sopas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId48,
+        restauranteId: restauranteId14,
+        nombre: "Ensalada de Arúgula",
+        descripcion: "Ensalada fresca con arúgula, nuez y aderezo cítrico.",
+        precio: 95,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957795/download_hvvot6.jpg",
+        disponible: true,
+        etiquetas: ["ensalada", "gourmet", "fresco"],
+        categoriaMenu: "Entradas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId49,
+        restauranteId: restauranteId14,
+        nombre: "Filete en Salsa de Vino",
+        descripcion: "Corte fino bañado en reducción de vino tinto.",
+        precio: 210,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957816/download_bu67ga.jpg",
+        disponible: true,
+        etiquetas: ["carne", "filete", "gourmet"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId50,
+        restauranteId: restauranteId14,
+        nombre: "Cheesecake de Frutos Rojos",
+        descripcion: "Rebanada de cheesecake artesanal con frutos rojos.",
+        precio: 75,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763957854/download_queook.jpg",
+        disponible: true,
+        etiquetas: ["postre", "cheesecake", "gourmet"],
+        categoriaMenu: "Postres",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    // === ANTOJITOS DOÑA MARY ===
+    {
+        _id: productoId51,
+        restauranteId: restauranteId15,
+        nombre: "Tostadas de Tinga",
+        descripcion: "Tostadas crujientes con tinga de pollo y crema.",
+        precio: 28,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958009/download_ub3mkg.jpg",
+        disponible: true,
+        etiquetas: ["tostadas", "tinga", "mexicana"],
+        categoriaMenu: "Antojitos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId52,
+        restauranteId: restauranteId15,
+        nombre: "Enchiladas Verdes",
+        descripcion: "Rellenas de pollo con salsa verde y queso.",
+        precio: 65,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958021/download_atkotr.jpg",
+        disponible: true,
+        etiquetas: ["enchiladas", "salsa-verde", "mexicana"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId53,
+        restauranteId: restauranteId15,
+        nombre: "Sopes de Chorizo",
+        descripcion: "Sopes gruesos con frijoles, chorizo y lechuga.",
+        precio: 22,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958033/download_opkxbm.jpg",
+        disponible: true,
+        etiquetas: ["sopes", "chorizo", "mexicana"],
+        categoriaMenu: "Antojitos",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId54,
+        restauranteId: restauranteId15,
+        nombre: "Pozole Rojo",
+        descripcion: "Pozole casero con carne de cerdo y rábano.",
+        precio: 75,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958046/download_d0h9rm.jpg",
+        disponible: true,
+        etiquetas: ["pozole", "mexicana", "caldo"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId55,
+        restauranteId: restauranteId15,
+        nombre: "Empanadas de Amaranto",
+        descripcion: "Empanadas dulces y tradicionales.",
+        precio: 18,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958086/download_a5aham.jpg",
+        disponible: true,
+        etiquetas: ["empanadas", "dulce", "mexicana"],
+        categoriaMenu: "Postres",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+
+    // === SUSHI HARU ===
+    {
+        _id: productoId56,
+        restauranteId: restauranteId16,
+        nombre: "Sushi California Roll",
+        descripcion: "Rollo con pepino, aguacate y surimi.",
+        precio: 95,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958160/download_oog9fh.jpg",
+        disponible: true,
+        etiquetas: ["sushi", "roll", "japonesa"],
+        categoriaMenu: "Sushi",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId57,
+        restauranteId: restauranteId16,
+        nombre: "Ramen Tradicional",
+        descripcion: "Caldo caliente con fideos, huevo y cerdo.",
+        precio: 110,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958171/download_xheifn.jpg",
+        disponible: true,
+        etiquetas: ["ramen", "fideos", "japonesa"],
+        categoriaMenu: "Ramen",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId58,
+        restauranteId: restauranteId16,
+        nombre: "Tempura de Camarón",
+        descripcion: "Camarones crujientes con salsa especial.",
+        precio: 85,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958187/download_axywme.jpg",
+        disponible: true,
+        etiquetas: ["tempura", "camarón", "japonesa"],
+        categoriaMenu: "Entradas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId59,
+        restauranteId: restauranteId16,
+        nombre: "Yakimeshi",
+        descripcion: "Arroz frito estilo japonés con verduras.",
+        precio: 70,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958203/download_fqeozi.jpg",
+        disponible: true,
+        etiquetas: ["arroz", "yakimeshi", "japonesa"],
+        categoriaMenu: "Arroz",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId60,
+        restauranteId: restauranteId16,
+        nombre: "Maki Dragón",
+        descripcion: "Rollo especial con anguila y aguacate.",
+        precio: 130,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958257/download_dgzqzj.jpg",
+        disponible: true,
+        etiquetas: ["sushi", "dragón", "japonesa"],
+        categoriaMenu: "Sushi",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    // Café La Estación
+    {
+        _id: productoId61,
+        restauranteId: restauranteId17,
+        nombre: "Café americano",
+        descripcion: "Café recién preparado, sabor intenso.",
+        precio: 30,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958483/download_iqjevd.jpg",
+        disponible: true,
+        etiquetas: ["café", "bebidas"],
+        categoriaMenu: "Bebidas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId62,
+        restauranteId: restauranteId17,
+        nombre: "Cappuccino",
+        descripcion: "Café con leche espumada, perfecto para cualquier momento.",
+        precio: 45,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958496/download_ql9ntz.jpg",
+        disponible: true,
+        etiquetas: ["café", "bebidas"],
+        categoriaMenu: "Bebidas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId63,
+        restauranteId: restauranteId17,
+        nombre: "Latte vainilla",
+        descripcion: "Café latte con un toque dulce de vainilla.",
+        precio: 50,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958519/download_qzrrcc.jpg",
+        disponible: true,
+        etiquetas: ["café", "bebidas"],
+        categoriaMenu: "Bebidas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId64,
+        restauranteId: restauranteId17,
+        nombre: "Chocolate caliente",
+        descripcion: "Dulce, cremoso y perfecto para días fríos.",
+        precio: 40,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958534/download_ohqvmf.jpg",
+        disponible: true,
+        etiquetas: ["bebidas"],
+        categoriaMenu: "Bebidas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId65,
+        restauranteId: restauranteId17,
+        nombre: "Chamoyada de mango",
+        descripcion: "Mango frappé con chamoy y tajín.",
+        precio: 55,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958553/download_ehoaox.jpg",
+        disponible: true,
+        etiquetas: ["bebidas"],
+        categoriaMenu: "Bebidas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    // Tlayudas Lupita
+    {
+        _id: productoId66,
+        restauranteId: restauranteId18,
+        nombre: "Tlayuda sencilla",
+        descripcion: "Tlayuda con asiento, frijoles y quesillo.",
+        precio: 70,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958600/download_uaeo56.jpg",
+        disponible: true,
+        etiquetas: ["tlayudas"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId67,
+        restauranteId: restauranteId18,
+        nombre: "Tlayuda con tasajo",
+        descripcion: "Tlayuda con frijoles, quesillo y tasajo.",
+        precio: 95,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958613/download_e8tqsg.jpg",
+        disponible: true,
+        etiquetas: ["tlayudas"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId68,
+        restauranteId: restauranteId18,
+        nombre: "Tlayuda con cecina enchilada",
+        descripcion: "Sabor intensa y tradicional.",
+        precio: 95,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958640/download_yadxkf.jpg",
+        disponible: true,
+        etiquetas: ["tlayudas"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId69,
+        restauranteId: restauranteId18,
+        nombre: "Tlayuda mixta",
+        descripcion: "Tasajo, chorizo y quesillo.",
+        precio: 120,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958656/download_u0guil.jpg",
+        disponible: true,
+        etiquetas: ["tlayudas", "especialidades"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId70,
+        restauranteId: restauranteId18,
+        nombre: "Tlayuda de chorizo",
+        descripcion: "Clásica y con mucho sabor.",
+        precio: 90,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958672/download_pejqzo.jpg",
+        disponible: true,
+        etiquetas: ["tlayudas"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    //la cabaña grill
+    {
+        _id: productoId71,
+        restauranteId: restauranteId19,
+        nombre: "Arrachera asada",
+        descripcion: "Corte jugoso acompañado de nopales y cebollitas.",
+        precio: 165,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958904/download_ikxuly.jpg",
+        disponible: true,
+        etiquetas: ["carnes", "parrilla"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId72,
+        restauranteId: restauranteId19,
+        nombre: "Costillas BBQ",
+        descripcion: "Costillas suaves bañadas en salsa BBQ casera.",
+        precio: 180,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958924/download_lvvjvc.jpg",
+        disponible: true,
+        etiquetas: ["carnes", "parrilla"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId73,
+        restauranteId: restauranteId19,
+        nombre: "Hamburguesa clásica grill",
+        descripcion: "Carne asada al carbón con queso y vegetales frescos.",
+        precio: 95,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958941/download_vureyq.jpg",
+        disponible: true,
+        etiquetas: ["parrilla"],
+        categoriaMenu: "Plato fuerte",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId74,
+        restauranteId: restauranteId19,
+        nombre: "Alitas búfalo",
+        descripcion: "Orden de alitas bañadas en salsa búfalo.",
+        precio: 110,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958951/download_fsfwxc.jpg",
+        disponible: true,
+        etiquetas: ["especialidades"],
+        categoriaMenu: "Entradas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId75,
+        restauranteId: restauranteId19,
+        nombre: "Papas gajo",
+        descripcion: "Crujientes, especiadas y servidas con aderezo.",
+        precio: 55,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763958953/download_djwwzi.jpg",
+        disponible: true,
+        etiquetas: ["entradas"],
+        categoriaMenu: "Entradas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    //panaderia 
+    {
+        _id: productoId76,
+        restauranteId: restauranteId20,
+        nombre: "Concha de vainilla",
+        descripcion: "Clásica concha suave y esponjosa.",
+        precio: 12,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763959016/download_chdo8u.jpg",
+        disponible: true,
+        etiquetas: ["panadería"],
+        categoriaMenu: "Pan dulce",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId77,
+        restauranteId: restauranteId20,
+        nombre: "Oreja",
+        descripcion: "Crujiente y con un toque caramelizado.",
+        precio: 10,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763959049/download_r6mrqe.jpg",
+        disponible: true,
+        etiquetas: ["panadería"],
+        categoriaMenu: "Pan dulce",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId78,
+        restauranteId: restauranteId20,
+        nombre: "Panque de naranja",
+        descripcion: "Panqué húmedo con aroma natural de naranja.",
+        precio: 20,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763959061/download_dve56e.jpg",
+        disponible: true,
+        etiquetas: ["panadería", "postres"],
+        categoriaMenu: "Postres",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId79,
+        restauranteId: restauranteId20,
+        nombre: "Café de olla",
+        descripcion: "Con canela y piloncillo, estilo tradicional.",
+        precio: 18,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763959073/download_ylkspd.jpg",
+        disponible: true,
+        etiquetas: ["bebidas"],
+        categoriaMenu: "Bebidas",
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    },
+    {
+        _id: productoId80,
+        restauranteId: restauranteId20,
+        nombre: "Biscocho de mantequilla",
+        descripcion: "Tradicional, suave y ligeramente dulce.",
+        precio: 8,
+        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763959086/download_cdzxv7.jpg",
+        disponible: true,
+        etiquetas: ["panadería"],
+        categoriaMenu: "Pan dulce",
+        creadoEn: ahora,
+        actualizadoEn: ahora
     }
+
+
+
 ]);
 
 
