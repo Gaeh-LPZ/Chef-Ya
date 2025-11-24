@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // NUEVO: guardamos también el usuario que regresa tu backend
             // para poder usar su id en otras páginas (principal, carrito, etc.)
             if (data.usuario) { // NUEVO
-                localStorage.setItem('usuario', JSON.stringify(data.usuario)); // NUEVO
+                localStorage.setItem('usuario_id', (data.usuario.id)); // NUEVO
             } // NUEVO
 
             alert('¡Inicio de sesión exitoso!');
