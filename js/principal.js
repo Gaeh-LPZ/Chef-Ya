@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navCategorias.innerHTML = '';
 
             // NUEVO: hacemos scroll vertical y limitamos altura para que se vean aprox 6
-            navCategorias.style.maxHeight = '400px';    // NUEVO (ajusta si quieres más/menos alto)
+            navCategorias.style.minHeight = '230px';    // NUEVO (ajusta si quieres más/menos alto)
             navCategorias.style.overflowY = 'auto';     // NUEVO
 
             categorias.forEach(cat => {

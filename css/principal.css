@@ -346,3 +346,26 @@ main {
     flex: 0 0 calc((100% - 2rem) / 3);
     box-sizing: border-box;
 }
+
+/*Ocualtamos la barra del scroll horizontal de las categorias*/
+/* Firefox */
+#nav-categorias {
+    scrollbar-width: none;      /* ocultar barra en Firefox */
+}
+
+/* Chrome, Edge, Safari */
+#nav-categorias::-webkit-scrollbar {
+    display: none;              /* ocultar barra en navegadores WebKit */
+}
+
+
+.card-order-button-desktop{
+    padding: 0.5rem 0.75rem;
+    border-radius: 10%;
+    border: none;
+    background-color: var(--bg-beige);
+    color: var(--bg-black);
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: 600;
+}
