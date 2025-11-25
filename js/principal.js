@@ -1,6 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
 
+    function actualizarHeaderUbicacion() {
+        const ubicacionGuardada = localStorage.getItem('ubicacion_usuario');
+        
+        // Si no hay ubicación guardada, no hacemos nada (se queda "Acatlima")
+        if (!ubicacionGuardada) return;
+
+        try {
+            const data = JSON.parse(ubicacionGuardada);
+            
+            // Buscamos el párrafo <p> dentro del div del header
+            // Estructura: header > div > svg + p
+            const headerLocationText = document.querySelector('.main-header div p');
+            
+            if (headerLocationText) {
+                // Formateamos: "Calle, CP" o "Ciudad, Estado"
+                const textoMostrar = data.calle 
+                    ? `${data.calle}, ${data.cp || ''}`
+                    : data.direccion_completa;
+
+                // Actualizamos el texto y cortamos si es muy largo
+                headerLocationText.textContent = textoMostrar.length > 30 
+                    ? textoMostrar.substring(0, 30) + '...' 
+                    : textoMostrar;
+                
+                // Ponemos la dirección completa en el tooltip (al pasar el mouse)
+                headerLocationText.title = data.direccion_completa;
+            }
+        } catch (e) {
+            console.error('Error al leer ubicación guardada:', e);
+        }
+    }
+
+    // Ejecutamos la función inmediatamente al cargar
+    actualizarHeaderUbicacion();
     const searchBar = document.querySelector('.search-bar');
     const filterButtons = document.querySelectorAll('.filtros button');
     const navMasBuscados = document.getElementById('nav-mas-buscados');

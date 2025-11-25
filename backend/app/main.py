@@ -14,8 +14,10 @@ from db.mongo import (
     cerrar_conexion_mongo,
     obtener_bd,
 )
+from routers.ubicacion import router as router_ubicacion
 
 app = FastAPI(title="ChefYa API", version="1.0")
+
 
 #origenes que permiten lectura agregen el suyo donde les abra live server la pagina
 # No borren las de los demas solo agregen las suyas para pruebas, cuando desplegemos dejamos 
@@ -78,3 +80,5 @@ app.include_router(router_pedidos)
 
 # cargamos los endpoints para los pagoss
 app.include_router(router_pagos)
+
+app.include_router(router_ubicacion)

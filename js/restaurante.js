@@ -2,6 +2,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
     //ya edscomente el id fijo que teniamos
 
+    function actualizarHeaderUbicacion() {
+        const ubicacionGuardada = localStorage.getItem('ubicacion_usuario');
+        if (!ubicacionGuardada) return;
+
+        try {
+            const data = JSON.parse(ubicacionGuardada);
+            const headerLocationText = document.querySelector('.main-header div p');
+            
+            if (headerLocationText) {
+                const textoMostrar = data.calle 
+                    ? `${data.calle}, ${data.cp || ''}`
+                    : data.direccion_completa;
+
+                headerLocationText.textContent = textoMostrar.length > 30 
+                    ? textoMostrar.substring(0, 30) + '...' 
+                    : textoMostrar;
+                
+                headerLocationText.title = data.direccion_completa;
+            }
+        } catch (e) {
+            console.error('Error al leer ubicación guardada:', e);
+        }
+    }
+    actualizarHeaderUbicacion();
+    
     // --- Lógica de Navegación de Header (Desktop/Tablet) ---
     const shoppingCartBtn = document.getElementById('shopping-cart');
     const userLoginBtn = document.getElementById('user-login');

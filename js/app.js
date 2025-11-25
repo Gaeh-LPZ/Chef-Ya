@@ -1,44 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const API_BASE_URL = 'https://chef-ya-api.onrender.com'; // O tu localhost:8000 si pruebas local
     const locationForm = document.querySelector('.Formulario');
 
-    /**
-     * Función para simular el envío de la dirección al backend (FastAPI)
-     * y redirigir a la página principal si tiene éxito.
-     * @param {string} address - La dirección ingresada por el usuario.
-     */
     async function searchLocation(address) {
-        console.log(`Buscando ubicación para: ${address}`);
-        const apiUrl = '/api/v1/location/search'; // Endpoint hipotético de FastAPI
+        console.log(`Validando ubicación: ${address}`);
+        
+        // Cambiamos a GET y usamos el endpoint real
+        const url = `${API_BASE_URL}/ubicacion/validar?q=${encodeURIComponent(address)}`;
         
         try {
-            // Simulación de una llamada POST al backend
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ address: address }),
-            });
+            const response = await fetch(url);
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Ubicación establecida con éxito:', data);
-                // Redirigir a la página principal (principal.html)
+                console.log('Ubicación encontrada:', data);
+                
+                // 1. GUARDAR EN LOCALSTORAGE
+                // Guardamos el objeto completo para usarlo en otras páginas
+                localStorage.setItem('ubicacion_usuario', JSON.stringify(data));
+
+                alert(`Ubicación establecida: ${data.calle || data.direccion_completa}`);
+                
+                // 2. REDIRIGIR
                 window.location.href = 'principal.html'; 
             } else {
-                console.error('Error al establecer la ubicación:', response.statusText);
-                alert('No se pudo encontrar la ubicación. Intenta de nuevo.');
+                console.warn('Dirección no encontrada');
+                alert('No pudimos encontrar esa dirección. Intenta ser más específico (ej: Calle, Ciudad).');
             }
         } catch (error) {
-            console.error('Error de red o servidor:', error);
-            alert('Error de conexión. Por favor, verifica tu conexión a internet.');
+            console.error('Error de red:', error);
+            alert('Error de conexión al validar la ubicación.');
         }
     }
 
-    // Listener para el formulario de búsqueda de ubicación
+    // Listener del formulario (sin cambios mayores, solo llama a la nueva función)
     if (locationForm) {
         locationForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            // Ojo: en tu HTML el input tiene name="ubicacion"
             const locationInput = locationForm.querySelector('input[name="ubicacion"]');
             const address = locationInput.value.trim();
 

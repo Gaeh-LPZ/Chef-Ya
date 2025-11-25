@@ -18,3 +18,5 @@ pydantic[email]
 
 # para pagos
 stripe
+
+httpx
