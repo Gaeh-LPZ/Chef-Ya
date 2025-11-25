@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
-    //ya edscomente el id fijo que teniamos
 
+    // ========================
+    //   UBICACIÓN EN HEADER
+    // ========================
     function actualizarHeaderUbicacion() {
         const ubicacionGuardada = localStorage.getItem('ubicacion_usuario');
         if (!ubicacionGuardada) return;
@@ -27,25 +29,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     actualizarHeaderUbicacion();
     
-    // --- Lógica de Navegación de Header (Desktop/Tablet) ---
+    // ========================
+    //   NAV HEADER
+    // ========================
     const shoppingCartBtn = document.getElementById('shopping-cart');
-    const userLoginBtn = document.getElementById('user-login');
+    const userLoginBtn    = document.getElementById('user-login');
 
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
             console.log('Navegando a la página de carrito.');
 
-            // NUEVO: obtenemos el id del usuario logueado desde localStorage
-            const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
+            const idUsuario = localStorage.getItem('usuario_id');
             console.log('idUsuario desde localStorage (header restaurante.js):', idUsuario);
 
-            if (!idUsuario) { // NUEVO
+            if (!idUsuario) {
                 console.warn('No hay usuario_id en localStorage, redirigiendo a login...');
-                window.location.href = 'login.html'; // NUEVO
-                return; // NUEVO
-            } // NUEVO
+                window.location.href = 'login.html';
+                return;
+            }
 
-            // ahora usamos el id real del usuario logueado
             window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`;
         });
     }
@@ -57,8 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // --- Helpers ---
-
+    // ========================
+    //   HELPERS GENERALES
+    // ========================
     function getRestaurantIdFromUrl() {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
@@ -78,33 +81,266 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Referencias a elementos del DOM ---
+    function formatearPrecio(valor) {
+        if (typeof valor !== 'number') return '$0.00';
+        return `$${valor.toFixed(2)}`;
+    }
 
+    // ========================
+    //   SELECTORES DEL DOM
+    // ========================
     const deliveryButtonsContainer = document.querySelector('.botones-tipo-pedido');
-    const orderButton = document.querySelector('.btn-pedir');
-    const favoriteButton = document.querySelector('.botones-banner button:first-child');
+    const orderButton              = document.querySelector('.btn-pedir');
+    const favoriteButton           = document.querySelector('.botones-banner button:first-child');
 
-    const imgBanner = document.querySelector(".imagen-restaurante-banner");
-    const imgPerfil = document.querySelector('.restaurante-perfil');
-    const tituloElem = document.querySelector('.info-general h2');
-    const ratingElem = document.querySelector('.info-general .rating');
+    const imgBanner      = document.querySelector(".imagen-restaurante-banner");
+    const imgPerfil      = document.querySelector('.restaurante-perfil');
+    const tituloElem     = document.querySelector('.info-general h2');
+    const ratingElem     = document.querySelector('.info-general .rating');
     const categoriasElem = document.querySelector('.info-general .categorias');
-    const direccionElem = document.querySelector('.info-general .direccion');
+    const direccionElem  = document.querySelector('.info-general .direccion');
     const descripcionElem = document.querySelector('.info-general .descripcion');
 
     const infoBoxes = document.querySelectorAll('.info-entrega .info-box'); // [0] envío, [1] tiempo
 
-    const productosSection = document.getElementById('productos-restaurante');
+    const productosSection   = document.getElementById('productos-restaurante');
     const listaProductosElem = productosSection
         ? productosSection.querySelector('.lista-productos')
         : null;
 
-    let deliveryType = 'Entrega'; // estado inicial
-    let restauranteActual = null; // guardamos los datos del restaurante
-    let restauranteId = getRestaurantIdFromUrl();
+    // --- Tarjeta de ubicación ---
+    const ubicacionCard        = document.querySelector('.ubicacion-card');
+    const direccionCortaElem   = ubicacionCard ? ubicacionCard.querySelector('.direccion-corta') : null;
+    const estadoAbiertoElem    = ubicacionCard ? ubicacionCard.querySelector('footer p strong') : null;
+    const horarioTextoElem     = ubicacionCard ? ubicacionCard.querySelector('.horario') : null;
+    const footerInfoDiv        = ubicacionCard ? ubicacionCard.querySelector('footer div') : null;
 
-    // --- Cargar datos del restaurante desde el backend ---
+    // Contenedor desplegable para los horarios de todos los días
+    let horarioDetalleContainer = null;
+    if (ubicacionCard) {
+        horarioDetalleContainer = document.createElement('div');
+        horarioDetalleContainer.className = 'horario-detallado';
+        horarioDetalleContainer.style.display = 'none'; // Inicialmente oculto
+        horarioDetalleContainer.style.marginTop = '0.5rem';
+        horarioDetalleContainer.style.fontSize = '0.9rem';
 
+        const footer = ubicacionCard.querySelector('footer');
+        if (footer) {
+            footer.insertAdjacentElement('afterend', horarioDetalleContainer);
+        }
+    }
+
+    let deliveryType      = 'Entrega'; // estado inicial
+    let restauranteActual = null;      // guardamos los datos del restaurante
+    let restauranteId     = getRestaurantIdFromUrl();
+
+    // Guardaremos aquí la respuesta completa de /horario
+    let horarioCompletoData = null;
+
+    // ========================
+    //   HELPERS HORARIO
+    // ========================
+    function obtenerDiaSemanaActual() {
+        const dias = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
+        const idx = new Date().getDay(); // 0 = domingo
+        return dias[idx];
+    }
+
+    function formatearHora(horaStr) {
+        if (!horaStr || typeof horaStr !== 'string') return horaStr || '';
+        const [h, m] = horaStr.split(':').map(Number);
+        if (Number.isNaN(h) || Number.isNaN(m)) return horaStr;
+
+        let sufijo = 'AM';
+        let hora12 = h;
+
+        if (h === 0) {
+            hora12 = 12;
+            sufijo = 'AM';
+        } else if (h === 12) {
+            hora12 = 12;
+            sufijo = 'PM';
+        } else if (h > 12) {
+            hora12 = h - 12;
+            sufijo = 'PM';
+        }
+
+        const minutos = String(m).padStart(2, '0');
+        return `${hora12}:${minutos} ${sufijo}`;
+    }
+
+    function abreviarDia(dia) {
+        const mapa = {
+            lunes: 'Lun',
+            martes: 'Mar',
+            miercoles: 'Mié',
+            miércoles: 'Mié',
+            jueves: 'Jue',
+            viernes: 'Vie',
+            sabado: 'Sáb',
+            sábado: 'Sáb',
+            domingo: 'Dom',
+        };
+        const key = (dia || '').toLowerCase();
+        return mapa[key] || dia;
+    }
+
+    function capitalizarDia(dia) {
+        const mapa = {
+            lunes: 'Lunes',
+            martes: 'Martes',
+            miercoles: 'Miércoles',
+            miércoles: 'Miércoles',
+            jueves: 'Jueves',
+            viernes: 'Viernes',
+            sabado: 'Sábado',
+            sábado: 'Sábado',
+            domingo: 'Domingo',
+        };
+        const key = (dia || '').toLowerCase();
+        return mapa[key] || (dia ? dia.charAt(0).toUpperCase() + dia.slice(1) : '');
+    }
+
+    function formatearDiasServicio(diasServicio) {
+        if (!Array.isArray(diasServicio) || diasServicio.length === 0) {
+            return 'Horario no disponible';
+        }
+        const abrevs = diasServicio.map(abreviarDia);
+
+        if (abrevs.length === 7) {
+            return 'Abierto todos los días';
+        }
+        return 'Abierto ' + abrevs.join(', ');
+    }
+
+    function obtenerHorarioDeHoy(horarioData) {
+        // horarioData.horario = { lunes: {abre, cierra}, martes: {...}, ... }
+        const hoy = obtenerDiaSemanaActual();
+        const horarioObj = horarioData?.horario || null;
+        if (!horarioObj) return null;
+
+        const info = horarioObj[hoy];
+        if (!info) return null;
+
+        return {
+            dia: hoy,
+            abre: info.abre,
+            cierra: info.cierra
+        };
+    }
+
+    function estaAbiertoAhora(infoHoy) {
+        if (!infoHoy || !infoHoy.abre || !infoHoy.cierra) return false;
+
+        const ahora = new Date();
+        const [ha, ma] = infoHoy.abre.split(':').map(Number);
+        const [hc, mc] = infoHoy.cierra.split(':').map(Number);
+
+        if ([ha, ma, hc, mc].some(v => Number.isNaN(v))) return false;
+
+        const inicio = new Date(ahora);
+        inicio.setHours(ha, ma, 0, 0);
+
+        const fin = new Date(ahora);
+        fin.setHours(hc, mc, 0, 0);
+
+        // Nota: si manejas horarios que pasan de medianoche (ej: 14:00 - 01:00),
+        // aquí se podría extender la lógica. De momento se mantiene simple.
+        return ahora >= inicio && ahora <= fin;
+    }
+
+    function renderHorarioDetallado(horarioData) {
+        if (!horarioDetalleContainer || !horarioData || !horarioData.horario) return;
+
+        const diasOrdenados = ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
+        let html = '<ul style="list-style:none; padding-left:0; margin:0;">';
+
+        diasOrdenados.forEach((dia) => {
+            const info = horarioData.horario[dia];
+            if (!info) return;
+
+            html += `
+                <li style="margin-bottom: 2px;">
+                    <strong>${capitalizarDia(dia)}:</strong>
+                    ${formatearHora(info.abre)} – ${formatearHora(info.cierra)}
+                </li>
+            `;
+        });
+
+        html += '</ul>';
+        horarioDetalleContainer.innerHTML = html;
+    }
+
+    async function cargarHorarioRestaurante(idRestaurante) {
+        if (!ubicacionCard) return;
+
+        try {
+            const url = `${API_BASE_URL}/restaurantes/id/${idRestaurante}/horario`;
+            console.log('Cargando horario de restaurante:', url);
+
+            const horarioData = await fetchJson(url);
+            if (!horarioData) {
+                console.warn('No se pudo obtener el horario del restaurante');
+                return;
+            }
+
+            horarioCompletoData = horarioData; // lo guardamos globalmente
+            renderHorarioDetallado(horarioData);
+
+            const diasServicio = horarioData.diasServicio || [];
+            const infoHoy = obtenerHorarioDeHoy(horarioData);
+
+            // Texto de horario (línea pequeña debajo de "Abierto/Cerrado")
+            if (horarioTextoElem) {
+                const textoDias = formatearDiasServicio(diasServicio);
+                if (infoHoy && infoHoy.cierra) {
+                    const cierre = formatearHora(infoHoy.cierra);
+                    horarioTextoElem.textContent = `${textoDias} · Hoy cierra a las ${cierre}.`;
+                } else {
+                    horarioTextoElem.textContent = textoDias;
+                }
+            }
+
+            // Estado Abierto/Cerrado
+            if (estadoAbiertoElem) {
+                if (infoHoy && estaAbiertoAhora(infoHoy)) {
+                    estadoAbiertoElem.textContent = 'Abierto';
+                } else {
+                    estadoAbiertoElem.textContent = 'Cerrado';
+                }
+            }
+
+            // Dirección corta (si quieres actualizarla con datos reales del restaurante)
+            if (direccionCortaElem && restauranteActual && restauranteActual.direccion) {
+                const d = restauranteActual.direccion;
+                const partesCortas = [d.calle, d.ciudad].filter(Boolean);
+                direccionCortaElem.textContent = partesCortas.join(', ');
+            }
+
+        } catch (err) {
+            console.error('Error al cargar horario del restaurante:', err);
+        }
+    }
+
+    // Toggle del menú de horarios (hace click en el bloque de texto de estado/horario)
+    if (footerInfoDiv && horarioDetalleContainer) {
+        let desplegado = false;
+
+        footerInfoDiv.style.cursor = 'pointer';
+
+        footerInfoDiv.addEventListener('click', () => {
+            if (!horarioCompletoData) {
+                // Aún no se ha cargado el horario; ignoramos
+                return;
+            }
+            desplegado = !desplegado;
+            horarioDetalleContainer.style.display = desplegado ? 'block' : 'none';
+        });
+    }
+
+    // ========================
+    //   CARGA RESTAURANTE
+    // ========================
     async function cargarRestaurante() {
         if (!restauranteId) {
             console.error('No se encontró el parámetro "id" en la URL');
@@ -113,7 +349,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('Cargando restaurante con id:', restauranteId);
 
-        // Endpoint: GET /restaurantes/{id_restaurante}
         const url = `${API_BASE_URL}/restaurantes/${restauranteId}`;
         const datos = await fetchJson(url);
 
@@ -124,6 +359,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         restauranteActual = datos;
         rellenarDatosRestaurante(datos);
+
+        // Cargar horario (usa el endpoint nuevo)
+        await cargarHorarioRestaurante(restauranteId);
 
         // Después de cargar el restaurante, cargamos sus productos
         await cargarProductosRestaurante(restauranteId);
@@ -165,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Dirección
+        // Dirección (texto largo)
         if (direccionElem) {
             const d = r.direccion || {};
             const partes = [
@@ -184,10 +422,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Info de entrega: costo de envío y tiempo
         if (infoBoxes && infoBoxes.length >= 2) {
-            const envioBox = infoBoxes[0];
-            const tiempoBox = infoBoxes[1];
+            const envioBox   = infoBoxes[0];
+            const tiempoBox  = infoBoxes[1];
 
-            const tarifa = r.entrega?.tarifa ?? 0;
+            const tarifa  = r.entrega?.tarifa ?? 0;
             const minutos = r.entrega?.minutosPromedio ?? null;
 
             const envioHeader = envioBox.querySelector('header');
@@ -205,13 +443,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const tiempoHeader = tiempoBox.querySelector('header');
-            const tiempoFooter = tiempoBox.querySelector('footer');
+            // footer de tiempo lo dejamos igual que en el HTML
 
             if (tiempoHeader) {
                 tiempoHeader.textContent = minutos ? `${minutos} min` : '—';
-            }
-            if (tiempoFooter) {
-                // dejamos el texto original
             }
         }
 
@@ -219,8 +454,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.title = `Chef Ya! | ${r.nombre}`;
     }
 
-    // --- Cargar productos del restaurante ---
-
+    // ========================
+    //   PRODUCTOS
+    // ========================
     async function cargarProductosRestaurante(idRestaurante) {
         if (!listaProductosElem) return;
 
@@ -237,22 +473,18 @@ document.addEventListener('DOMContentLoaded', () => {
         renderProductos(productos);
     }
 
-    function formatearPrecio(valor) {
-        if (typeof valor !== 'number') return '$0.00';
-        return `$${valor.toFixed(2)}`;
-    }
-
     function renderProductos(productos) {
+        if (!listaProductosElem) return;
         listaProductosElem.innerHTML = ''; // limpiar
 
         productos.forEach(prod => {
             const card = document.createElement('article');
             card.className = 'tarjeta-producto';
 
-            const imagen = prod.imagen || './assets/images/placeholder-producto.png';
-            const nombre = prod.nombre || 'Producto';
-            const descripcion = prod.descripcion || '';
-            const precio = formatearPrecio(prod.precio);
+            const imagen       = prod.imagen || './assets/images/placeholder-producto.png';
+            const nombre       = prod.nombre || 'Producto';
+            const descripcion  = prod.descripcion || '';
+            const precio       = formatearPrecio(prod.precio);
 
             card.innerHTML = `
                 <div class="tarjeta-producto-imagen">
@@ -274,23 +506,22 @@ document.addEventListener('DOMContentLoaded', () => {
             btnAgregar.addEventListener('click', async () => {
                 console.log('Click en Agregar producto:', prod);
 
-                // NUEVO: verificar usuario logueado antes de tocar el carrito
-                const idUsuario = localStorage.getItem('usuario_id'); // NUEVO
-                console.log('idUsuario desde localStorage (restaurante.js, agregar):', idUsuario); // DEBUG
+                const idUsuario = localStorage.getItem('usuario_id');
+                console.log('idUsuario desde localStorage (restaurante.js, agregar):', idUsuario);
 
-                if (!idUsuario) { // NUEVO
-                    alert('Debes iniciar sesión para agregar productos al carrito.'); // NUEVO
-                    window.location.href = 'login.html'; // NUEVO
-                    return; // NUEVO
-                } // NUEVO
+                if (!idUsuario) {
+                    alert('Debes iniciar sesión para agregar productos al carrito.');
+                    window.location.href = 'login.html';
+                    return;
+                }
 
                 try {
                     // 1) Obtener (o crear) carrito del usuario logueado
-                    const carritoUrl = `${API_BASE_URL}/carritos/usuario/${idUsuario}`; // MODIFICADO
-                    console.log('GET carrito URL:', carritoUrl); // DEBUG
+                    const carritoUrl = `${API_BASE_URL}/carritos/usuario/${idUsuario}`;
+                    console.log('GET carrito URL:', carritoUrl);
 
                     const carritoResp = await fetch(carritoUrl);
-                    console.log('Respuesta GET carrito status:', carritoResp.status); // DEBUG
+                    console.log('Respuesta GET carrito status:', carritoResp.status);
 
                     if (!carritoResp.ok) {
                         console.error('Error al obtener/crear carrito:', carritoResp.status, carritoResp.statusText);
@@ -298,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     const carrito = await carritoResp.json();
-                    console.log('Carrito recibido en restaurante.js (antes de agregar):', carrito); // DEBUG
+                    console.log('Carrito recibido en restaurante.js (antes de agregar):', carrito);
 
                     if (!carrito || !carrito.id) {
                         console.error('Respuesta de carrito inesperada:', carrito);
@@ -309,19 +540,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     const carritoId = carrito.id;
 
                     // 2) Agregar item al carrito
-                    // CarritoItemCrear: { restauranteId, productoId, nombre, precio, cantidad, imagen? }
                     const body = {
-                        restauranteId: restauranteId,    // de la URL
-                        productoId: prod.id,            // según tu API ProductoLeer
+                        restauranteId: restauranteId,
+                        productoId: prod.id,
                         nombre: prod.nombre,
                         precio: prod.precio,
                         cantidad: 1,
                         imagen: prod.imagen || null
                     };
-                    console.log('Body para agregar item:', body); // DEBUG
+                    console.log('Body para agregar item:', body);
 
                     const addUrl = `${API_BASE_URL}/carritos/${carritoId}/items`;
-                    console.log('POST agregar item URL:', addUrl); // DEBUG
+                    console.log('POST agregar item URL:', addUrl);
 
                     const addResp = await fetch(addUrl, {
                         method: 'POST',
@@ -331,7 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         body: JSON.stringify(body),
                     });
 
-                    console.log('Respuesta POST agregar item status:', addResp.status); // DEBUG
+                    console.log('Respuesta POST agregar item status:', addResp.status);
 
                     if (!addResp.ok) {
                         console.error('Error al agregar item al carrito:', addResp.status, addResp.statusText);
@@ -340,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     const carritoActualizado = await addResp.json();
-                    console.log('Carrito actualizado en restaurante.js:', carritoActualizado); // DEBUG
+                    console.log('Carrito actualizado en restaurante.js:', carritoActualizado);
                     alert(`"${prod.nombre}" se agregó al carrito.`);
                 } catch (err) {
                     console.error('Error de red al agregar producto al carrito:', err);
@@ -352,8 +582,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 1. Lógica del Toggle Entrega/Recolección ---
-
+    // ========================
+    //   TOGGLE ENTREGA / RECOLECCIÓN
+    // ========================
     if (deliveryButtonsContainer) {
         const buttons = deliveryButtonsContainer.querySelectorAll('button');
 
@@ -368,8 +599,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 2. Lógica del Botón "Pedir Ahora" ---
-
+    // ========================
+    //   BOTÓN "PEDIR AHORA"
+    // ========================
     if (orderButton) {
         orderButton.addEventListener('click', () => {
             if (!restauranteId) {
@@ -378,13 +610,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             console.log(`Iniciando pedido para restaurante ${restauranteId} con servicio de: ${deliveryType}`);
 
-            // Podrías redirigir al menú o al carrito
             window.location.href = `menu.html?restauranteId=${restauranteId}&tipo=${encodeURIComponent(deliveryType)}`;
         });
     }
 
-    // --- 3. Lógica del Botón de Favoritos ---
-
+    // ========================
+    //   BOTÓN FAVORITOS
+    // ========================
     if (favoriteButton) {
         favoriteButton.addEventListener('click', async () => {
             if (!restauranteId) {
@@ -400,5 +632,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================
+    //   INICIO
+    // ========================
     cargarRestaurante();
 });
