@@ -9,12 +9,13 @@ from routers.carritos import router as router_carritos
 from routers.productos import router as router_productos
 from routers.pedidos import router as router_pedidos
 from routers.pagos import router as router_pagos
+from routers.ubicacion import router as router_ubicacion
 from db.mongo import (
     conectar_a_mongo,
     cerrar_conexion_mongo,
     obtener_bd,
 )
-from routers.ubicacion import router as router_ubicacion
+
 
 app = FastAPI(title="ChefYa API", version="1.0")
 
@@ -81,4 +82,5 @@ app.include_router(router_pedidos)
 # cargamos los endpoints para los pagoss
 app.include_router(router_pagos)
 
+# cargamos routers de ubicacion
 app.include_router(router_ubicacion)

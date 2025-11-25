@@ -10,18 +10,18 @@ const ahora = new Date();
 
 dbChef.usuarios.insertOne({
   _id: usuarioId,
-  googleId: "demo-001",
-  nombre: "Ana Pérez",
-  correo: "ana.perez@example.com",
-  telefono: "5512345678",
+  googleId: "demo-oax-001",
+  nombre: "Juan López",
+  correo: "juan.lopez.oax@example.com",
+  telefono: "9511234567",
   direcciones: [
     {
       etiqueta: "Casa",
-      calle: "Av. Siempre Viva 123",
-      ciudad: "CDMX",
-      estado: "CDMX",
-      cp: "01000",
-      geo: { lat: 19.4326, lng: -99.1332 }
+      calle: "Emilio Carranza 210, Col. Reforma",
+      ciudad: "Oaxaca de Juárez",
+      estado: "Oaxaca",
+      cp: "68050",
+      geo: { lat: 17.079, lng: -96.716 }
     }
   ],
   creadoEn: ahora,
@@ -36,20 +36,41 @@ dbChef.categorias.insertOne({
 
 dbChef.restaurantes.insertOne({
   _id: restauranteId,
-  nombre: "Taqueria",
-  slug: "taqueria",
-  descripcion: "Tacos al pastor y antojitos mexicanos",
+  nombre: "Mixtacos",
+  slug: "mixtacos-oaxaca",
+  descripcion: "Taquería en Oaxaca de Juárez con tacos al pastor, gringas y alambres.",
   categorias: ["mexicana"],
-  imagen: "https://www.shutterstock.com/image-vector/tacos-logo-vector-illustration-template-260nw-2505335541.jpg",
-  imagen_banner: "https://www.shutterstock.com/image-vector/tacos-logo-vector-illustration-template-260nw-2505335541.jpg",
+  // Deja estas en blanco para que tú pongas la URL real del restaurante
+  imagen: "https://birria-02.b-cdn.net/content/img-o-19488-mixtacos-reforma.jpg",
+  imagen_banner: "https://birriatresdeoros.com/wp-content/uploads/portada_.jpg",
   calificacion: { promedio: 5.0, conteo: 1 },
-  entrega: { minutosPromedio: 25, tarifa: 20 },
+  entrega: { minutosPromedio: 40, tarifa: 25 },
   direccion: {
-    calle: "Calle a 45",
-    ciudad: "CDMX",
-    estado: "CDMX",
-    geo: { lat: 19.43, lng: -99.14 }
+    calle: "Emilio Carranza 210, Col. Reforma",
+    ciudad: "Oaxaca de Juárez",
+    estado: "Oaxaca",
+    geo: { lat: 17.079, lng: -96.716 }
   },
+  // 🔹 Nuevo: horario y días de servicio
+  horario: {
+    lunes:     { abre: "14:00", cierra: "00:00" },
+    martes:    { abre: "14:00", cierra: "00:00" },
+    miercoles: { abre: "14:00", cierra: "00:00" },
+    jueves:    { abre: "14:00", cierra: "00:00" },
+    viernes:   { abre: "14:00", cierra: "01:00" },
+    sabado:    { abre: "14:00", cierra: "01:00" },
+    domingo:   { abre: "14:00", cierra: "00:00" }
+  },
+  diasServicio: [
+    "lunes",
+    "martes",
+    "miercoles",
+    "jueves",
+    "viernes",
+    "sabado",
+    "domingo"
+  ],
+  url_localizacion: "https://www.google.com/maps?q=17.07204,-96.71645",
   activo: true,
   creadoEn: ahora,
   actualizadoEn: ahora
@@ -58,10 +79,11 @@ dbChef.restaurantes.insertOne({
 dbChef.productos.insertOne({
   _id: productoId,
   restauranteId: restauranteId,
-  nombre: "Taco al pastor",
-  descripcion: "Con piña y salsa de la casa",
-  precio: 50,
-  imagen: "https://ejemplo.com/taco.jpg",
+  nombre: "Taco al birria",
+  descripcion: "Taco de birria al estilo Oaxaca con piña, cebollitas y salsa de la casa.",
+  precio: 35,
+  // Imagen a completar a mano
+  imagen: "https://birriatresdeoros.com/wp-content/uploads/birrierias-5.jpg",
   disponible: true,
   etiquetas: ["taco", "cerdo", "pastor"],
   categoriaMenu: "Plato fuerte",
@@ -88,16 +110,16 @@ dbChef.carritos.insertOne({
       restauranteId: restauranteId,
       productoId: productoId,
       nombre: "Taco al pastor",
-      precio: 50,
+      precio: 35,
       cantidad: 2,
-      subtotal: 100
+      subtotal: 70
     }
   ],
   cuponAplicado: { codigo: "BIENVENIDA10", descuento: 10 },
   moneda: "MXN",
-  subtotal: 100,
-  tarifaEnvio: 20,
-  total: 110,
+  subtotal: 70,
+  tarifaEnvio: 25,
+  total: 85,
   actualizadoEn: ahora
 });
 
@@ -110,20 +132,20 @@ dbChef.pedidos.insertOne({
     {
       productoId: productoId,
       nombre: "Taco al pastor",
-      precio: 50,
+      precio: 35,
       cantidad: 2,
-      subtotal: 100
+      subtotal: 70
     }
   ],
   direccionEntrega: {
     etiqueta: "Casa",
-    calle: "Av. Siempre Viva 123",
-    ciudad: "CDMX",
-    estado: "CDMX",
-    cp: "01000"
+    calle: "Emilio Carranza 210, Col. Reforma",
+    ciudad: "Oaxaca de Juárez",
+    estado: "Oaxaca",
+    cp: "68050"
   },
   cupon: { codigo: "BIENVENIDA10", descuento: 10 },
-  montos: { subtotal: 100, tarifaEnvio: 20, total: 110 },
+  montos: { subtotal: 70, tarifaEnvio: 25, total: 85 },
   estado: "recibido",
   realizadoEn: ahora,
   cronologia: [{ estado: "recibido", en: ahora }],
@@ -137,7 +159,7 @@ dbChef.notificaciones.insertOne({
   pedidoId: pedidoId,
   tipo: "estado_pedido",
   titulo: "Pedido recibido",
-  mensaje: "¡Hemos recibido tu pedido y empezaremos a prepararlo!",
+  mensaje: "¡Hemos recibido tu pedido en Mixtacos y empezaremos a prepararlo!",
   estadoDesde: null,
   estadoHacia: "recibido",
   leida: false,
@@ -149,7 +171,7 @@ dbChef.reseñas.insertOne({
   usuarioId: usuarioId,
   restauranteId: restauranteId,
   estrellas: 5,
-  comentario: "Excelentes tacos, entrega rápida.",
+  comentario: "Excelentes tacos al pastor en Oaxaca, súper recomendados.",
   creadoEn: ahora,
   actualizadoEn: ahora
 });

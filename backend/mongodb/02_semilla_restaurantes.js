@@ -133,6 +133,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8074, lng: -97.7796 }
         },
+        horario: {
+            lunes:     { abre: "11:00", cierra: "21:00" },
+            martes:    { abre: "11:00", cierra: "21:00" },
+            miercoles: { abre: "11:00", cierra: "21:00" },
+            jueves:    { abre: "11:00", cierra: "21:00" },
+            viernes:   { abre: "11:00", cierra: "21:00" },
+            sabado:    { abre: "11:00", cierra: "21:00" },
+            domingo:   { abre: "11:00", cierra: "21:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Dominos+Pizza+Heroico+Colegio+Militar+7+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -154,6 +165,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8074, lng: -97.7796 }
         },
+        horario: {
+            lunes:     { abre: "09:00", cierra: "22:00" },
+            martes:    { abre: "09:00", cierra: "22:00" },
+            miercoles: { abre: "09:00", cierra: "22:00" },
+            jueves:    { abre: "09:00", cierra: "22:00" },
+            viernes:   { abre: "09:00", cierra: "22:00" },
+            sabado:    { abre: "09:00", cierra: "22:00" },
+            domingo:   { abre: "09:00", cierra: "22:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Burger+King+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -176,6 +198,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8079, lng: -97.7792 }
         },
+        horario: {
+            lunes:     { abre: "08:00", cierra: "23:59" },
+            martes:    { abre: "08:00", cierra: "23:59" },
+            miercoles: { abre: "08:00", cierra: "23:59" },
+            jueves:    { abre: "08:00", cierra: "23:59" },
+            viernes:   { abre: "08:00", cierra: "23:59" },
+            sabado:    { abre: "08:00", cierra: "23:59" },
+            domingo:   { abre: "08:00", cierra: "12:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Taqueria+El+Paisa+Valerio+Trujano+6+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -198,6 +231,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8080, lng: -97.7795 }
         },
+        horario: {
+            lunes:     { abre: "08:00", cierra: "22:30" },
+            martes:    { abre: "08:00", cierra: "23:00" },
+            miercoles: { abre: "08:00", cierra: "23:00" },
+            jueves:    { abre: "08:00", cierra: "23:00" },
+            viernes:   { abre: "08:00", cierra: "22:30" },
+            sabado:    { abre: "08:00", cierra: "23:00" },
+            domingo:   { abre: "08:00", cierra: "23:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Hotel+Garcia+Peral+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -220,6 +264,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8076, lng: -97.7802 }
         },
+        horario: {
+            lunes:     { abre: "08:00", cierra: "22:00" },
+            martes:    { abre: "08:00", cierra: "22:00" },
+            miercoles: { abre: "08:00", cierra: "22:00" },
+            jueves:    { abre: "08:00", cierra: "22:00" },
+            viernes:   { abre: "08:00", cierra: "22:00" },
+            sabado:    { abre: "08:00", cierra: "22:00" },
+            domingo:   { abre: "08:00", cierra: "22:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Antojitos+Dona+Mary+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -242,6 +297,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8072, lng: -97.7810 }
         },
+        horario: {
+            lunes:     { abre: "13:00", cierra: "23:00" },
+            martes:    { abre: "13:00", cierra: "23:00" },
+            miercoles: { abre: "13:00", cierra: "23:00" },
+            jueves:    { abre: "13:00", cierra: "23:00" },
+            viernes:   { abre: "13:00", cierra: "23:00" },
+            sabado:    { abre: "13:00", cierra: "23:00" },
+            domingo:   { abre: "13:00", cierra: "23:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Sushi+Haru+Morelos+48+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -264,6 +330,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8069, lng: -97.7807 }
         },
+        horario: {
+            lunes:     { abre: "08:00", cierra: "21:00" },
+            martes:    { abre: "08:00", cierra: "21:00" },
+            miercoles: { abre: "08:00", cierra: "21:00" },
+            jueves:    { abre: "08:00", cierra: "21:00" },
+            viernes:   { abre: "08:00", cierra: "21:00" },
+            sabado:    { abre: "09:00", cierra: "22:00" },
+            domingo:   { abre: "09:00", cierra: "22:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Cafe+La+Estacion+Colon+3+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -286,6 +363,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8075, lng: -97.7815 }
         },
+        horario: {
+            lunes:     { abre: "19:00", cierra: "23:30" },
+            martes:    { abre: "19:00", cierra: "23:30" },
+            miercoles: { abre: "19:00", cierra: "23:30" },
+            jueves:    { abre: "19:00", cierra: "23:30" },
+            viernes:   { abre: "19:00", cierra: "01:00" },
+            sabado:    { abre: "19:00", cierra: "01:00" },
+            domingo:   { abre: "19:00", cierra: "01:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Tlayudas+Lupita+Guerrero+25+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -308,6 +396,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8083, lng: -97.7801 }
         },
+        horario: {
+            lunes:     { abre: "13:00", cierra: "23:00" },
+            martes:    { abre: "13:00", cierra: "23:00" },
+            miercoles: { abre: "13:00", cierra: "23:00" },
+            jueves:    { abre: "13:00", cierra: "23:00" },
+            viernes:   { abre: "13:00", cierra: "00:00" },
+            sabado:    { abre: "13:00", cierra: "00:00" },
+            domingo:   { abre: "13:00", cierra: "00:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=La+Cabana+Grill+Galeana+10+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -330,6 +429,17 @@ dbChef.restaurantes.insertMany([
             cp: "69000",
             geo: { lat: 17.8088, lng: -97.7799 }
         },
+        horario: {
+            lunes:     { abre: "07:00", cierra: "22:00" },
+            martes:    { abre: "07:00", cierra: "22:00" },
+            miercoles: { abre: "07:00", cierra: "22:00" },
+            jueves:    { abre: "07:00", cierra: "22:00" },
+            viernes:   { abre: "07:00", cierra: "22:00" },
+            sabado:    { abre: "07:00", cierra: "22:00" },
+            domingo:   { abre: "07:00", cierra: "22:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Panes+y+Cafe+Don+Pedro+Nicolas+Bravo+7+Huajuapan+de+Leon+Oaxaca",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -337,125 +447,170 @@ dbChef.restaurantes.insertMany([
     
     //ATENCION PENDIENTES DE UBICACION LOS SIGUIENTES 5 RESTAURANTES EN OAXACA DE JUAREZ
     {
-    _id: restauranteId21,
-    nombre: "Fonda Doña Chica",
-    slug: "fonda-dona-chica",
-    descripcion: "Comida casera oaxaqueña",
-    categorias: ["oaxaqueña"],
-    imagen: "https://tse4.mm.bing.net/th/id/OIP.XZavIxm6gWkCrrccDvgqGwHaHY?rs=1&pid=ImgDetMain&o=7&rm=3",
-    imagen_banner: "https://resizer.otstatic.com/v3/photos/76768535-2?width=1280&height=720&webp=true",
-    calificacion: { promedio: 0, conteo: 0 },
-    entrega: { minutosPromedio: 18, tarifa: 20 },
-    direccion: {
-        calle: "M. Bravo #209",
-        colonia: "Centro",
-        ciudad: "Oaxaca de Juárez",
-        estado: "Oaxaca",
-        cp: "68000",
-        geo: { lat: 17.0591, lng: -96.7246 }
+        _id: restauranteId21,
+        nombre: "Fonda Doña Chica",
+        slug: "fonda-dona-chica",
+        descripcion: "Comida casera oaxaqueña",
+        categorias: ["oaxaqueña"],
+        imagen: "https://tse4.mm.bing.net/th/id/OIP.XZavIxm6gWkCrrccDvgqGwHaHY?rs=1&pid=ImgDetMain&o=7&rm=3",
+        imagen_banner: "https://resizer.otstatic.com/v3/photos/76768535-2?width=1280&height=720&webp=true",
+        calificacion: { promedio: 0, conteo: 0 },
+        entrega: { minutosPromedio: 18, tarifa: 20 },
+        direccion: {
+            calle: "M. Bravo #209",
+            colonia: "Centro",
+            ciudad: "Oaxaca de Juárez",
+            estado: "Oaxaca",
+            cp: "68000",
+            geo: { lat: 17.0591, lng: -96.7246 }
+        },
+        horario: {
+            lunes:     { abre: "08:00", cierra: "18:00" },
+            martes:    { abre: "08:00", cierra: "18:00" },
+            miercoles: { abre: "08:00", cierra: "18:00" },
+            jueves:    { abre: "08:00", cierra: "18:00" },
+            viernes:   { abre: "08:00", cierra: "18:00" },
+            sabado:    { abre: "08:00", cierra: "18:00" },
+            domingo:   { abre: "09:00", cierra: "16:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Fonda+Dona+Chica+M+Bravo+209+Oaxaca+de+Juarez",
+        activo: true,
+        creadoEn: ahora,
+        actualizadoEn: ahora
     },
-    activo: true,
-    creadoEn: ahora,
-    actualizadoEn: ahora
-},
-{
-    _id: restauranteId22,
-    nombre: "La Tlayudería del Centro",
-    slug: "la-tlayuderia-del-centro",
-    descripcion: "Tlayudas y antojitos oaxaqueños",
-    categorias: ["antojitos"],
-    imagen: "https://tse1.mm.bing.net/th/id/OIP.4VZTCoq--UJUBs2I8j5XsgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
-    imagen_banner: "https://tse4.mm.bing.net/th/id/OIP.wTYa4HHuEwDaEXhk42SlFAHaC0?rs=1&pid=ImgDetMain&o=7&rm=3",//esta imagen se va a cambiar 
-    calificacion: { promedio: 0, conteo: 0 },
-    entrega: { minutosPromedio: 25, tarifa: 22 },
-    direccion: {
-        calle: "Armenta y López #312",
-        colonia: "Centro",
-        ciudad: "Oaxaca de Juárez",
-        estado: "Oaxaca",
-        cp: "68000",
-        geo: { lat: 17.0569, lng: -96.7242 }
+    {
+        _id: restauranteId22,
+        nombre: "La Tlayudería del Centro",
+        slug: "la-tlayuderia-del-centro",
+        descripcion: "Tlayudas y antojitos oaxaqueños",
+        categorias: ["antojitos"],
+        imagen: "https://tse1.mm.bing.net/th/id/OIP.4VZTCoq--UJUBs2I8j5XsgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+        imagen_banner: "https://tse4.mm.bing.net/th/id/OIP.wTYa4HHuEwDaEXhk42SlFAHaC0?rs=1&pid=ImgDetMain&o=7&rm=3",//esta imagen se va a cambiar 
+        calificacion: { promedio: 0, conteo: 0 },
+        entrega: { minutosPromedio: 25, tarifa: 22 },
+        direccion: {
+            calle: "Armenta y López #312",
+            colonia: "Centro",
+            ciudad: "Oaxaca de Juárez",
+            estado: "Oaxaca",
+            cp: "68000",
+            geo: { lat: 17.0569, lng: -96.7242 }
+        },
+        horario: {
+            lunes:     { abre: "18:00", cierra: "23:30" },
+            martes:    { abre: "18:00", cierra: "23:30" },
+            miercoles: { abre: "18:00", cierra: "23:30" },
+            jueves:    { abre: "18:00", cierra: "23:30" },
+            viernes:   { abre: "18:00", cierra: "00:30" },
+            sabado:    { abre: "18:00", cierra: "00:30" },
+            domingo:   { abre: "18:00", cierra: "00:30" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=La+Tlayuderia+del+Centro+Armenta+y+Lopez+312+Oaxaca+de+Juarez",
+        activo: true,
+        creadoEn: ahora,
+        actualizadoEn: ahora
     },
-    activo: true,
-    creadoEn: ahora,
-    actualizadoEn: ahora
-},
-{
-    _id: restauranteId23,
-    nombre: "Comedor La Abuelita",
-    slug: "comedor-la-abuelita",
-    descripcion: "Platillos económicos y tradicionales",
-    categorias: ["comida-casera"],
-    imagen: "https://www.prosaypolitica.cl/wp-content/uploads/2023/04/9788413431727.jpg",
-    imagen_banner: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/ad/5f/0d/interior.jpg?w=1200&h=-1&s=1",
-    calificacion: { promedio: 0, conteo: 0 },
-    entrega: { minutosPromedio: 14, tarifa: 10 },
-    direccion: {
-        calle: "20 de Noviembre #108",
-        colonia: "Centro",
-        ciudad: "Oaxaca de Juárez",
-        estado: "Oaxaca",
-        cp: "68000",
-        geo: { lat: 17.0560, lng: -96.7249 }
+    {
+        _id: restauranteId23,
+        nombre: "Comedor La Abuelita",
+        slug: "comedor-la-abuelita",
+        descripcion: "Platillos económicos y tradicionales",
+        categorias: ["comida-casera"],
+        imagen: "https://www.prosaypolitica.cl/wp-content/uploads/2023/04/9788413431727.jpg",
+        imagen_banner: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/ad/5f/0d/interior.jpg?w=1200&h=-1&s=1",
+        calificacion: { promedio: 0, conteo: 0 },
+        entrega: { minutosPromedio: 14, tarifa: 10 },
+        direccion: {
+            calle: "20 de Noviembre #108",
+            colonia: "Centro",
+            ciudad: "Oaxaca de Juárez",
+            estado: "Oaxaca",
+            cp: "68000",
+            geo: { lat: 17.0560, lng: -96.7249 }
+        },
+        horario: {
+            lunes:     { abre: "07:00", cierra: "20:30" },
+            martes:    { abre: "07:00", cierra: "20:30" },
+            miercoles: { abre: "07:00", cierra: "20:30" },
+            jueves:    { abre: "07:00", cierra: "20:30" },
+            viernes:   { abre: "07:00", cierra: "20:30" },
+            sabado:    { abre: "07:00", cierra: "20:30" },
+            domingo:   { abre: "07:00", cierra: "20:30" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Comedor+La+Abuelita+20+de+Noviembre+108+Oaxaca+de+Juarez",
+        activo: true,
+        creadoEn: ahora,
+        actualizadoEn: ahora
     },
-    activo: true,
-    creadoEn: ahora,
-    actualizadoEn: ahora
-},
-{
-    _id: restauranteId24,
-    nombre: "Sazón Oaxaqueño",
-    slug: "sazon-oaxaqueno",
-    descripcion: "Moles, tasajo y comida típica",
-    categorias: ["oaxaqueña"],
-    imagen: "https://tse3.mm.bing.net/th/id/OIP.ZXBzR-2FfdlQCeHFuodkZgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
-    imagen_banner: "https://tse1.mm.bing.net/th/id/OIP._3hSRJ3F8C7uvGx0ceudbwHaCv?rs=1&pid=ImgDetMain&o=7&rm=3",
-    calificacion: { promedio: 0, conteo: 0 },
-    entrega: { minutosPromedio: 30, tarifa: 25 },
-    direccion: {
-        calle: "Independencia #501",
-        colonia: "Centro",
-        ciudad: "Oaxaca de Juárez",
-        estado: "Oaxaca",
-        cp: "68020",
-        geo: { lat: 17.0628, lng: -96.7230 }
+    {
+        _id: restauranteId24,
+        nombre: "Sazón Oaxaqueño",
+        slug: "sazon-oaxaqueno",
+        descripcion: "Moles, tasajo y comida típica",
+        categorias: ["oaxaqueña"],
+        imagen: "https://tse3.mm.bing.net/th/id/OIP.ZXBzR-2FfdlQCeHFuodkZgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+        imagen_banner: "https://tse1.mm.bing.net/th/id/OIP._3hSRJ3F8C7uvGx0ceudbwHaCv?rs=1&pid=ImgDetMain&o=7&rm=3",
+        calificacion: { promedio: 0, conteo: 0 },
+        entrega: { minutosPromedio: 30, tarifa: 25 },
+        direccion: {
+            calle: "Independencia #501",
+            colonia: "Centro",
+            ciudad: "Oaxaca de Juárez",
+            estado: "Oaxaca",
+            cp: "68020",
+            geo: { lat: 17.0628, lng: -96.7230 }
+        },
+        horario: {
+            lunes:     { abre: "08:00", cierra: "22:00" },
+            martes:    { abre: "08:00", cierra: "22:00" },
+            miercoles: { abre: "08:00", cierra: "22:00" },
+            jueves:    { abre: "08:00", cierra: "22:00" },
+            viernes:   { abre: "08:00", cierra: "22:00" },
+            sabado:    { abre: "08:00", cierra: "22:00" },
+            domingo:   { abre: "08:00", cierra: "22:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Sazon+Oaxaqueno+Independencia+501+Oaxaca+de+Juarez",
+        activo: true,
+        creadoEn: ahora,
+        actualizadoEn: ahora
     },
-    activo: true,
-    creadoEn: ahora,
-    actualizadoEn: ahora
-},
-{
-    _id: restauranteId25,
-    nombre: "Mercado 20 de Noviembre Pasillo de Humo",
-    slug: "pasillo-de-humo",
-    descripcion: "Carnes asadas estilo tradicional",
-    categorias: ["grill"],
-    imagen: "https://i.ytimg.com/vi/OYHv8ACdlHA/maxresdefault.jpg",
-    imagen_banner: "https://oaxaca.quadratin.com.mx/www/wp-content/uploads/2021/05/20nov-1160x700.jpg",
-    calificacion: { promedio: 0, conteo: 0 },
-    entrega: { minutosPromedio: 20, tarifa: 18 },
-    direccion: {
-        calle: "20 de Noviembre s/n",
-        colonia: "Centro",
-        ciudad: "Oaxaca de Juárez",
-        estado: "Oaxaca",
-        cp: "68000",
-        geo: { lat: 17.0563, lng: -96.7245 }
-    },
-    activo: true,
-    creadoEn: ahora,
-    actualizadoEn: ahora
-}
-
-
-
-
-
-
-
-
-
-
+    {
+        _id: restauranteId25,
+        nombre: "Mercado 20 de Noviembre Pasillo de Humo",
+        slug: "pasillo-de-humo",
+        descripcion: "Carnes asadas estilo tradicional",
+        categorias: ["grill"],
+        imagen: "https://i.ytimg.com/vi/OYHv8ACdlHA/maxresdefault.jpg",
+        imagen_banner: "https://oaxaca.quadratin.com.mx/www/wp-content/uploads/2021/05/20nov-1160x700.jpg",
+        calificacion: { promedio: 0, conteo: 0 },
+        entrega: { minutosPromedio: 20, tarifa: 18 },
+        direccion: {
+            calle: "20 de Noviembre s/n",
+            colonia: "Centro",
+            ciudad: "Oaxaca de Juárez",
+            estado: "Oaxaca",
+            cp: "68000",
+            geo: { lat: 17.0563, lng: -96.7245 }
+        },
+        horario: {
+            lunes:     { abre: "08:00", cierra: "19:00" },
+            martes:    { abre: "08:00", cierra: "19:00" },
+            miercoles: { abre: "08:00", cierra: "19:00" },
+            jueves:    { abre: "08:00", cierra: "19:00" },
+            viernes:   { abre: "08:00", cierra: "19:00" },
+            sabado:    { abre: "08:00", cierra: "19:00" },
+            domingo:   { abre: "08:00", cierra: "19:00" }
+        },
+        diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
+        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Mercado+20+de+Noviembre+Pasillo+de+Humo+Oaxaca+de+Juarez",
+        activo: true,
+        creadoEn: ahora,
+        actualizadoEn: ahora
+    }
 ]);
 
 dbChef.categorias.insertMany([
