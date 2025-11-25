@@ -376,3 +376,7 @@ main {
     text-decoration: underline;
     /* o el estilo que tú quieras: fondo, color, etc. */
 }
+
+.logo{
+    cursor: pointer;
+}
