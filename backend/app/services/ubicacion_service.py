@@ -39,10 +39,19 @@ async def validar_direccion_servicio(query: str) -> Optional[UbicacionValidada]:
             resultado = data[0]
             direccion = resultado.get("address", {})
 
+            # backend/app/services/ubicacion_service.py
+
             return UbicacionValidada(
                 direccion_completa=resultado.get("display_name"),
                 calle=direccion.get("road") or direccion.get("pedestrian") or direccion.get("house_number") or direccion.get("suburb"),
-                ciudad=direccion.get("city") or direccion.get("town") or direccion.get("village") or direccion.get("county"),
+                ciudad=(
+                    direccion.get("city") or 
+                    direccion.get("town") or 
+                    direccion.get("municipality") or 
+                    direccion.get("county") or 
+                    direccion.get("village") or 
+                    direccion.get("hamlet")
+                ),
                 estado=direccion.get("state"),
                 cp=direccion.get("postcode", "S/CP"),
                 lat=float(resultado.get("lat")),
