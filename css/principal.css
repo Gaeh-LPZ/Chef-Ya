@@ -106,6 +106,7 @@ main {
         gap: 0.5rem;
         border-top: 1px solid lightgray;
         height: 28vh;
+        margin-bottom: 40px;
         nav {
             display: inherit;
             flex-direction: inherit;
