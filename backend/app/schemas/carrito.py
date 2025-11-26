@@ -1,4 +1,3 @@
-# schemas/carrito.py
 from typing import List, Optional
 from pydantic import BaseModel
 
@@ -42,3 +41,7 @@ class CarritoActualizarItem(BaseModel):
 
 class CarritoAplicarCuponRequest(BaseModel):
     codigo: str
+
+# lo acabo de agregar para cambiar cantidades mas facil
+class CarritoModificarCantidad(BaseModel):
+    delta: int

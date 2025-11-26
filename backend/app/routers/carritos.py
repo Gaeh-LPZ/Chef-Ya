@@ -8,8 +8,10 @@ from schemas.carrito import (
     CarritoItemCrear,
     CarritoActualizarItem,
     CarritoAplicarCuponRequest,
+    CarritoModificarCantidad,
 )
 from services.carrito_service import (
+    modificar_cantidad_item_carrito_servicio,
     obtener_o_crear_carrito_por_usuario_servicio,
     obtener_carrito_por_id_servicio,
     agregar_item_carrito_servicio,
@@ -143,5 +145,29 @@ async def aplicar_cupon_carrito(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Carrito o cupón inválido",
+        )
+    return carrito
+
+@router.patch("/{id_carrito}/items/{indice}", response_model=CarritoLeer)
+async def modificar_cantidad_item_carrito(
+    id_carrito: str,
+    indice: int,
+    datos: CarritoModificarCantidad,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    """
+    Modifica la cantidad de un item sumando/restando un delta.
+    Ejemplo: { "delta": 1 } o { "delta": -1 }
+    """
+    carrito = await modificar_cantidad_item_carrito_servicio(
+        bd,
+        id_carrito,
+        indice,
+        datos.delta,
+    )
+    if not carrito:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Carrito o item no encontrado",
         )
     return carrito

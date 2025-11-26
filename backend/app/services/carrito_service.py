@@ -327,3 +327,37 @@ async def aplicar_cupon_carrito_servicio(
 
     doc_actualizado = await bd[NOMBRE_COLECCION_CARRITOS].find_one({"_id": carrito["_id"]})
     return await _mapear_doc_a_carrito_leer(doc_actualizado,bd)
+
+async def modificar_cantidad_item_carrito_servicio(
+    bd: AsyncIOMotorDatabase,
+    id_carrito: str,
+    indice: int,
+    delta: int,
+) -> Optional[CarritoLeer]:
+    carrito = await _obtener_carrito_doc_por_id(bd, id_carrito)
+    if not carrito:
+        return None
+
+    items = carrito.get("items", [])
+
+    if indice < 0 or indice >= len(items):
+        return None
+
+    cantidad_actual = items[indice]["cantidad"]
+    nueva_cantidad = cantidad_actual + delta
+
+    if nueva_cantidad <= 0:
+        items.pop(indice)
+    else:
+        items[indice]["cantidad"] = nueva_cantidad
+
+    carrito["items"] = items
+    _recalcular_montos(carrito)
+
+    await bd[NOMBRE_COLECCION_CARRITOS].update_one(
+        {"_id": carrito["_id"]},
+        {"$set": carrito},
+    )
+
+    doc_actualizado = await bd[NOMBRE_COLECCION_CARRITOS].find_one({"_id": carrito["_id"]})
+    return await _mapear_doc_a_carrito_leer(doc_actualizado, bd)

@@ -33,6 +33,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         return '$';
     }
 
+    // ==================== CARRITO ====================
+
     function renderCarrito(carrito) {
         const itemsContainer = document.getElementById('cart-items');
         const subtotalSpan = document.getElementById('subtotal-amount');
@@ -56,7 +58,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const monedaSymbol = obtenerSimboloMoneda(carrito.moneda || 'MXN');
         const totalItems = carrito.items.reduce((acc, item) => acc + item.cantidad, 0);
 
-        carrito.items.forEach((item) => {
+        // [MODIFICADO] aquí ahora usamos index y pintamos los botones +/- 
+        carrito.items.forEach((item, index) => {
             const itemDiv = document.createElement('div');
             itemDiv.className = 'flex gap-4 py-4 border-b border-gray-100';
 
@@ -78,13 +81,58 @@ document.addEventListener('DOMContentLoaded', async () => {
                         Restaurante ${item.restauranteId || ''}
                     </span>
                     <h3 class="text-sm font-medium text-gray-900">${item.nombre}</h3>
-                    <span class="text-sm text-gray-500 mt-1">Cantidad: ${item.cantidad}</span>
+                    
+                    <!-- Controles de cantidad (+ / -) [AGREGADO] -->
+                    <div class="flex items-center gap-2 mt-1">
+                        <span class="text-sm text-gray-700">Cantidad:</span>
+                        <button 
+                            class="btn-qty-decrement w-7 h-7 flex items-center justify-center border border-gray-900 rounded-full text-sm"
+                            data-index="${index}"
+                        >
+                            -
+                        </button>
+                        <span class="text-sm text-gray-700 min-w-[2rem] text-center">
+                            ${item.cantidad}
+                        </span>
+                        <button 
+                            class="btn-qty-increment w-7 h-7 flex items-center justify-center border border-gray-900 rounded-full text-sm"
+                            data-index="${index}"
+                        >
+                            +
+                        </button>
+                    </div>
                 </div>
                 <div class="font-medium text-sm pt-5 md:pt-0 flex items-center">
                     ${monedaSymbol}${item.subtotal.toFixed(2)}
                 </div>
             </div>
             `;
+
+            // [AGREGADO] Listeners para + y -
+            const btnMenos = itemDiv.querySelector('.btn-qty-decrement');
+            const btnMas = itemDiv.querySelector('.btn-qty-increment');
+
+            if (btnMenos) {
+                btnMenos.addEventListener('click', async (e) => {
+                    const idx = parseInt(e.currentTarget.getAttribute('data-index'), 10);
+                    if (!carritoActual || !Array.isArray(carritoActual.items)) return;
+
+                    const cantidadActual = carritoActual.items[idx].cantidad;
+                    const nuevaCantidad = cantidadActual - 1;
+                    await actualizarCantidadItemCarrito(idx, nuevaCantidad); // [AGREGADO]
+                });
+            }
+
+            if (btnMas) {
+                btnMas.addEventListener('click', async (e) => {
+                    const idx = parseInt(e.currentTarget.getAttribute('data-index'), 10);
+                    if (!carritoActual || !Array.isArray(carritoActual.items)) return;
+
+                    const cantidadActual = carritoActual.items[idx].cantidad;
+                    const nuevaCantidad = cantidadActual + 1;
+                    await actualizarCantidadItemCarrito(idx, nuevaCantidad); // [AGREGADO]
+                });
+            }
 
             itemsContainer.appendChild(itemDiv);
         });
@@ -100,6 +148,40 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         if (totalSpan) {
             totalSpan.textContent = `${monedaSymbol}${carrito.total.toFixed(2)}`;
+        }
+    }
+
+    //
+    async function actualizarCantidadItemCarrito(indice, nuevaCantidad) {
+        if (!carritoActual || !carritoActual.id) {
+            console.error('No hay carrito actual para actualizar cantidad.');
+            return;
+        }
+
+        try {
+            const resp = await fetch(
+                `${API_BASE_URL}/carritos/${carritoActual.id}/items/${indice}`,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ cantidad: nuevaCantidad }),
+                }
+            );
+
+            if (!resp.ok) {
+                console.error('Error al actualizar cantidad del item:', resp.status, resp.statusText);
+                alert('No se pudo actualizar la cantidad del producto.');
+                return;
+            }
+
+            const carritoActualizado = await resp.json();
+            carritoActual = carritoActualizado;
+            renderCarrito(carritoActualizado); // volvemos a pintar el carrito
+        } catch (error) {
+            console.error('Error de red al actualizar cantidad del item:', error);
+            alert('Hubo un problema al actualizar la cantidad. Intenta de nuevo.');
         }
     }
 
