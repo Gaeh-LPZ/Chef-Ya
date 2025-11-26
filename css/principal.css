@@ -89,6 +89,7 @@ main {
         }
     }
 
+    /* ESTO YA NO SE USA PERO LO DEJAMOS POR SI TIENES OTRO HTML */
     .separacion {
         display: flex;
         flex-direction: row;
@@ -179,6 +180,26 @@ main {
     }
 }
 
+/* 🔹 NUEVO: layout que mantiene las categorías siempre al lado */
+.layout-principal {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.sidebar-opciones {
+    display: flex;
+    flex-direction: column;
+}
+
+.columnas-cartas {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-right: 15rem;
+}
+
 /* ------------------------------------------- */
 /* --- ESTILOS AÑADIDOS PARA RESPONSIVE --- */
 /* ------------------------------------------- */
@@ -235,7 +256,9 @@ main {
     .opciones {
         display: none !important;
     }
-
+    .columnas-cartas {
+        padding-right: 0rem;
+    }
     .separacion {
         flex-direction: column;
         margin-left: 0;
@@ -243,7 +266,6 @@ main {
         gap: 1.5rem;
     }
 
-    /* THIS IS THE KEY FIX */
     .cartas {
         display: grid !important;
         grid-template-columns: 1fr !important;
@@ -266,7 +288,7 @@ main {
         align-items: stretch;
         justify-content: flex-start;
         cursor: pointer;
-        grid-row-start: auto !important; /* Override the grid-row-start: 2 */
+        grid-row-start: auto !important;
     }
 
     .tarjeta:hover {
@@ -350,14 +372,13 @@ main {
 /*Ocualtamos la barra del scroll horizontal de las categorias*/
 /* Firefox */
 #nav-categorias {
-    scrollbar-width: none;      /* ocultar barra en Firefox */
+    scrollbar-width: none;
 }
 
 /* Chrome, Edge, Safari */
 #nav-categorias::-webkit-scrollbar {
-    display: none;              /* ocultar barra en navegadores WebKit */
+    display: none;
 }
-
 
 .card-order-button-desktop{
     padding: 0.5rem 0.75rem;
@@ -370,11 +391,9 @@ main {
     font-weight: 600;
 }
 
-/* categoría seleccionada */
 .active-categoria {
     font-weight: 700;
     text-decoration: underline;
-    /* o el estilo que tú quieras: fondo, color, etc. */
 }
 
 .logo{

@@ -10,72 +10,122 @@
 </head>
 
 <body>
-    <nav class="mobile-nav"> <a href="#">Ofertas</a> <a href="#" class="active">Principal</a> <a href="#">Favoritos</a>
+    <nav class="mobile-nav">
+        <a href="#">Ofertas</a>
+        <a href="#" class="active">Principal</a>
+        <a href="#">Favoritos</a>
     </nav>
-    <header class="main-header"> <button type="button" id="menu-button" aria-label="menu access button"> <svg width="20"
-                height="20">
+    <header class="main-header">
+        <button type="button" id="menu-button" aria-label="menu access button">
+            <svg width="20" height="20">
                 <use href="./assets/icons/menu-2.svg"></use>
-            </svg> </button> <a href="principal.html">
-                <img src="./assets/images/Logo.png" alt="Logo-ChefYa" class="logo">
-            </a>
-        <div> <svg width="23" height="23">
+            </svg>
+        </button>
+        <a href="principal.html">
+            <img src="./assets/images/Logo.png" alt="Logo-ChefYa" class="logo">
+        </a>
+        <div>
+            <svg width="23" height="23">
                 <use href="./assets/icons/map-pin.svg"></use>
             </svg>
             <p>Acatlima 69004</p>
         </div>
-        <form> <label> <input type="search" name="search-restaurants" placeholder="Buscar en Acatlima"
-                    class="search-bar"> </label> </form> <button type="button" id="shopping-cart"
-            aria-label="shopping-cart button"> <svg width="30" height="30">
+        <form>
+            <label>
+                <input
+                    type="search"
+                    name="search-restaurants"
+                    placeholder="Buscar restaurantes"
+                    class="search-bar"
+                >
+            </label>
+        </form>
+        <button type="button" id="shopping-cart" aria-label="shopping-cart button">
+            <svg width="30" height="30">
                 <use href="./assets/icons/shopping-cart.svg"></use>
-            </svg> </button> <button type="button" id="user-login" aria-label="user-login button"> <svg width="30"
-                height="30">
+            </svg>
+        </button>
+        <button type="button" id="user-login" aria-label="user-login button">
+            <svg width="30" height="30">
                 <use href="./assets/icons/User.svg"></use>
-            </svg> </button>
+            </svg>
+        </button>
     </header>
+
     <main>
-        <div class="filtros"> <select name="precios" id="precios">
+        <div class="filtros">
+            <select name="precios" id="precios">
                 <option value="">Costo</option>
-            </select> <select name="precio-envio" id="precio-envio">
+            </select>
+            <select name="precio-envio" id="precio-envio">
                 <option value="">Costo de envío</option>
-            </select> <button type="button">Mayor calificación</button> <button type="button">Menos de 30 min</button>
+            </select>
+            <button type="button">Mayor calificación</button>
+            <button type="button">Menos de 30 min</button>
         </div>
-        <div class="separacion">
-            <section class="opciones">
-                <p><strong>Los más buscados</strong></p>
-                <nav id="nav-mas-buscados"></nav>
-            </section>
-            <aside class="cartas">
-                <header>
-                    <h1>Populares cerca de ti</h1>
-                    <div style="display: flex; height: 20px; gap: 1rem;">
-                        <nav> <a href="#">Ver Todos</a> </nav> <button type="button"> <svg>
-                                <use href="./assets/icons/arrow-narrow-left.svg"></use>
-                            </svg> </button> <button type="button"> <svg>
-                                <use href="./assets/icons/arrow-narrow-right.svg"></use>
-                            </svg> </button>
-                    </div>
-                </header>
-            </aside>
-        </div>
-        <div class="separacion">
-            <section class="opciones">
-                <p><strong>Todas las categorias</strong></p>
-                <nav id="nav-categorias"></nav>
-            </section>
-            <aside class="cartas">
-                <header>
-                    <h1>Los mejores puntuados</h1>
-                    <div style="display: flex; height: 20px; gap: 1rem;">
-                        <nav> <a href="#">Ver Todos</a> </nav> <button type="button"> <svg>
-                                <use href="./assets/icons/arrow-narrow-left.svg"></use>
-                            </svg> </button> <button type="button"> <svg>
-                                <use href="./assets/icons/arrow-narrow-right.svg"></use>
-                            </svg> </button>
-                    </div>
-                </header>
-            </aside>
+
+        <!-- NUEVO CONTENEDOR GENERAL PARA FIJAR EL LATERAL -->
+        <div class="layout-principal">
+            <!-- Columna izquierda: las dos listas de opciones -->
+            <div class="sidebar-opciones">
+                <section class="opciones">
+                    <p><strong>Los más buscados</strong></p>
+                    <nav id="nav-mas-buscados"></nav>
+                </section>
+
+                <section class="opciones">
+                    <p><strong>Todas las categorias</strong></p>
+                    <nav id="nav-categorias"></nav>
+                </section>
+            </div>
+
+            <!-- Columna derecha: las dos filas de cartas -->
+            <div class="columnas-cartas">
+                <aside class="cartas cartas-populares">
+                    <header>
+                        <h1>Populares cerca de ti</h1>
+                        <div style="display: flex; height: 20px; gap: 1rem;">
+                            <nav>
+                                <a href="#">Ver Todos</a>
+                            </nav>
+                            <button type="button">
+                                <svg>
+                                    <use href="./assets/icons/arrow-narrow-left.svg"></use>
+                                </svg>
+                            </button>
+                            <button type="button">
+                                <svg>
+                                    <use href="./assets/icons/arrow-narrow-right.svg"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </header>
+                </aside>
+
+                <aside class="cartas cartas-mejores">
+                    <header>
+                        <h1>Los mejores puntuados</h1>
+                        <div style="display: flex; height: 20px; gap: 1rem;">
+                            <nav>
+                                <a href="#">Ver Todos</a>
+                            </nav>
+                            <button type="button">
+                                <svg>
+                                    <use href="./assets/icons/arrow-narrow-left.svg"></use>
+                                </svg>
+                            </button>
+                            <button type="button">
+                                <svg>
+                                    <use href="./assets/icons/arrow-narrow-right.svg"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </header>
+                </aside>
+            </div>
         </div>
     </main>
+
     <footer></footer>
 </body>
 

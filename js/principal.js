@@ -1,31 +1,26 @@
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
 
+    // ==========================
+    //   UBICACIÓN EN HEADER
+    // ==========================
     function actualizarHeaderUbicacion() {
         const ubicacionGuardada = localStorage.getItem('ubicacion_usuario');
-        
-        // Si no hay ubicación guardada, no hacemos nada (se queda "Acatlima")
         if (!ubicacionGuardada) return;
 
         try {
             const data = JSON.parse(ubicacionGuardada);
-            
-            // Buscamos el párrafo <p> dentro del div del header
-            // Estructura: header > div > svg + p
             const headerLocationText = document.querySelector('.main-header div p');
             
             if (headerLocationText) {
-                // Formateamos: "Calle, CP" o "Ciudad, Estado"
                 const textoMostrar = data.calle 
                     ? `${data.calle}, ${data.cp || ''}`
                     : data.direccion_completa;
 
-                // Actualizamos el texto y cortamos si es muy largo
                 headerLocationText.textContent = textoMostrar.length > 30 
                     ? textoMostrar.substring(0, 30) + '...' 
                     : textoMostrar;
                 
-                // Ponemos la dirección completa en el tooltip (al pasar el mouse)
                 headerLocationText.title = data.direccion_completa;
             }
         } catch (e) {
@@ -33,21 +28,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Ejecutamos la función inmediatamente al cargar
     actualizarHeaderUbicacion();
-    const searchBar = document.querySelector('.search-bar');
-    const filterButtons = document.querySelectorAll('.filtros button');
+
+    // ==========================
+    //   SELECTORES GENERALES
+    // ==========================
+    const searchBar      = document.querySelector('.search-bar');
+    const filterButtons  = document.querySelectorAll('.filtros button');
     const navMasBuscados = document.getElementById('nav-mas-buscados');
-    const navCategorias = document.getElementById('nav-categorias');
+    const navCategorias  = document.getElementById('nav-categorias');
 
     const shoppingCartBtn = document.getElementById('shopping-cart');
-    const userLoginBtn = document.getElementById('user-login');
+    const userLoginBtn    = document.getElementById('user-login');
 
-    // NUEVO: título dinámico para el carrusel "mejores"
-    let tituloMejoresElem = null;                          // NUEVO
-    const DEFAULT_MEJORES_TITLE = 'Los mejores puntuados'; // NUEVO
+    // CAMBIO: ahora tomamos los aside por sus clases nuevas
+    const asidePopulares = document.querySelector('.cartas-populares');
+    const asideMejores   = document.querySelector('.cartas-mejores');
 
-    // -------- Navegación header --------
+    let tituloPopularesElem = asidePopulares
+        ? asidePopulares.querySelector('header h1')
+        : null;
+    let tituloMejoresElem = asideMejores
+        ? asideMejores.querySelector('header h1')
+        : null;
+
+    const DEFAULT_POPULARES_TITLE = 'Populares cerca de ti';
+    const DEFAULT_MEJORES_TITLE   = 'Los mejores puntuados';
+
+    // Modo "resultados" (búsqueda/categoría) activo
+    let modoResultados = false;
+
+    // ==========================
+    //   NAV HEADER
+    // ==========================
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
             const idUsuario = localStorage.getItem('usuario_id');
@@ -68,7 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // -------- Helpers de fetch --------
+    // ==========================
+    //   HELPERS FETCH
+    // ==========================
     async function fetchJson(url) {
         try {
             const resp = await fetch(url);
@@ -93,11 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return fetchJson(url);
     }
 
-    async function getRestaurantesBusqueda(query) {
-        const url = `${API_BASE_URL}/restaurantes/buscar?q=${encodeURIComponent(query)}&solo_activos=true`;
-        return fetchJson(url);
-    }
-
     async function getRestaurantesFiltrados({ ratingMin = null, tiempoMax = null, costoEnvioMax = null } = {}) {
         const params = new URLSearchParams();
         params.append('solo_activos', 'true');
@@ -110,18 +120,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return fetchJson(url);
     }
 
-    // 👉 NUEVO: endpoint de populares
     async function getRestaurantesPopulares(limite = 6) {
         const url = `${API_BASE_URL}/restaurantes/populares?limite=${limite}`;
         return fetchJson(url);
     }
 
-    // 👉 NUEVO: restaurantes por categoría usando slugs y POST /restaurantes/por-categorias
-    async function getRestaurantesPorCategoriaSlug(slugCategoria) {          // NUEVO
-        const url = `${API_BASE_URL}/restaurantes/por-categorias`;          // NUEVO
-        const body = { categorias: [slugCategoria] };                       // NUEVO
+    async function getRestaurantesPorCategoriaSlug(slugCategoria) {
+        const url = `${API_BASE_URL}/restaurantes/por-categorias`;
+        const body = { categorias: [slugCategoria] };
 
-        try {                                                               // NUEVO
+        try {
             const resp = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -142,88 +150,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // -------- Render categorías en los menús laterales --------
-    function renderCategorias(categorias) {
-        if (navCategorias) {
-            navCategorias.innerHTML = '';
+    // ==========================
+    //   BUSQUEDA EN FRONTEND
+    // ==========================
+    function filtrarRestaurantesCoincidentes(restaurantes, query) {
+        if (!query) return restaurantes;
+        const q = query.toLowerCase();
 
-            navCategorias.style.minHeight = '230px';
-            navCategorias.style.overflowY = 'auto';
-
-            categorias.forEach(cat => {
-                const a = document.createElement('a');
-                a.href = '#';
-                a.textContent = cat.nombre;
-
-                // IMPORTANTE: usamos el slug que viene de la API
-                const slug = cat.slug || cat.nombre; // NUEVO (fallback por si acaso)
-
-                a.addEventListener('click', async (e) => { // NUEVO
-                    e.preventDefault();
-
-                    // Pedimos a la API los restaurantes de esa categoría (por slug)
-                    baseRestaurantes = await getRestaurantesPorCategoriaSlug(slug);
-
-                    const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
-                        const ra = a.calificacion?.promedio ?? 0;
-                        const rb = b.calificacion?.promedio ?? 0;
-                        return rb - ra;
-                    });
-                    setCarouselData('mejores', mejoresOrdenados);
-
-                    // Cambiamos el título del carrusel de "Los mejores puntuados"
-                    if (tituloMejoresElem) {                    // NUEVO
-                        tituloMejoresElem.textContent = cat.nombre;
-                    }
-                });
-
-                navCategorias.appendChild(a);
-            });
-        }
-
-        if (navMasBuscados) {
-            navMasBuscados.innerHTML = '';
-            categorias.slice(0, 6).forEach(cat => {
-                const a = document.createElement('a');
-                a.href = '#';
-                a.textContent = cat.nombre;
-
-                const slug = cat.slug || cat.nombre; // NUEVO (mismo que arriba)
-
-                a.addEventListener('click', async (e) => { // NUEVO
-                    e.preventDefault();
-
-                    baseRestaurantes = await getRestaurantesPorCategoriaSlug(slug);
-
-                    const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
-                        const ra = a.calificacion?.promedio ?? 0;
-                        const rb = b.calificacion?.promedio ?? 0;
-                        return rb - ra;
-                    });
-                    setCarouselData('mejores', mejoresOrdenados);
-
-                    if (tituloMejoresElem) {                    // NUEVO
-                        tituloMejoresElem.textContent = cat.nombre;
-                    }
-                });
-
-                navMasBuscados.appendChild(a);
-            });
-        }
+        return restaurantes.filter(r => {
+            const nombre = (r.nombre || '').toLowerCase();
+            const cats   = Array.isArray(r.categorias)
+                ? r.categorias.join(' ').toLowerCase()
+                : '';
+            return nombre.includes(q) || cats.includes(q);
+        });
     }
 
-    // -------- Crear tarjeta de restaurante --------
+    // ==========================
+    //   TARJETAS
+    // ==========================
     function createRestaurantCard(restaurante) {
         const card = document.createElement('div');
         card.className = 'tarjeta';
         card.setAttribute('data-id', restaurante.id);
 
-        const nombre = restaurante.nombre ?? 'Restaurante';
-        const minutosProm = restaurante.entrega?.minutosPromedio ?? '–';
-        const calificacion = restaurante.calificacion?.promedio ?? '–';
-        const tarifaEnvio = restaurante.entrega?.tarifa ?? 0;
-
-        const imagenUrl = restaurante.imagen || restaurante.imageUrl || './assets/images/Coffe-surf.jpg';
+        const nombre        = restaurante.nombre ?? 'Restaurante';
+        const minutosProm   = restaurante.entrega?.minutosPromedio ?? '–';
+        const calificacion  = restaurante.calificacion?.promedio ?? '–';
+        const tarifaEnvio   = restaurante.entrega?.tarifa ?? 0;
+        const imagenUrl     = restaurante.imagen || restaurante.imageUrl || './assets/images/Coffe-surf.jpg';
 
         card.innerHTML = `
             <img src="${imagenUrl}" alt="Imagen del restaurante">
@@ -240,14 +195,14 @@ document.addEventListener('DOMContentLoaded', () => {
             <button class="card-order-button-desktop">Ordenar ahora</button>
         `;
 
-        // Click en la tarjeta
+        card.style.gridRowStart = 'auto';
+
         card.addEventListener('click', (e) => {
             if (!e.target.classList.contains('card-order-button-desktop')) {
                 window.location.href = `restaurante.html?id=${restaurante.id}`;
             }
         });
 
-        // Click en "Ordenar ahora"
         card.querySelector('.card-order-button-desktop').addEventListener('click', (e) => {
             e.stopPropagation();
             window.location.href = `restaurante.html?id=${restaurante.id}`;
@@ -256,32 +211,42 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
-    // =====================================================
-    //               LÓGICA DE CARRUSELES
-    // =====================================================
+    function renderLista(aside, restaurantes) {
+        if (!aside) return;
 
-    let baseRestaurantes = [];       // para "mejores puntuados"
-    let popularesRestaurantes = [];  // para "populares cerca de ti"
-    const carousels = [];            // [{aside, prevBtn, nextBtn, data, visibleCount, startIndex, type}]
+        aside.querySelectorAll('.tarjeta').forEach(card => card.remove());
+        aside.querySelectorAll('.no-results').forEach(msg => msg.remove());
+
+        if (!restaurantes || restaurantes.length === 0) {
+            const msg = document.createElement('p');
+            msg.textContent = 'No se encontraron restaurantes.';
+            msg.style.marginTop = '1rem';
+            msg.classList.add('no-results');
+            aside.appendChild(msg);
+            return;
+        }
+
+        restaurantes.forEach(r => {
+            const card = createRestaurantCard(r);
+            aside.appendChild(card);
+        });
+    }
+
+    // ==========================
+    //   CARRUSEL (MODO NORMAL)
+    // ==========================
+    const carousels = [];
 
     function createCarousels() {
         const asides = document.querySelectorAll('.cartas');
 
         asides.forEach((aside, index) => {
             const header = aside.querySelector('header');
-            let prevBtn = aside.querySelector('.carousel-prev');
-            let nextBtn = aside.querySelector('.carousel-next');
+            let prevBtn = null;
+            let nextBtn = null;
 
-            // NUEVO: guardamos el <h1> del segundo carrusel ("Los mejores puntuados")
-            if (index === 1 && header) {                            // NUEVO
-                tituloMejoresElem = header.querySelector('h1');     // NUEVO
-            }                                                       // NUEVO
-
-            // Si no tienen clase, tomamos los dos primeros <button> del header
-            if (!prevBtn && header) {
+            if (header) {
                 prevBtn = header.querySelector('button:nth-of-type(1)');
-            }
-            if (!nextBtn && header) {
                 nextBtn = header.querySelector('button:nth-of-type(2)');
             }
 
@@ -304,9 +269,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 nextBtn.addEventListener('click', () => moveCarousel(carousel, +1));
             }
 
-            // Scroll + Shift para navegar
             aside.addEventListener('wheel', (e) => {
-                if (!e.shiftKey) return;
+                if (!e.shiftKey || modoResultados) return;
                 e.preventDefault();
                 if (e.deltaY > 0 || e.deltaX > 0) {
                     moveCarousel(carousel, +1);
@@ -328,19 +292,26 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCarousel(carousel) {
         const { aside, data, visibleCount, startIndex } = carousel;
 
-        // borrar tarjetas actuales (no tocamos el header)
         aside.querySelectorAll('.tarjeta').forEach(card => card.remove());
+        aside.querySelectorAll('.no-results').forEach(msg => msg.remove());
 
         const total = data.length;
-        if (!total) return;
+        if (!total) {
+            const msg = document.createElement('p');
+            msg.textContent = 'No se encontraron restaurantes.';
+            msg.style.marginTop = '1rem';
+            msg.classList.add('no-results');
+            aside.appendChild(msg);
+            return;
+        }
 
         const maxVisible = Math.min(visibleCount, total);
 
         for (let i = 0; i < maxVisible; i++) {
-            const idx = (startIndex + i) % total; // circular
+            const idx = (startIndex + i) % total;
             const restaurante = data[idx];
             const card = createRestaurantCard(restaurante);
-            aside.appendChild(card); // se posicionan en el grid según tu CSS
+            aside.appendChild(card);
         }
     }
 
@@ -352,87 +323,242 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCarousel(carousel);
     }
 
-    // =====================================================
-    //               LÓGICA PRINCIPAL
-    // =====================================================
+    // ==========================
+    //   FLECHAS / "VER TODOS"
+    // ==========================
+    function ocultarControlesCarrusel() {
+        const asides = document.querySelectorAll('.cartas');
+        asides.forEach(aside => {
+            const header = aside.querySelector('header');
+            if (!header) return;
 
-    async function cargarRestaurantesIniciales() {
-        // Aseguramos que el título del carrusel de "mejores" arranque bien
-        if (tituloMejoresElem) {
-            tituloMejoresElem.textContent = DEFAULT_MEJORES_TITLE; // NUEVO
+            const controlsDiv = header.querySelector('div');
+            if (controlsDiv) {
+                controlsDiv.style.display = 'none';
+            }
+        });
+    }
+
+    function mostrarControlesCarrusel() {
+        const asides = document.querySelectorAll('.cartas');
+        asides.forEach(aside => {
+            const header = aside.querySelector('header');
+            if (!header) return;
+
+            const controlsDiv = header.querySelector('div');
+            if (controlsDiv) {
+                controlsDiv.style.display = '';
+            }
+        });
+    }
+
+    // ==========================
+    //   MODO RESULTADOS
+    // ==========================
+    function mostrarResultados(restaurantes, titulo) {
+        modoResultados = true;
+
+        ocultarControlesCarrusel();
+
+        if (asidePopulares) {
+            if (tituloPopularesElem) tituloPopularesElem.textContent = titulo;
+            renderLista(asidePopulares, restaurantes);
         }
 
-        // 1) Populares
+        if (asideMejores) {
+            asideMejores.style.display = 'none';
+        }
+
+        if (tituloMejoresElem) tituloMejoresElem.textContent = '';
+    }
+
+    async function restaurarVistaInicial() {
+        modoResultados = false;
+
+        if (asideMejores) {
+            asideMejores.style.display = '';
+        }
+
+        mostrarControlesCarrusel();
+        await cargarRestaurantesIniciales();
+    }
+
+    // ==========================
+    //   CATEGORÍAS / ETIQUETAS
+    // ==========================
+    function renderCategorias(categorias) {
+        if (navCategorias) {
+            navCategorias.innerHTML = '';
+            navCategorias.style.minHeight = '230px';
+            navCategorias.style.overflowY = 'auto';
+
+            categorias.forEach(cat => {
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = cat.nombre;
+
+                const slug = cat.slug || cat.nombre;
+
+                a.addEventListener('click', async (e) => {
+                    e.preventDefault();
+
+                    let restaurantesCat = await getRestaurantesPorCategoriaSlug(slug);
+                    restaurantesCat = restaurantesCat || [];
+
+                    const ordenados = [...restaurantesCat].sort((a, b) => {
+                        const ra = a.calificacion?.promedio ?? 0;
+                        const rb = b.calificacion?.promedio ?? 0;
+                        return rb - ra;
+                    });
+
+                    mostrarResultados(ordenados, cat.nombre);
+                });
+
+                navCategorias.appendChild(a);
+            });
+        }
+
+        if (navMasBuscados) {
+            navMasBuscados.innerHTML = '';
+            categorias.slice(0, 6).forEach(cat => {
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = cat.nombre;
+
+                const slug = cat.slug || cat.nombre;
+
+                a.addEventListener('click', async (e) => {
+                    e.preventDefault();
+
+                    let restaurantesCat = await getRestaurantesPorCategoriaSlug(slug);
+                    restaurantesCat = restaurantesCat || [];
+
+                    const ordenados = [...restaurantesCat].sort((a, b) => {
+                        const ra = a.calificacion?.promedio ?? 0;
+                        const rb = b.calificacion?.promedio ?? 0;
+                        return rb - ra;
+                    });
+
+                    mostrarResultados(ordenados, cat.nombre);
+                });
+
+                navMasBuscados.appendChild(a);
+            });
+        }
+    }
+
+    // ==========================
+    //   ESTADO DE RESTAURANTES
+    // ==========================
+    let todosRestaurantes      = [];
+    let popularesRestaurantes  = [];
+    let mejoresRestaurantes    = [];
+
+    async function cargarRestaurantesIniciales() {
+        if (tituloPopularesElem) tituloPopularesElem.textContent = DEFAULT_POPULARES_TITLE;
+        if (tituloMejoresElem)   tituloMejoresElem.textContent   = DEFAULT_MEJORES_TITLE;
+
+        if (!todosRestaurantes.length) {
+            todosRestaurantes = await getRestaurantesTodos();
+        }
+
         popularesRestaurantes = await getRestaurantesPopulares(6);
         setCarouselData('populares', popularesRestaurantes);
 
-        // 2) Todos: se usan para "mejores puntuados"
-        baseRestaurantes = await getRestaurantesTodos();
-        const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
+        mejoresRestaurantes = [...todosRestaurantes].sort((a, b) => {
             const ra = a.calificacion?.promedio ?? 0;
             const rb = b.calificacion?.promedio ?? 0;
             return rb - ra;
         });
-        setCarouselData('mejores', mejoresOrdenados);
+        setCarouselData('mejores', mejoresRestaurantes);
     }
 
-    // Búsqueda → solo afecta "mejores puntuados"
+    // ==========================
+    //   BÚSQUEDA EN VIVO
+    // ==========================
+    let searchTimeout = null;
+
+    async function aplicarBusqueda(query) {
+        const q = query.trim();
+
+        if (!q) {
+            await restaurarVistaInicial();
+            return;
+        }
+
+        if (!todosRestaurantes.length) {
+            todosRestaurantes = await getRestaurantesTodos();
+        }
+
+        let resultados = filtrarRestaurantesCoincidentes(todosRestaurantes, q);
+        mostrarResultados(resultados, q);
+    }
+
     if (searchBar) {
+        searchBar.addEventListener('input', (e) => {
+            const value = e.target.value;
+            if (searchTimeout) clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                aplicarBusqueda(value);
+            }, 250);
+        });
+
         const form = searchBar.closest('form');
         if (form) {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const query = searchBar.value.trim();
-
-                // Al buscar, regresamos el título a su valor por defecto
-                if (tituloMejoresElem) {                       // NUEVO
-                    tituloMejoresElem.textContent = DEFAULT_MEJORES_TITLE;
-                }
-
-                if (!query) {
-                    baseRestaurantes = await getRestaurantesTodos();
-                } else {
-                    baseRestaurantes = await getRestaurantesBusqueda(query);
-                }
-
-                const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
-                    const ra = a.calificacion?.promedio ?? 0;
-                    const rb = b.calificacion?.promedio ?? 0;
-                    return rb - ra;
-                });
-                setCarouselData('mejores', mejoresOrdenados);
+                const query = searchBar.value;
+                aplicarBusqueda(query);
             });
         }
     }
 
-    // Filtros → también solo afectan "mejores puntuados"
+    // ==========================
+    //   FILTROS
+    // ==========================
     filterButtons.forEach(button => {
         button.addEventListener('click', async () => {
             const texto = button.textContent.trim();
 
-            // Al usar filtros, devolvemos también el título original
-            if (tituloMejoresElem) {                       // NUEVO
-                tituloMejoresElem.textContent = DEFAULT_MEJORES_TITLE;
+            modoResultados = false;
+
+            if (asideMejores) {
+                asideMejores.style.display = '';
             }
 
+            if (tituloPopularesElem) tituloPopularesElem.textContent = DEFAULT_POPULARES_TITLE;
+            if (tituloMejoresElem)   tituloMejoresElem.textContent   = DEFAULT_MEJORES_TITLE;
+
+            mostrarControlesCarrusel();
+
+            if (!popularesRestaurantes.length) {
+                popularesRestaurantes = await getRestaurantesPopulares(6);
+            }
+            setCarouselData('populares', popularesRestaurantes);
+
+            let filtrados = [];
             if (texto.includes('Mayor calificación')) {
-                baseRestaurantes = await getRestaurantesFiltrados({ ratingMin: 4.5 });
+                filtrados = await getRestaurantesFiltrados({ ratingMin: 4.5 });
             } else if (texto.includes('Menos de 30 min')) {
-                baseRestaurantes = await getRestaurantesFiltrados({ tiempoMax: 30 });
+                filtrados = await getRestaurantesFiltrados({ tiempoMax: 30 });
             } else {
-                baseRestaurantes = await getRestaurantesTodos();
+                filtrados = await getRestaurantesTodos();
             }
 
-            const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
+            filtrados = filtrados || [];
+            const ordenados = [...filtrados].sort((a, b) => {
                 const ra = a.calificacion?.promedio ?? 0;
                 const rb = b.calificacion?.promedio ?? 0;
                 return rb - ra;
             });
-            setCarouselData('mejores', mejoresOrdenados);
+
+            setCarouselData('mejores', ordenados);
         });
     });
 
-    // Navegación móvil (simulada)
+    // ==========================
+    //   NAV MÓVIL
+    // ==========================
     const mobileNavLinks = document.querySelectorAll('.mobile-nav a');
     if (mobileNavLinks) {
         mobileNavLinks.forEach(link => {
@@ -444,42 +570,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Init
+    // ==========================
+    //   INIT
+    // ==========================
     async function init() {
-    createCarousels();
+        createCarousels();
 
-    const params = new URLSearchParams(window.location.search);
-    const categoriaSlug = params.get('categoria');
+        const params        = new URLSearchParams(window.location.search);
+        const categoriaSlug = params.get('categoria');
 
-    // 1) Populares siempre
-    popularesRestaurantes = await getRestaurantesPopulares(6);
-    setCarouselData('populares', popularesRestaurantes);
+        todosRestaurantes = await getRestaurantesTodos();
 
-    // 2) Si viene ?categoria=..., filtramos por esa categoría
-    if (categoriaSlug) {
-        baseRestaurantes = await getRestaurantesPorCategoriaSlug(categoriaSlug);
+        if (categoriaSlug) {
+            let restaurantesCat = await getRestaurantesPorCategoriaSlug(categoriaSlug);
+            restaurantesCat = restaurantesCat || [];
 
-        const mejoresOrdenados = [...baseRestaurantes].sort((a, b) => {
-            const ra = a.calificacion?.promedio ?? 0;
-            const rb = b.calificacion?.promedio ?? 0;
-            return rb - ra;
-        });
-        setCarouselData('mejores', mejoresOrdenados);
+            const ordenados = [...restaurantesCat].sort((a, b) => {
+                const ra = a.calificacion?.promedio ?? 0;
+                const rb = b.calificacion?.promedio ?? 0;
+                return rb - ra;
+            });
 
-        // si ya cargaste las categorías, puedes buscar el nombre por slug y
-        // ponerlo como título; si no, podrías usar el slug directo
-        if (tituloMejoresElem) {
-            tituloMejoresElem.textContent = categoriaSlug;
+            mostrarResultados(ordenados, categoriaSlug);
+        } else {
+            await cargarRestaurantesIniciales();
         }
-    } else {
-        // Comportamiento normal
-        await cargarRestaurantesIniciales();
+
+        const categorias = await getCategorias();
+        renderCategorias(categorias);
     }
-
-    const categorias = await getCategorias();
-    renderCategorias(categorias);
-}
-
 
     init();
 });
