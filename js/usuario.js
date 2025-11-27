@@ -70,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // PEDIDOS
     const listaPedidosEl = document.getElementById('lista-pedidos');
 
-    let menuAbierto        = false;
-    let usuarioActual      = null;
-    let usuarioId          = null;
-    let editMode           = false;
+    let menuAbierto         = false;
+    let usuarioActual       = null;
+    let usuarioId           = null;
+    let editMode            = false;
     let direccionesActuales = [];
     let indiceEdicionDireccion = null; // null = nueva, número = editar esa
 
@@ -101,6 +101,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (userLoginBtn) {
         userLoginBtn.addEventListener('click', (e) => {
             e.stopPropagation();
+
+            const idUsuario = localStorage.getItem('usuario_id');
+            if (!idUsuario) {
+                // Sin sesión → ir a login
+                window.location.href = 'login.html';
+                return;
+            }
+
             if (!userMenu) return;
 
             menuAbierto = !menuAbierto;
@@ -139,12 +147,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Botón "Logout" funcionando
     if (userLogoutBtn) {
         userLogoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Aquí luego puedes hacer logout real
-            // localStorage.removeItem('usuario_id');
-            // window.location.href = 'login.html';
+            const confirmar = confirm('¿Seguro que quieres cerrar sesión?');
+            if (!confirmar) return;
+
+            // Elimina la información principal del usuario
+            localStorage.removeItem('usuario_id');
+            localStorage.removeItem('usuario_data');
+            // Si guardas token:
+            // localStorage.removeItem('access_token');
+
+            // Cerrar menú en pantalla
+            menuAbierto = false;
+            if (userMenu) userMenu.style.display = 'none';
+
+            // Redirigir a la página principal
+            window.location.href = 'principal.html';
         });
     }
 
@@ -615,9 +636,10 @@ document.addEventListener('DOMContentLoaded', () => {
             usuarioId = localStorage.getItem('usuario_id');
         }
 
+        // Si NO hay sesión → mandar a principal
         if (!usuarioId) {
-            console.warn('No se encontró id_usuario, redirigiendo a login...');
-            window.location.href = 'login.html';
+            console.warn('No se encontró id_usuario, redirigiendo a principal...');
+            window.location.href = 'principal.html';
             return;
         }
 
@@ -625,10 +647,16 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('usuario_id', usuarioId);
 
         const usuario = await getUsuarioPorId(usuarioId);
-        if (usuario) {
-            renderPerfilUsuario(usuario);
-            renderHeaderUserMenu(usuario);
+        if (!usuario) {
+            console.warn('Usuario no encontrado o sesión inválida. Redirigiendo a principal...');
+            localStorage.removeItem('usuario_id');
+            localStorage.removeItem('usuario_data');
+            window.location.href = 'principal.html';
+            return;
         }
+
+        renderPerfilUsuario(usuario);
+        renderHeaderUserMenu(usuario);
 
         const direcciones = await getDireccionesUsuario(usuarioId);
         renderDirecciones(direcciones || []);
