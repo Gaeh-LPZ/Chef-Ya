@@ -45,12 +45,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const userMenu = document.getElementById('user-menu');
     const userProfileBtn = document.getElementById('user-profile-btn');
     const userLogoutBtn = document.getElementById('user-logout-btn');
-    // Agregamos ahora los datos de los usuarios
     const userNameLabel = document.getElementById('user-name-label');
     const userEmailLabel = document.getElementById('user-email-label');
-    
-    // Estado del menú
+
+    // Estado del menú / usuario
     let menuAbierto = false;
+    let usuarioId = null;
+    let usuarioActual = null;
+    let usuarioLogueado = false; // 👈 clave
 
     // Asegurar que empiece oculto (por si acaso)
     if (userMenu) {
@@ -90,6 +92,10 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`;
         });
     }
+
+    // ==========================
+    //   USUARIO (API + MENÚ)
+    // ==========================
     async function getUsuarioPorId(idUsuario) {
         const url = `${API_BASE_URL}/usuarios/${idUsuario}`;
 
@@ -109,26 +115,40 @@ document.addEventListener('DOMContentLoaded', () => {
     async function rellenarDatosUsuarioMenu() {
         if (!userNameLabel || !userEmailLabel) return;
 
-        const idUsuario = localStorage.getItem('usuario_id');
-        if (!idUsuario) {
-            // Si no hay usuario logueado, puedes dejar los textos por defecto
+        usuarioId = localStorage.getItem('usuario_id');
+        usuarioLogueado = false; // por defecto
+
+        if (!usuarioId) {
+            // No hay usuario en localStorage → aseguramos menú oculto
+            if (userMenu) userMenu.style.display = 'none';
             return;
         }
 
-        const usuario = await getUsuarioPorId(idUsuario);
-        if (!usuario) return;
+        const usuario = await getUsuarioPorId(usuarioId);
+        if (!usuario) {
+            // No se pudo obtener desde la API → tratar como no logueado
+            if (userMenu) userMenu.style.display = 'none';
+            return;
+        }
+
+        usuarioActual = usuario;
+        usuarioLogueado = true;
 
         // Según tu esquema de la API, UsuarioLeer tiene nombre y correo
         userNameLabel.textContent = usuario.nombre || 'Usuario';
         userEmailLabel.textContent = usuario.correo || 'correo@ejemplo.com';
     }
 
-    // BOTÓN DE USUARIO: abre/cierra menú
+    // BOTÓN DE USUARIO: abre/cierra menú o va a login
     if (userLoginBtn) {
         userLoginBtn.addEventListener('click', (e) => {
             e.stopPropagation();
 
-            
+            // Si NO hay usuario logueado → mandar a login
+            if (!usuarioLogueado) {
+                window.location.href = 'login.html';
+                return;
+            }
 
             if (!userMenu) return;
 
@@ -157,33 +177,41 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    userProfileBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const idUsuario = localStorage.getItem('usuario_id');
-        if (!idUsuario) {
-            window.location.href = 'login.html';
-            return;
-        }
-        window.location.href = `usuario.html?id_usuario=${encodeURIComponent(idUsuario)}`;
-    });
+    // Botón "Ver mi usuario"
+    if (userProfileBtn) {
+        userProfileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const idUsuario = localStorage.getItem('usuario_id');
+            if (!idUsuario) {
+                window.location.href = 'login.html';
+                return;
+            }
+            window.location.href = `usuario.html?id_usuario=${encodeURIComponent(idUsuario)}`;
+        });
+    }
 
+    // Botón "Logout"
     if (userLogoutBtn) {
         userLogoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             const confirmar = confirm('¿Seguro que quieres cerrar sesión?');
-        if (!confirmar) return;
+            if (!confirmar) return;
 
-        // Elimina la información principal del usuario
-        localStorage.removeItem('usuario_id');
-        localStorage.removeItem('usuario_data'); // solo si la usas
-        // Si guardas también el token, puedes borrarlo aquí:
-        // localStorage.removeItem('access_token');
+            // Elimina la información principal del usuario
+            localStorage.removeItem('usuario_id');
+            localStorage.removeItem('usuario_data'); // solo si la usas
+            // Si guardas también el token, puedes borrarlo aquí:
+            // localStorage.removeItem('access_token');
 
-        // Opcional: también podrías limpiar ubicación si quieres que se pida de nuevo
-        // localStorage.removeItem('ubicacion_usuario');
+            // Limpiar estado en memoria
+            usuarioId = null;
+            usuarioActual = null;
+            usuarioLogueado = false;
+            menuAbierto = false;
+            if (userMenu) userMenu.style.display = 'none';
 
-        // Redirigir a login
-        window.location.href = 'principal.html';
+            // Redirigir (puedes dejar principal o login, como prefieras)
+            window.location.href = 'principal.html';
         });
     }
 
@@ -704,6 +732,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const categorias = await getCategorias();
         renderCategorias(categorias);
+
+        // 👇 Cargar datos de usuario (si hay) y decidir si hay sesión
         await rellenarDatosUsuarioMenu();
     }
 
