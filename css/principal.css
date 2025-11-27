@@ -276,7 +276,27 @@ main {
     }
 
     .main-header {
+        display: flex !important; /* Lo hacemos visible */
+        padding: 8px 12px;
+        gap: 0.5rem;
+        position: relative; /* Para que el menú de usuario se posicione bien */
+        background-color: #f3f3f3;
+    }
+
+    .main-header .logo {
+        width: 120px;
+    }
+
+    .main-header > div p {
         display: none;
+    }
+
+    .main-header form {
+        display: none;
+    }
+
+    .mobile-nav {
+        display: none !important;
     }
 
     .mobile-track {
@@ -293,34 +313,14 @@ main {
     .mobile-track::-webkit-scrollbar {
         display: none; /* Ocultar scrollbar Chrome/Safari */
     }
-    .mobile-nav {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 1rem 0;
-        border-bottom: 1px solid #eee;
-        background-color: white;
-        font-weight: 500;
-        font-size: 1.1rem;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
-    .mobile-nav a {
-        text-decoration: none;
-        color: #888;
-        padding: 0.5rem;
-    }
-    .mobile-nav a.active {
-        color: var(--text-primary, black);
-        border-bottom: 2px solid var(--text-primary, black);
-    }
 
     main {
-        height: auto !important;       /* Quita la altura fija de 78vh */
-        min-height: auto !important;   /* Asegura que no tenga altura mínima forzada */
-        display: block !important;     /* Quita el flex que intenta centrar todo */
-        padding-top: 1rem !important;  /* Reduce el espacio superior */
+        height: auto !important;
+        min-height: auto !important;
+        display: block !important;
+        padding-top: 1rem !important;
+        /* Quitamos el margen top 0 que suelen tener los reset si molesta */
+        margin-top: 0; 
     }
 
     .filtros,
