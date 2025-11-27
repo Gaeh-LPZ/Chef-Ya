@@ -1,7 +1,8 @@
 # backend/app/routers/ubicacion.py
 from fastapi import APIRouter, HTTPException, status
 from schemas.ubicacion import UbicacionValidada
-from services.ubicacion_service import validar_direccion_servicio
+from typing import List 
+from services.ubicacion_service import validar_direccion_servicio, buscar_direcciones_servicio
 
 router = APIRouter(prefix="/ubicacion", tags=["Ubicacion"])
 
@@ -19,3 +20,10 @@ async def validar_ubicacion(q: str):
         )
     
     return resultado
+
+@router.get("/buscar", response_model=List[UbicacionValidada])
+async def buscar_ubicacion(q: str):
+    """
+    Devuelve una lista de sugerencias de ubicación.
+    """
+    return await buscar_direcciones_servicio(q)
