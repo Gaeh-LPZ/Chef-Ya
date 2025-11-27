@@ -882,7 +882,7 @@ dbChef.productos.insertMany([
         etiquetas: ["pizzeria"],
         categoriaMenu: "Platos fuertes",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
     {
         _id: productoId137,
@@ -895,7 +895,7 @@ dbChef.productos.insertMany([
         etiquetas: ["pizzeria"],
         categoriaMenu: "Platos fuertes",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
     {
         _id: productoId138,
@@ -908,7 +908,7 @@ dbChef.productos.insertMany([
         etiquetas: ["italiana"],
         categoriaMenu: "Platos fuertes",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
     {
         _id: productoId139,
@@ -921,7 +921,7 @@ dbChef.productos.insertMany([
         etiquetas: ["italiana"],
         categoriaMenu: "Entradas",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
     {
         _id: productoId140,
@@ -934,7 +934,7 @@ dbChef.productos.insertMany([
         etiquetas: ["bebidas"],
         categoriaMenu: "Bebidas",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
 
     // ============================================================
@@ -951,7 +951,7 @@ dbChef.productos.insertMany([
         etiquetas: ["vegana"],
         categoriaMenu: "Platos fuertes",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
     {
         _id: productoId142,
@@ -964,7 +964,7 @@ dbChef.productos.insertMany([
         etiquetas: ["vegana"],
         categoriaMenu: "Platos fuertes",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
     {
         _id: productoId143,
@@ -977,7 +977,7 @@ dbChef.productos.insertMany([
         etiquetas: ["vegana"],
         categoriaMenu: "Entradas",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
     {
         _id: productoId144,
@@ -990,7 +990,7 @@ dbChef.productos.insertMany([
         etiquetas: ["vegana"],
         categoriaMenu: "Platos fuertes",
         creadoEn: ahora,
-        actualizadoEn: now
+        actualizadoEn: ahora
     },
     {
         _id: productoId145,
