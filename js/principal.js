@@ -1,6 +1,205 @@
 document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://chef-ya-api.onrender.com';
 
+    const searchBar      = document.querySelector('.search-bar');
+    const selectOrdenar = document.getElementById('filtro-ordenar');
+    const selectEnvio   = document.getElementById('filtro-envio');
+
+    let estadoFiltros = {
+    texto: '',
+    orden: '',
+    envio: ''
+    };
+
+    function aplicarFiltrosGlobales() {
+        // Si no hay filtros activos, volvemos a la vista normal (carruseles)
+        if (!estadoFiltros.texto && !estadoFiltros.orden && !estadoFiltros.envio) {
+            restaurarVistaInicial();
+            return;
+        }
+
+        // Empezamos con TODOS los restaurantes (copia del array original)
+        let resultados = [...todosRestaurantes];
+
+        // A) Filtro por Texto (Búsqueda)
+        if (estadoFiltros.texto) {
+            const q = estadoFiltros.texto.toLowerCase();
+            resultados = resultados.filter(r => {
+                const nombre = (r.nombre || '').toLowerCase();
+                const cats = Array.isArray(r.categorias) ? r.categorias.join(' ').toLowerCase() : '';
+                return nombre.includes(q) || cats.includes(q);
+            });
+        }
+
+        // B) Filtro por Costo de Envío
+        if (estadoFiltros.envio) {
+            if (estadoFiltros.envio === 'gratis') {
+                resultados = resultados.filter(r => (r.entrega?.tarifa || 0) === 0);
+            } else {
+                const max = parseFloat(estadoFiltros.envio);
+                resultados = resultados.filter(r => (r.entrega?.tarifa || 0) <= max);
+            }
+        }
+
+        // C) Ordenamiento
+        if (estadoFiltros.orden) {
+            resultados.sort((a, b) => {
+                if (estadoFiltros.orden === 'calificacion') {
+                    // De mayor a menor
+                    return (b.calificacion?.promedio || 0) - (a.calificacion?.promedio || 0);
+                }
+                if (estadoFiltros.orden === 'tiempo') {
+                    // De menor a mayor (los más rápidos primero)
+                    return (a.entrega?.minutosPromedio || 999) - (b.entrega?.minutosPromedio || 999);
+                }
+                if (estadoFiltros.orden === 'envio') {
+                    // De menor a mayor precio
+                    return (a.entrega?.tarifa || 0) - (b.entrega?.tarifa || 0);
+                }
+                return 0;
+            });
+        }
+
+        // Definir el título dinámicamente
+        let titulo = "Resultados";
+        if (estadoFiltros.texto) titulo = `Resultados para "${estadoFiltros.texto}"`;
+        else if (estadoFiltros.orden === 'calificacion') titulo = "Mejor calificados";
+        else if (estadoFiltros.orden === 'tiempo') titulo = "Los más rápidos";
+        else if (estadoFiltros.envio) titulo = "Filtro de envío";
+
+        // Mostrar los resultados usando tu función existente
+        mostrarResultados(resultados, titulo);
+    }
+    
+    if (searchBar) {
+    searchBar.addEventListener('input', (e) => {
+        estadoFiltros.texto = e.target.value.trim();
+        // Usamos un pequeño retardo (debounce) para que no parpadee mientras escribes
+        if (searchTimeout) clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            aplicarFiltrosGlobales();
+        }, 300);
+    });
+}
+
+    // B. Select de Ordenar
+    if (selectOrdenar) {
+        selectOrdenar.addEventListener('change', (e) => {
+            estadoFiltros.orden = e.target.value;
+            aplicarFiltrosGlobales();
+        });
+    }
+
+    // C. Select de Envío
+    if (selectEnvio) {
+        selectEnvio.addEventListener('change', (e) => {
+            estadoFiltros.envio = e.target.value;
+            aplicarFiltrosGlobales();
+        });
+    }
+
+    function configurarCarrusel(aside, datosRestaurantes) {
+        const header = aside.querySelector('header');
+        let prevBtn = null;
+        let nextBtn = null;
+
+        if (header) {
+            prevBtn = header.querySelector('button:nth-of-type(1)');
+            nextBtn = header.querySelector('button:nth-of-type(2)');
+        }
+
+        // Objeto de configuración del carrusel
+        const carousel = {
+            aside,
+            data: datosRestaurantes,
+            visibleCount: 3,
+            startIndex: 0
+        };
+
+        // Listeners de botones (Desktop)
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                const total = carousel.data.length;
+                carousel.startIndex = (carousel.startIndex - 1 + total) % total;
+                renderCarousel(carousel);
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const total = carousel.data.length;
+                carousel.startIndex = (carousel.startIndex + 1) % total;
+                renderCarousel(carousel);
+            });
+        }
+
+        // Listener de scroll (Desktop - Wheel)
+        aside.addEventListener('wheel', (e) => {
+            // Ignoramos si es móvil (porque móvil usa scroll nativo) o si estamos en modo búsqueda
+            if (window.innerWidth <= 768 || modoResultados) return; 
+            
+            if (e.shiftKey) {
+                e.preventDefault();
+                const total = carousel.data.length;
+                if (e.deltaY > 0 || e.deltaX > 0) {
+                    carousel.startIndex = (carousel.startIndex + 1) % total;
+                } else if (e.deltaY < 0 || e.deltaX < 0) {
+                    carousel.startIndex = (carousel.startIndex - 1 + total) % total;
+                }
+                renderCarousel(carousel);
+            }
+        }, { passive: false });
+
+        // Render inicial
+        renderCarousel(carousel);
+    }
+
+    // Función principal para generar las secciones
+    function renderCategoriasDinamicas(categorias, todosLosRestaurantes) {
+        const contenedor = document.getElementById('contenedor-categorias-dinamicas');
+        if (!contenedor) return;
+
+        contenedor.innerHTML = ''; // Limpiar por si acaso
+
+        categorias.forEach(cat => {
+            // 1. Filtramos los restaurantes que pertenecen a esta categoría
+            //    (Comparando el slug de la categoría con el array de categorias del restaurante)
+            const restaurantesDeLaCategoria = todosLosRestaurantes.filter(r => 
+                Array.isArray(r.categorias) && r.categorias.includes(cat.slug)
+            );
+
+            // 2. Si no hay restaurantes para esta categoría, no la mostramos
+            if (restaurantesDeLaCategoria.length === 0) return;
+
+            // 3. Creamos la estructura HTML (Idéntica a la que tienes en principal.html)
+            const aside = document.createElement('aside');
+            aside.className = 'cartas'; // Esto hereda todos los estilos que ya arreglamos
+            aside.style.marginTop = '2rem'; // Un poco de separación extra
+
+            aside.innerHTML = `
+                <header>
+                    <h1>${cat.nombre}</h1>
+                    <div style="display: flex; height: 20px; gap: 1rem;">
+                        <nav>
+                            <a href="principal.html?categoria=${cat.slug}">Ver Todos</a>
+                        </nav>
+                        <button type="button">
+                            <img src="./assets/icons/arrow-narrow-left.svg" alt="arrow left">
+                        </button>
+                        <button type="button">
+                            <img src="./assets/icons/arrow-narrow-right.svg" alt="arrow right">
+                        </button>
+                    </div>
+                </header>
+                `;
+
+            // 4. Agregamos al DOM
+            contenedor.appendChild(aside);
+
+            // 5. Activamos la lógica del carrusel para este bloque
+            configurarCarrusel(aside, restaurantesDeLaCategoria);
+        });
+    }
+
     // ==========================
     //   UBICACIÓN EN HEADER
     // ==========================
@@ -75,7 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================
     //   SELECTORES GENERALES
     // ==========================
-    const searchBar      = document.querySelector('.search-bar');
     const filterButtons  = document.querySelectorAll('.filtros button');
     const navMasBuscados = document.getElementById('nav-mas-buscados');
     const navCategorias  = document.getElementById('nav-categorias');
@@ -553,6 +751,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (tituloMejoresElem) tituloMejoresElem.textContent = '';
+
+        const contenedorCategorias = document.getElementById('contenedor-categorias-dinamicas');
+        
+        if (contenedorCategorias) {
+            contenedorCategorias.style.display = 'none';
+        }
     }
 
     async function restaurarVistaInicial() {
@@ -763,6 +967,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const categoriaSlug = params.get('categoria');
 
         todosRestaurantes = await getRestaurantesTodos();
+        const categorias = await getCategorias();
+        renderCategorias(categorias);
 
         if (categoriaSlug) {
             let restaurantesCat = await getRestaurantesPorCategoriaSlug(categoriaSlug);
@@ -776,11 +982,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             mostrarResultados(ordenados, categoriaSlug);
         } else {
+            renderCategoriasDinamicas(categorias, todosRestaurantes);
             await cargarRestaurantesIniciales();
         }
 
-        const categorias = await getCategorias();
-        renderCategorias(categorias);
+        
 
         // rellenar menú de usuario si hay sesión
         await rellenarDatosUsuarioMenu();
