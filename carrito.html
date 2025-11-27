@@ -4,20 +4,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantalla de Pago</title>
+    <title>Chef Ya! | Pantalla de Pago</title>
+
+    <!-- Tailwind (como ya lo tenías) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ESTILOS DEL HEADER (mismo que en principal.html) -->
+    <link rel="stylesheet" href="./css/principal.css">
+
+    <!-- ESTILOS ESPECÍFICOS DEL CARRITO (como ya lo tenías) -->
+    <link rel="stylesheet" href="css/carrito.css">
+
+    <!-- ICONOS / FUENTES (como ya lo tenías) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- JS DEL HEADER / PRINCIPAL (reutilizado) -->
+    <script src="./js/principal.js" defer></script>
+
+    <!-- JS DEL CARRITO (tal cual lo tenías) -->
     <script src="./js/carrito.js" type="module"></script>
-    <link rel="stylesheet" href="css/carrito.css">
 </head>
 
 <body class="bg-gray-50 text-gray-900 min-h-screen">
 
-    <!-- Main Container -->
+    <!-- NAV MÓVIL + HEADER GLOBAL REUTILIZADO DE principal.html -->
+    <nav class="mobile-nav">
+        <a href="#">Ofertas</a>
+        <a href="principal.html" class="active">Principal</a>
+        <a href="#">Favoritos</a>
+    </nav>
+
+    <header class="main-header">
+        <button type="button" id="menu-button" aria-label="menu access button">
+            <img src="./assets/icons/menu-2.svg" alt="menu-button" style="width: auto; height: 30px;">
+        </button>
+        <a href="principal.html">
+            <img src="./assets/images/Logo.png" alt="Logo-ChefYa" class="logo">
+        </a>
+        <div>
+            <img src="./assets/icons/map-pin.svg" alt="map-pin icon" style="width: 23px; height: 23px;">
+            <p>Acatlima 69004</p>
+        </div>
+        <form>
+            <label>
+                <input
+                    type="search"
+                    name="search-restaurants"
+                    placeholder="Buscar restaurantes"
+                    class="search-bar"
+                >
+            </label>
+        </form>
+        <button type="button" id="shopping-cart" aria-label="shopping-cart button">
+            <img src="./assets/icons/shopping-cart.svg" alt="shopping-cart icon" style="width: 30px; height: 30px;">
+        </button>
+        <button type="button" id="user-login" aria-label="user-login button">
+            <img src="./assets/icons/User.svg" alt="user login icon" style="width: 30px; height: 30px;">
+        </button>
+
+        <!-- MENÚ DE USUARIO (DESPLEGABLE) -->
+        <div id="user-menu" class="user-menu" style="display: none;">
+            <p class="user-menu-label">
+                <strong>Usuario:</strong>
+                <span id="user-name-label">Nombre de usuario</span>
+            </p>
+            <p class="user-menu-label">
+                <strong>Correo:</strong>
+                <span id="user-email-label">correo@ejemplo.com</span>
+            </p>
+
+            <div class="user-menu-actions">
+                <button type="button" id="user-profile-btn">Ver mi usuario</button>
+                <button type="button" id="user-logout-btn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container DEL CHECKOUT (TAL CUAL LO TENÍAS) -->
     <div class="max-w-6xl mx-auto bg-white min-h-screen shadow-sm md:my-8 md:rounded-2xl md:min-h-0 md:overflow-hidden">
 
-        <!-- Header -->
+        <!-- Header interno del checkout -->
         <div class="sticky top-0 z-10 bg-white border-b border-gray-100 px-4 py-4 md:px-8 md:py-6">
             <div class="relative flex items-center justify-center md:justify-start">
                 <button class="absolute left-0 p-2 hover:bg-gray-100 rounded-full md:hidden">
