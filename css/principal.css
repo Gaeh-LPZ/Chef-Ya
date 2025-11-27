@@ -279,6 +279,20 @@ main {
         display: none;
     }
 
+    .mobile-track {
+        display: flex;
+        flex-direction: row; /* Las tarjetas van de lado */
+        gap: 1rem;
+        overflow-x: auto; /* Scroll horizontal AQUÍ */
+        scroll-snap-type: x mandatory;
+        padding: 0.5rem 1rem 1.5rem 1rem; /* Padding para que se vea la sombra y margen izq */
+        scrollbar-width: none; /* Ocultar scrollbar Firefox */
+        width: 100%;
+    }
+
+    .mobile-track::-webkit-scrollbar {
+        display: none; /* Ocultar scrollbar Chrome/Safari */
+    }
     .mobile-nav {
         display: flex;
         justify-content: space-around;
@@ -303,8 +317,10 @@ main {
     }
 
     main {
-        margin-top: 0;
-        padding: 1rem;
+        height: auto !important;       /* Quita la altura fija de 78vh */
+        min-height: auto !important;   /* Asegura que no tenga altura mínima forzada */
+        display: block !important;     /* Quita el flex que intenta centrar todo */
+        padding-top: 1rem !important;  /* Reduce el espacio superior */
     }
 
     .filtros,
@@ -312,7 +328,8 @@ main {
         display: none !important;
     }
     .columnas-cartas {
-        padding-right: 0rem;
+        display: block !important;
+        padding-right: 0 !important;
     }
     .separacion {
         flex-direction: column;
@@ -322,28 +339,46 @@ main {
     }
 
     .cartas {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        grid-template-rows: none !important;
+        display: flex !important;
+        flex-direction: column !important; /* <--- ESTA ES LA CLAVE */
         width: 100% !important;
-        gap: 1.5rem !important;
+        margin-bottom: 2rem;
+        gap: 0.5rem !important; /* Espacio entre el título y las tarjetas */
+        padding-bottom: 0;
+        overflow: hidden; /* Para que no salga barra de scroll en el padre */
     }
     
     .cartas header {
+        display: block !important;
+        width: 100%;
+        padding-left: 1rem; /* Un poco de margen izquierdo para que no pegue al borde */
+    }
+
+    .cartas header div {
         display: none !important;
-        grid-column: 1 !important;
+    }
+
+    .cartas header h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .cartas::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
     }
 
     .tarjeta {
+        flex: 0 0 85vw;
+        max-width: 300px;
+        margin: 0 !important;
+        scroll-snap-align: center;
+        /* Estilos visuales */
         background-color: white;
         border-radius: 1rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        padding: 0;
-        font-size: 1rem;
-        align-items: stretch;
-        justify-content: flex-start;
-        cursor: pointer;
-        grid-row-start: auto !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
     }
 
     .tarjeta:hover {
@@ -352,7 +387,7 @@ main {
     }
 
     .cartas .tarjeta:nth-of-type(n+2) {
-        display: none;
+        display: flex; /* Ahora mostramos todas */
     }
 
     .tarjeta img {
@@ -405,6 +440,10 @@ main {
         padding: 0.25rem 0.6rem;
         border-radius: 0.5rem;
         display: inline-block;
+    }
+
+    .layout-principal {
+        display: block !important;
     }
 }
 

@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_BASE_URL = 'https://chef-ya-api.onrender.com';
+    const API_BASE_URL = 'http://localhost:8000';
 
     // ==========================
     //   UBICACIÓN EN HEADER
@@ -448,26 +448,53 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderCarousel(carousel) {
         const { aside, data, visibleCount, startIndex } = carousel;
 
+        // 1. Limpieza total
         aside.querySelectorAll('.tarjeta').forEach(card => card.remove());
         aside.querySelectorAll('.no-results').forEach(msg => msg.remove());
-
+        // Buscamos si ya existe el track y lo vaciamos o borramos para recrearlo
+        let track = aside.querySelector('.mobile-track');
+        
         const total = data.length;
         if (!total) {
+            if (track) track.remove(); // Si no hay datos, quitamos el track
             const msg = document.createElement('p');
             msg.textContent = 'No se encontraron restaurantes.';
-            msg.style.marginTop = '1rem';
             msg.classList.add('no-results');
             aside.appendChild(msg);
             return;
         }
 
-        const maxVisible = Math.min(visibleCount, total);
+        // 2. Detección de móvil
+        const esMovil = window.innerWidth <= 768;
+        const count = esMovil ? total : Math.min(visibleCount, total);
 
-        for (let i = 0; i < maxVisible; i++) {
-            const idx = (startIndex + i) % total;
+        // 3. Lógica para Móvil (Crear el contenedor scrollable)
+        if (esMovil) {
+            // Si no existe el track, lo creamos
+            if (!track) {
+                track = document.createElement('div');
+                track.className = 'mobile-track';
+                aside.appendChild(track);
+            }
+            // Nos aseguramos que el track esté al final (después del header)
+            aside.appendChild(track);
+        } else {
+            // Si es desktop y existe el track, lo borramos para volver al diseño normal
+            if (track) track.remove();
+            track = null; 
+        }
+
+        // 4. Renderizado de tarjetas
+        for (let i = 0; i < count; i++) {
+            const idx = esMovil ? i : (startIndex + i) % total;
             const restaurante = data[idx];
             const card = createRestaurantCard(restaurante);
-            aside.appendChild(card);
+
+            if (esMovil && track) {
+                track.appendChild(card); // En móvil van DENTRO del track
+            } else {
+                aside.appendChild(card); // En desktop van DIRECTO en el aside
+            }
         }
     }
 
