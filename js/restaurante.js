@@ -70,18 +70,68 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ========================
+    //   HELPERS GENERALES (HEADER USUARIO)
+    // ========================
+    async function fetchJson(url) {
+        try {
+            const resp = await fetch(url);
+            if (!resp.ok) {
+                console.error('Error al llamar a la API:', resp.status, resp.statusText);
+                return null;
+            }
+            return await resp.json();
+        } catch (err) {
+            console.error('Error de red al llamar a la API:', err);
+            return null;
+        }
+    }
+
+    async function getUsuarioPorId(idUsuario) {
+        const url = `${API_BASE_URL}/usuarios/${idUsuario}`;
+        return fetchJson(url);
+    }
+
+    function renderHeaderUserMenu(usuario) {
+        if (!usuario) return;
+        if (userNameLabel) userNameLabel.textContent = usuario.nombre || 'Usuario';
+        if (userEmailLabel) userEmailLabel.textContent = usuario.correo || 'correo@ejemplo.com';
+    }
+
+    async function initUsuarioHeader() {
+        usuarioId = localStorage.getItem('usuario_id');
+        usuarioLogueado = false;  // por defecto
+
+        if (!usuarioId) {
+            // No hay id en localStorage → aseguramos que el menú esté oculto
+            if (userMenu) userMenu.style.display = 'none';
+            return;
+        }
+
+        const usuario = await getUsuarioPorId(usuarioId);
+        if (!usuario) {
+            // No se pudo obtener usuario de la API → lo tratamos como no logueado
+            if (userMenu) userMenu.style.display = 'none';
+            return;
+        }
+
+        // Usuario válido
+        usuarioActual = usuario;
+        usuarioLogueado = true;
+        renderHeaderUserMenu(usuario);
+    }
+
+    // Botón de usuario: ir a login si NO hay sesión, o togglear menú si SÍ hay
     if (userLoginBtn) {
         userLoginBtn.addEventListener('click', (e) => {
             e.stopPropagation();
 
-            const idUsuario = localStorage.getItem('usuario_id');
-            if (!idUsuario) {
+            if (!usuarioLogueado) {
                 console.log('No hay usuario logueado, navegando a la página de login.');
                 window.location.href = 'login.html';
                 return;
             }
 
-            // Si hay usuario, togglear el menú
             if (!userMenu) return;
             menuAbierto = !menuAbierto;
             userMenu.style.display = menuAbierto ? 'flex' : 'none';
@@ -120,77 +170,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Botón "Logout" (placeholder por ahora)
+    // Botón "Logout"
     if (userLogoutBtn) {
         userLogoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Aquí luego puedes hacer logout real:
-            // localStorage.removeItem('usuario_id');
-            // window.location.href = 'login.html';
+            const confirmar = confirm('¿Seguro que quieres cerrar sesión?');
+            if (!confirmar) return;
+
+            // Borrar datos de sesión
+            localStorage.removeItem('usuario_id');
+            localStorage.removeItem('usuario_data');
+            // Si manejas token:
+            // localStorage.removeItem('access_token');
+
+            // Limpiar estado en memoria
+            usuarioId = null;
+            usuarioActual = null;
+            usuarioLogueado = false;
+            menuAbierto = false;
+            if (userMenu) userMenu.style.display = 'none';
+
+            // Redirigir
+            window.location.href = 'principal.html';
         });
     }
 
     // ========================
-    //   HELPERS GENERALES
+    //   HELPERS GENERALES (RESTO)
     // ========================
     function getRestaurantIdFromUrl() {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
     }
 
-    async function fetchJson(url) {
-        try {
-            const resp = await fetch(url);
-            if (!resp.ok) {
-                console.error('Error al llamar a la API:', resp.status, resp.statusText);
-                return null;
-            }
-            return await resp.json();
-        } catch (err) {
-            console.error('Error de red al llamar a la API:', err);
-            return null;
-        }
-    }
-
     function formatearPrecio(valor) {
         if (typeof valor !== 'number') return '$0.00';
         return `$${valor.toFixed(2)}`;
     }
-
-    async function getUsuarioPorId(idUsuario) {
-        const url = `${API_BASE_URL}/usuarios/${idUsuario}`;
-        return fetchJson(url);
-    }
-
-    function renderHeaderUserMenu(usuario) {
-        if (!usuario) return;
-        if (userNameLabel) userNameLabel.textContent = usuario.nombre || 'Usuario';
-        if (userEmailLabel) userEmailLabel.textContent = usuario.correo || 'correo@ejemplo.com';
-    }
-
-    async function initUsuarioHeader() {
-        usuarioId = localStorage.getItem('usuario_id');
-        usuarioLogueado = false;  // por defecto: NO hay usuario
-
-        if (!usuarioId) {
-            // No hay id en localStorage → aseguramos que el menú esté oculto
-            if (userMenu) userMenu.style.display = 'none';
-            return;
-        }
-
-        const usuario = await getUsuarioPorId(usuarioId);
-        if (!usuario) {
-            // No se pudo obtener usuario de la API → lo tratamos como no logueado
-            if (userMenu) userMenu.style.display = 'none';
-            return;
-        }
-
-        // Aquí sí tenemos usuario válido
-        usuarioActual = usuario;
-        usuarioLogueado = true;
-        renderHeaderUserMenu(usuario); // rellenamos nombre/correo
-    }
-
 
     // ========================
     //   SELECTORES DEL DOM
@@ -226,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ubicacionCard) {
         horarioDetalleContainer = document.createElement('div');
         horarioDetalleContainer.className = 'horario-detallado';
-        horarioDetalleContainer.style.display = 'none'; // Inicialmente oculto
+        horarioDetalleContainer.style.display = 'none';
         horarioDetalleContainer.style.marginTop = '0.5rem';
         horarioDetalleContainer.style.fontSize = '0.9rem';
 
@@ -236,8 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    let deliveryType = 'Entrega'; // estado inicial
-    let restauranteActual = null;      // guardamos los datos del restaurante
+    let deliveryType = 'Entrega';
+    let restauranteActual = null;
     let restauranteId = getRestaurantIdFromUrl();
 
     // Guardaremos aquí la respuesta completa de /horario
@@ -693,7 +709,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             console.log(`Iniciando pedido para restaurante ${restauranteId} con servicio de: ${deliveryType}`);
 
-            window.location.href = `menu.html?restauranteId=${restauranteId}&tipo=${encodeURIComponent(deliveryType)}`;
+            window.location.href = `restaurante.html?id=${restauranteId}#productos-restaurante`;
         });
     }
 
