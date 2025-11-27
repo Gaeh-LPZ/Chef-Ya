@@ -1,0 +1,251 @@
+.usuario-main {
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.usuario-container {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.usuario-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.usuario-header h1 {
+    font-size: 1.8rem;
+}
+
+.usuario-id-label {
+    font-size: 0.85rem;
+    color: #555;
+    word-break: break-all;
+}
+
+/* GRID PRINCIPAL */
+.usuario-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.2fr;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.usuario-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.usuario-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.usuario-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+}
+
+.usuario-subtitle {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+/* PERFIL */
+.perfil-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.perfil-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--bg-beige, #E2D9C2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--bg-black, #000);
+}
+
+.perfil-header-textos h2 {
+    margin: 0;
+}
+
+.perfil-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.perfil-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.9rem;
+}
+
+.perfil-field span {
+    font-weight: 600;
+}
+
+.perfil-field input {
+    padding: 0.45rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.perfil-field input:focus {
+    border-color: var(--bg-beige, #E2D9C2);
+    box-shadow: 0 0 0 2px rgba(226, 217, 194, 0.5);
+}
+
+.perfil-input-readonly {
+    background-color: #f5f5f5;
+    cursor: default;
+}
+
+.perfil-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+}
+
+.perfil-actions button {
+    align-self: flex-start;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    background-color: var(--bg-beige, #E2D9C2);
+    color: var(--bg-black, #000);
+}
+
+.perfil-actions button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.perfil-mensaje {
+    font-size: 0.85rem;
+    min-height: 1rem;
+}
+
+.perfil-mensaje.ok {
+    color: #1a7f46;
+}
+
+.perfil-mensaje.error {
+    color: #b3261e;
+}
+
+/* LISTAS GENERALES */
+.usuario-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* DIRECCIONES */
+.direccion-card {
+    background-color: #f5f5f5;
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+}
+
+.direccion-card strong {
+    font-weight: 600;
+}
+
+/* PEDIDOS */
+.usuario-lista-pedidos {
+    margin-top: 0.5rem;
+}
+
+.pedido-card {
+    background-color: #f5f5f5;
+    border-radius: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.pedido-estado {
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background-color: #e2d9c2;
+    color: #000;
+}
+
+/* CARRITO */
+.usuario-carrito {
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.usuario-carrito-items {
+    margin-top: 0.4rem;
+    padding-left: 1rem;
+}
+
+.usuario-carrito-vacio {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .usuario-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .usuario-main {
+        margin-top: 0;
+        padding: 1rem;
+    }
+
+    .usuario-card {
+        padding: 1rem 1rem;
+    }
+}

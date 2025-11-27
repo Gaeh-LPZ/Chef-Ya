@@ -31,7 +31,8 @@ origins = [
     "http://localhost:3000",
     "http://localhost:5500",
     "http://127.0.0.1:5500",
-    "https://gaeh-lpz.github.io"  # <-- ¡IMPORTANTE! Agrega esta línea
+    "https://gaeh-lpz.github.io",  # <-- ¡IMPORTANTE! Agrega esta línea
+    "https://chef-ya.site"
 ]
 
 app.add_middleware(

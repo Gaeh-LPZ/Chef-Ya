@@ -28,6 +28,8 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: relative; /* necesario para posicionar el menú */
+
     img { /* Logo de Chef Ya! */
         width: 150px;
         height: auto;
@@ -57,6 +59,58 @@ body {
         padding: 0.5rem;
         box-shadow: 0px 5px 13px var(--shadow);
     }
+}
+
+/* ==========================
+   MENÚ DE USUARIO (HEADER)
+   ========================== */
+
+.user-menu {
+    position: absolute;
+    top: 60px;
+    right: 0.75rem;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 0.75rem 1rem;
+    min-width: 230px;
+    z-index: 200;
+
+    /* el display lo controla JS (none/flex) */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.user-menu-label {
+    margin-bottom: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.user-menu-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+}
+
+.user-menu-actions button {
+    width: 100%;
+    padding: 0.45rem 0.5rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: var(--bg-beige);
+    color: var(--bg-black);
+}
+
+.user-menu-actions button:hover {
+    filter: brightness(0.95);
 }
 
 main {
@@ -370,12 +424,11 @@ main {
     box-sizing: border-box;
 }
 
-/*Ocualtamos la barra del scroll horizontal de las categorias*/
+/*Ocultamos la barra del scroll horizontal de las categorias*/
 /* Firefox */
 #nav-categorias {
     scrollbar-width: none;
 }
-
 /* Chrome, Edge, Safari */
 #nav-categorias::-webkit-scrollbar {
     display: none;

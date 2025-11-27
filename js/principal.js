@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const data = JSON.parse(ubicacionGuardada);
             const headerLocationText = document.querySelector('.main-header div p');
-            
+
             if (headerLocationText) {
-                const textoMostrar = data.calle 
+                const textoMostrar = data.calle
                     ? `${data.calle}, ${data.cp || ''}`
                     : data.direccion_completa;
 
-                headerLocationText.textContent = textoMostrar.length > 30 
-                    ? textoMostrar.substring(0, 30) + '...' 
+                headerLocationText.textContent = textoMostrar.length > 30
+                    ? textoMostrar.substring(0, 30) + '...'
                     : textoMostrar;
-                
+
                 headerLocationText.title = data.direccion_completa;
             }
         } catch (e) {
@@ -33,17 +33,33 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================
     //   SELECTORES GENERALES
     // ==========================
-    const searchBar      = document.querySelector('.search-bar');
-    const filterButtons  = document.querySelectorAll('.filtros button');
+    const searchBar = document.querySelector('.search-bar');
+    const filterButtons = document.querySelectorAll('.filtros button');
     const navMasBuscados = document.getElementById('nav-mas-buscados');
-    const navCategorias  = document.getElementById('nav-categorias');
+    const navCategorias = document.getElementById('nav-categorias');
 
     const shoppingCartBtn = document.getElementById('shopping-cart');
-    const userLoginBtn    = document.getElementById('user-login');
+    const userLoginBtn = document.getElementById('user-login');
+
+    // ELEMENTOS DEL MENÚ DE USUARIO
+    const userMenu = document.getElementById('user-menu');
+    const userProfileBtn = document.getElementById('user-profile-btn');
+    const userLogoutBtn = document.getElementById('user-logout-btn');
+    // Agregamos ahora los datos de los usuarios
+    const userNameLabel = document.getElementById('user-name-label');
+    const userEmailLabel = document.getElementById('user-email-label');
+
+    // Estado del menú
+    let menuAbierto = false;
+
+    // Asegurar que empiece oculto (por si acaso)
+    if (userMenu) {
+        userMenu.style.display = 'none';
+    }
 
     // CAMBIO: ahora tomamos los aside por sus clases nuevas
     const asidePopulares = document.querySelector('.cartas-populares');
-    const asideMejores   = document.querySelector('.cartas-mejores');
+    const asideMejores = document.querySelector('.cartas-mejores');
 
     let tituloPopularesElem = asidePopulares
         ? asidePopulares.querySelector('header h1')
@@ -53,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         : null;
 
     const DEFAULT_POPULARES_TITLE = 'Populares cerca de ti';
-    const DEFAULT_MEJORES_TITLE   = 'Los mejores puntuados';
+    const DEFAULT_MEJORES_TITLE = 'Los mejores puntuados';
 
     // Modo "resultados" (búsqueda/categoría) activo
     let modoResultados = false;
@@ -74,10 +90,87 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = `carrito.html?id_usuario=${encodeURIComponent(idUsuario)}`;
         });
     }
+    async function getUsuarioPorId(idUsuario) {
+        const url = `${API_BASE_URL}/usuarios/${idUsuario}`;
 
+        try {
+            const resp = await fetch(url);
+            if (!resp.ok) {
+                console.error('Error al obtener datos de usuario:', resp.status, resp.statusText);
+                return null;
+            }
+            return await resp.json();
+        } catch (err) {
+            console.error('Error de red al obtener usuario:', err);
+            return null;
+        }
+    }
+
+    async function rellenarDatosUsuarioMenu() {
+        if (!userNameLabel || !userEmailLabel) return;
+
+        const idUsuario = localStorage.getItem('usuario_id');
+        if (!idUsuario) {
+            // Si no hay usuario logueado, puedes dejar los textos por defecto
+            return;
+        }
+
+        const usuario = await getUsuarioPorId(idUsuario);
+        if (!usuario) return;
+
+        // Según tu esquema de la API, UsuarioLeer tiene nombre y correo
+        userNameLabel.textContent = usuario.nombre || 'Usuario';
+        userEmailLabel.textContent = usuario.correo || 'correo@ejemplo.com';
+    }
+
+    // BOTÓN DE USUARIO: abre/cierra menú
     if (userLoginBtn) {
-        userLoginBtn.addEventListener('click', () => {
+        userLoginBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            if (!userMenu) return;
+
+            menuAbierto = !menuAbierto;
+            userMenu.style.display = menuAbierto ? 'flex' : 'none';
+        });
+    }
+
+    // Cerrar el menú si se hace click fuera de él y del botón
+    document.addEventListener('click', (event) => {
+        if (!userMenu) return;
+
+        const clickDentroMenu = userMenu.contains(event.target);
+        const clickEnBoton = userLoginBtn && userLoginBtn.contains(event.target);
+
+        if (!clickDentroMenu && !clickEnBoton) {
+            userMenu.style.display = 'none';
+            menuAbierto = false;
+        }
+    });
+
+    // Evitar que clicks dentro del menú lo cierren
+    if (userMenu) {
+        userMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    userProfileBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const idUsuario = localStorage.getItem('usuario_id');
+        if (!idUsuario) {
             window.location.href = 'login.html';
+            return;
+        }
+        window.location.href = `usuario.html?id_usuario=${encodeURIComponent(idUsuario)}`;
+    });
+
+    if (userLogoutBtn) {
+        userLogoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Aquí en el futuro puedes limpiar sesión y redirigir al login
+            // localStorage.removeItem('usuario_id');
+            // window.location.href = 'login.html';
         });
     }
 
@@ -159,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return restaurantes.filter(r => {
             const nombre = (r.nombre || '').toLowerCase();
-            const cats   = Array.isArray(r.categorias)
+            const cats = Array.isArray(r.categorias)
                 ? r.categorias.join(' ').toLowerCase()
                 : '';
             return nombre.includes(q) || cats.includes(q);
@@ -174,11 +267,11 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = 'tarjeta';
         card.setAttribute('data-id', restaurante.id);
 
-        const nombre        = restaurante.nombre ?? 'Restaurante';
-        const minutosProm   = restaurante.entrega?.minutosPromedio ?? '–';
-        const calificacion  = restaurante.calificacion?.promedio ?? '–';
-        const tarifaEnvio   = restaurante.entrega?.tarifa ?? 0;
-        const imagenUrl     = restaurante.imagen || restaurante.imageUrl || './assets/images/Coffe-surf.jpg';
+        const nombre = restaurante.nombre ?? 'Restaurante';
+        const minutosProm = restaurante.entrega?.minutosPromedio ?? '–';
+        const calificacion = restaurante.calificacion?.promedio ?? '–';
+        const tarifaEnvio = restaurante.entrega?.tarifa ?? 0;
+        const imagenUrl = restaurante.imagen || restaurante.imageUrl || './assets/images/Coffe-surf.jpg';
 
         card.innerHTML = `
             <img src="${imagenUrl}" alt="Imagen del restaurante">
@@ -450,13 +543,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================
     //   ESTADO DE RESTAURANTES
     // ==========================
-    let todosRestaurantes      = [];
-    let popularesRestaurantes  = [];
-    let mejoresRestaurantes    = [];
+    let todosRestaurantes = [];
+    let popularesRestaurantes = [];
+    let mejoresRestaurantes = [];
 
     async function cargarRestaurantesIniciales() {
         if (tituloPopularesElem) tituloPopularesElem.textContent = DEFAULT_POPULARES_TITLE;
-        if (tituloMejoresElem)   tituloMejoresElem.textContent   = DEFAULT_MEJORES_TITLE;
+        if (tituloMejoresElem) tituloMejoresElem.textContent = DEFAULT_MEJORES_TITLE;
 
         if (!todosRestaurantes.length) {
             todosRestaurantes = await getRestaurantesTodos();
@@ -527,7 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (tituloPopularesElem) tituloPopularesElem.textContent = DEFAULT_POPULARES_TITLE;
-            if (tituloMejoresElem)   tituloMejoresElem.textContent   = DEFAULT_MEJORES_TITLE;
+            if (tituloMejoresElem) tituloMejoresElem.textContent = DEFAULT_MEJORES_TITLE;
 
             mostrarControlesCarrusel();
 
@@ -576,7 +669,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function init() {
         createCarousels();
 
-        const params        = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(window.location.search);
         const categoriaSlug = params.get('categoria');
 
         todosRestaurantes = await getRestaurantesTodos();
@@ -598,6 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const categorias = await getCategorias();
         renderCategorias(categorias);
+        await rellenarDatosUsuarioMenu();
     }
 
     init();

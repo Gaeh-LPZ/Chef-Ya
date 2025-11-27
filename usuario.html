@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef Ya! | Mi usuario</title>
+    <link rel="stylesheet" href="./css/principal.css">
+    <link rel="stylesheet" href="./css/usuario.css">
+    <script src="./js/usuario.js" defer></script>
+</head>
+
+<body>
+    <nav class="mobile-nav">
+        <a href="principal.html">Principal</a>
+        <a href="#" class="active">Mi usuario</a>
+        <a href="#">Favoritos</a>
+    </nav>
+
+    <header class="main-header">
+        <button type="button" id="menu-button" aria-label="menu access button">
+            <svg width="20" height="20">
+                <use href="./assets/icons/menu-2.svg"></use>
+            </svg>
+        </button>
+        <a href="principal.html">
+            <img src="./assets/images/Logo.png" alt="Logo-ChefYa" class="logo">
+        </a>
+        <div>
+            <svg width="23" height="23">
+                <use href="./assets/icons/map-pin.svg"></use>
+            </svg>
+            <p>Acatlima 69004</p>
+        </div>
+        <form>
+            <label>
+                <input
+                    type="search"
+                    name="search-restaurants"
+                    placeholder="Buscar restaurantes"
+                    class="search-bar"
+                >
+            </label>
+        </form>
+        <button type="button" id="shopping-cart" aria-label="shopping-cart button">
+            <svg width="30" height="30">
+                <use href="./assets/icons/shopping-cart.svg"></use>
+            </svg>
+        </button>
+        <button type="button" id="user-login" aria-label="user-login button">
+            <svg width="30" height="30">
+                <use href="./assets/icons/User.svg"></use>
+            </svg>
+        </button>
+
+        <!-- MENÚ DE USUARIO (DESPLEGABLE) -->
+        <div id="user-menu" class="user-menu" style="display: none;">
+            <p class="user-menu-label">
+                <strong>Usuario:</strong>
+                <span id="user-name-label">Nombre de usuario</span>
+            </p>
+            <p class="user-menu-label">
+                <strong>Correo:</strong>
+                <span id="user-email-label">correo@ejemplo.com</span>
+            </p>
+
+            <div class="user-menu-actions">
+                <button type="button" id="user-profile-btn">Ver mi usuario</button>
+                <button type="button" id="user-logout-btn">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="usuario-main">
+        <section class="usuario-container">
+            <header class="usuario-header">
+                <h1>Mi perfil</h1>
+                <p id="usuario-id-label" class="usuario-id-label"></p>
+            </header>
+
+            <!-- GRID PRINCIPAL: IZQUIERDA / DERECHA -->
+            <section class="usuario-grid">
+                <!-- Columna derecha: Datos usuario (sin carrito) -->
+                <div class="usuario-column usuario-column-right">
+                    <section class="usuario-card usuario-card-perfil">
+                        <div class="perfil-header">
+                            <div class="perfil-avatar">
+                                <span id="perfil-avatar-iniciales">U</span>
+                            </div>
+                            <div class="perfil-header-textos">
+                                <h2>Datos del usuario</h2>
+                                <p class="usuario-subtitle">
+                                    Consulta tu información
+                                </p>
+                            </div>
+                        </div>
+
+                        <form class="perfil-form" id="perfil-form">
+                            <label class="perfil-field">
+                                <span>Nombre</span>
+                                <input
+                                    type="text"
+                                    id="perfil-nombre"
+                                    name="nombre"
+                                    placeholder="Tu nombre"
+                                    disabled
+                                >
+                            </label>
+
+                            <label class="perfil-field">
+                                <span>Correo</span>
+                                <input
+                                    type="email"
+                                    id="perfil-correo"
+                                    name="correo"
+                                    readonly
+                                    class="perfil-input-readonly"
+                                >
+                            </label>
+
+                            <label class="perfil-field">
+                                <span>Teléfono</span>
+                                <input
+                                    type="tel"
+                                    id="perfil-telefono"
+                                    name="telefono"
+                                    placeholder="Ej. 555-123-4567"
+                                    disabled
+                                >
+                            </label>
+
+                            <div class="perfil-actions">
+                                <button type="button" id="btn-editar-perfil">
+                                    Editar datos
+                                </button>
+
+                                <button type="submit" id="btn-guardar-perfil" style="display: none;">
+                                    Guardar cambios
+                                </button>
+
+                                <p id="perfil-mensaje" class="perfil-mensaje"></p>
+                            </div>
+                        </form>
+                    </section>
+                </div>
+                  <!-- Columna izquierda: Direcciones -->
+                <div class="usuario-column usuario-column-left">
+                    <section class="usuario-card usuario-card-direcciones">
+                        <h2>Mis direcciones</h2>
+                        <p class="usuario-subtitle">
+                            Lugares donde podemos entregar tus pedidos.
+                        </p>
+                        <div id="lista-direcciones" class="usuario-lista"></div>
+                    </section>
+                </div>
+            </section>
+
+            <!-- Fila inferior: pedidos -->
+            <section class="usuario-card usuario-card-pedidos">
+                <h2>Pedidos recientes</h2>
+                <p class="usuario-subtitle">
+                    Un vistazo a tus últimos pedidos.
+                </p>
+                <div id="lista-pedidos" class="usuario-lista usuario-lista-pedidos"></div>
+            </section>
+        </section>
+    </main>
+
+    <footer></footer>
+</body>
+
+</html>
