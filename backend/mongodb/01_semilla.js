@@ -46,7 +46,7 @@ dbChef.restaurantes.insertOne({
   calificacion: { promedio: 5.0, conteo: 1 },
   entrega: { minutosPromedio: 40, tarifa: 25 },
   direccion: {
-    calle: "Emilio Carranza 210, Col. Reforma",
+    calle: "Emilio Carranza 210, Reforma, 68050 Oaxaca de Juárez, Oax.",
     ciudad: "Oaxaca de Juárez",
     estado: "Oaxaca",
     geo: { lat: 17.079, lng: -96.716 }
@@ -70,7 +70,7 @@ dbChef.restaurantes.insertOne({
     "sabado",
     "domingo"
   ],
-  url_localizacion: "https://www.google.com/maps?q=17.07204,-96.71645",
+  url_localizacion: "https://maps.app.goo.gl/TVkdZ5jdnbJv9Exw6",
   activo: true,
   creadoEn: ahora,
   actualizadoEn: ahora
