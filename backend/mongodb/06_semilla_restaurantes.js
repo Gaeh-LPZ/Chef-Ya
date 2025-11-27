@@ -404,7 +404,7 @@ dbChef.restaurantes.insertMany([
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
             cp: "64009",
-            geo: { lat: 17.0605, lng: -96.7215 } 
+            geo: { lat: 17.827769, lng: -97.809269} 
         },
         horario: {
             lunes:     { abre: "08:00", cierra: "22:00" },
