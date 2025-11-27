@@ -181,6 +181,118 @@
     font-weight: 600;
 }
 
+.direccion-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.direccion-btn {
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: none;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.direccion-btn-secundario {
+    background-color: var(--bg-beige, #E2D9C2);
+    color: var(--bg-black, #000);
+}
+
+.direccion-btn-peligro {
+    background-color: #fbe9e7;
+    color: #b3261e;
+}
+
+/* FORM DIRECCIÓN */
+.direccion-form-wrapper {
+    margin-top: 1rem;
+    border-top: 1px solid #eee;
+    padding-top: 0.75rem;
+}
+
+.direccion-toggle-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    background-color: var(--bg-beige, #E2D9C2);
+    color: var(--bg-black, #000);
+}
+
+.direccion-form {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background-color: #fafafa;
+    border-radius: 0.75rem;
+    padding: 0.9rem 0.9rem;
+}
+
+.direccion-form h3 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.direccion-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem 0.75rem;
+}
+
+.direccion-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 0.85rem;
+}
+
+.direccion-field span {
+    font-weight: 600;
+}
+
+.direccion-field input {
+    padding: 0.4rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    font-size: 0.85rem;
+    outline: none;
+}
+
+.direccion-field input:focus {
+    border-color: var(--bg-beige, #E2D9C2);
+    box-shadow: 0 0 0 2px rgba(226, 217, 194, 0.4);
+}
+
+.direccion-form-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+}
+
+.direccion-form-actions button {
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+#btn-cancelar-direccion {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+#btn-guardar-direccion {
+    background-color: var(--bg-beige, #E2D9C2);
+    color: var(--bg-black, #000);
+}
+
 /* PEDIDOS */
 .usuario-lista-pedidos {
     margin-top: 0.5rem;
@@ -213,19 +325,7 @@
     color: #000;
 }
 
-/* CARRITO */
-.usuario-carrito {
-    font-size: 0.9rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-}
-
-.usuario-carrito-items {
-    margin-top: 0.4rem;
-    padding-left: 1rem;
-}
-
+/* VACÍO / MENSAJE */
 .usuario-carrito-vacio {
     font-size: 0.9rem;
     color: #666;
@@ -247,5 +347,9 @@
 
     .usuario-card {
         padding: 1rem 1rem;
+    }
+
+    .direccion-form-grid {
+        grid-template-columns: 1fr;
     }
 }
