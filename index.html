@@ -26,13 +26,15 @@
     <main>
         <section>
             <h1>¡Ordena ahora mismo!</h1>
-            <form action="./principal.html" class="Formulario">
-                <label>
-                    <img src="./assets/icons/map-pin.svg" alt="map-pin icon" width="24" height="23">
-                    <input type="search" name="ubicacion" placeholder="Ingresa tu dirección">
+            <form action="./principal.html" class="Formulario" style="position: relative;"> <label>
+                <img src="./assets/icons/map-pin.svg" alt="map pin icon" style="width: 23px; height: 23px;">
+                <input type="search" id="input-ubicacion" name="ubicacion" placeholder="Ingresa tu dirección" autocomplete="off">
                 </label>
+    
+                <div id="sugerencias-ubicacion" class="suggestions-box"></div>
+
                 <button type="submit" class="search-button">Buscar
-                    <img src="./assets/icons/search.svg" alt="Search-icon" width="20" height="20">
+                    <img src="./assets/icons/search-black.svg" alt="search icon" style="width: 20px; height: 20px;">
                 </button>
             </form>
         </section>

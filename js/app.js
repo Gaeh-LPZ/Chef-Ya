@@ -2,49 +2,113 @@ document.addEventListener('DOMContentLoaded', () => {
     const API_BASE_URL = 'https://chef-ya-api.onrender.com'; // O tu localhost:8000 si pruebas local
     const locationForm = document.querySelector('.Formulario');
 
-    async function searchLocation(address) {
-        console.log(`Validando ubicación: ${address}`);
+    const inputUbicacion = document.getElementById('input-ubicacion');
+    const boxSugerenciasUbicacion = document.getElementById('sugerencias-ubicacion');
+    let debounceTimer;
+
+    if (inputUbicacion && boxSugerenciasUbicacion) {
         
-        // Cambiamos a GET y usamos el endpoint real
+        inputUbicacion.addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            
+            // Limpiar timer anterior si sigue escribiendo
+            clearTimeout(debounceTimer);
+            
+            // Ocultar si está vacío
+            if (query.length < 4) {
+                boxSugerenciasUbicacion.style.display = 'none';
+                return;
+            }
+
+            // Esperar 500ms antes de llamar a la API (Debounce)
+            debounceTimer = setTimeout(async () => {
+                try {
+                    const url = `${API_BASE_URL}/ubicacion/buscar?q=${encodeURIComponent(query)}`;
+                    const resp = await fetch(url);
+                    
+                    if (resp.ok) {
+                        const resultados = await resp.json();
+                        mostrarSugerenciasUbicacion(resultados);
+                    }
+                } catch (error) {
+                    console.error("Error buscando sugerencias:", error);
+                }
+            }, 500);
+        });
+
+        // Ocultar al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            if (!inputUbicacion.contains(e.target) && !boxSugerenciasUbicacion.contains(e.target)) {
+                boxSugerenciasUbicacion.style.display = 'none';
+            }
+        });
+    }
+
+    function mostrarSugerenciasUbicacion(lista) {
+        boxSugerenciasUbicacion.innerHTML = ''; // Limpiar
+
+        if (lista.length === 0) {
+            boxSugerenciasUbicacion.style.display = 'none';
+            return;
+        }
+
+        lista.forEach(item => {
+            const div = document.createElement('div');
+            div.classList.add('suggestion-item');
+            
+            // Mostramos la dirección completa formateada
+            // Usamos un tamaño de letra pequeño para que quepa bien
+            div.innerHTML = `
+                <div style="font-size: 0.9rem; font-weight: bold;">${item.calle || item.direccion_completa.split(',')[0]}</div>
+                <div style="font-size: 0.75rem; color: #666;">${item.ciudad}, ${item.estado}</div>
+            `;
+
+            div.addEventListener('click', () => {
+                // 1. Rellenar input
+                inputUbicacion.value = item.direccion_completa;
+                
+                // 2. Guardar directamente la data validada (ya la tenemos, no hace falta validar de nuevo)
+                localStorage.setItem('ubicacion_usuario', JSON.stringify(item));
+                
+                // 3. Ocultar caja
+                boxSugerenciasUbicacion.style.display = 'none';
+
+                // 4. (Opcional) Redirigir automáticamente o avisar
+                console.log("Ubicación seleccionada:", item);
+                alert(`Ubicación establecida: ${item.calle}`);
+                window.location.href = 'principal.html'; 
+            });
+
+            boxSugerenciasUbicacion.appendChild(div);
+        });
+
+        boxSugerenciasUbicacion.style.display = 'block';
+    }
+
+    async function searchLocation(address) {
+        console.log(`Validando ubicación manual: ${address}`);
         const url = `${API_BASE_URL}/ubicacion/validar?q=${encodeURIComponent(address)}`;
         
         try {
             const response = await fetch(url);
-
             if (response.ok) {
                 const data = await response.json();
-                console.log('Ubicación encontrada:', data);
-                
-                // 1. GUARDAR EN LOCALSTORAGE
-                // Guardamos el objeto completo para usarlo en otras páginas
                 localStorage.setItem('ubicacion_usuario', JSON.stringify(data));
-
-                alert(`Ubicación establecida: ${data.calle || data.direccion_completa}`);
-                
-                // 2. REDIRIGIR
                 window.location.href = 'principal.html'; 
             } else {
-                console.warn('Dirección no encontrada');
-                alert('No pudimos encontrar esa dirección. Intenta ser más específico (ej: Calle, Ciudad).');
+                alert('No pudimos encontrar esa dirección exacta. Intenta seleccionar una de las sugerencias.');
             }
         } catch (error) {
             console.error('Error de red:', error);
-            alert('Error de conexión al validar la ubicación.');
         }
     }
 
-    // Listener del formulario (sin cambios mayores, solo llama a la nueva función)
     if (locationForm) {
         locationForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Ojo: en tu HTML el input tiene name="ubicacion"
-            const locationInput = locationForm.querySelector('input[name="ubicacion"]');
-            const address = locationInput.value.trim();
-
+            const address = inputUbicacion.value.trim();
             if (address) {
                 searchLocation(address);
-            } else {
-                alert('Por favor, ingresa una dirección.');
             }
         });
     }
