@@ -1,8 +1,9 @@
+
 from __future__ import annotations
 
 from typing import List, Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from db.mongo import obtener_bd  # ajusta el import según tu proyecto
@@ -17,6 +18,7 @@ from services.pedido_service import (
     obtener_pedido_por_id_servicio,
     listar_pedidos_por_usuario_servicio,
     cambiar_estado_pedido_servicio,
+    simular_ciclo_pedido
 )
 
 router = APIRouter(
@@ -30,13 +32,20 @@ router = APIRouter(
     response_model=PedidoLeer,
     status_code=status.HTTP_201_CREATED,
     summary="Crear pedido",
-    description="Crea un nuevo pedido (normalmente a partir de un carrito).",
 )
 async def crear_pedido_endpoint(
     datos_pedido: PedidoCrear,
+    background_tasks: BackgroundTasks, # <--- INYECTAR AQUÍ
     bd: AsyncIOMotorDatabase = Depends(obtener_bd),
 ) -> PedidoLeer:
     pedido = await crear_pedido_servicio(bd, datos_pedido)
+    background_tasks.add_task(
+        simular_ciclo_pedido, 
+        bd, 
+        pedido.id, 
+        datos_pedido.usuarioId
+    )
+    
     return pedido
 
 

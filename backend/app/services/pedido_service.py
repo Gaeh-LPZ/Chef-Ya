@@ -1,5 +1,7 @@
-from __future__ import annotations
 
+
+import asyncio
+import random
 from datetime import datetime
 from typing import List, Optional
 
@@ -261,3 +263,61 @@ def _mapear_doc_a_pedido_leer(doc: dict) -> PedidoLeer:
         creadoEn=doc.get("creadoEn"),
         actualizadoEn=doc.get("actualizadoEn"),
     )
+
+async def simular_ciclo_pedido(bd: AsyncIOMotorDatabase, id_pedido: str, id_usuario: str):
+    secuencia = [
+        {
+            "estado": "preparando",
+            "titulo": "¡Manos a la obra!",
+            "mensaje": "El restaurante ha comenzado a preparar tu comida.",
+            "espera_min": 10, "espera_max": 20  # Segundos (para la demo)
+        },
+        {
+            "estado": "en_camino",
+            "titulo": "Tu pedido va en camino",
+            "mensaje": "El repartidor ha recogido tu pedido y va hacia tu ubicación.",
+            "espera_min": 15, "espera_max": 30
+        },
+        {
+            "estado": "entregado",
+            "titulo": "¡Pedido entregado!",
+            "mensaje": "Tu pedido ha llegado. ¡Buen provecho!",
+            "espera_min": 15, "espera_max": 25
+        }
+    ]
+
+    try:
+        oid_pedido = ObjectId(id_pedido)
+        oid_usuario = ObjectId(id_usuario)
+    except:
+        print("Error en IDs durante simulación")
+        return
+
+    for etapa in secuencia:
+        # 1. Esperar un tiempo aleatorio "natural"
+        tiempo_espera = random.randint(etapa["espera_min"], etapa["espera_max"])
+        print(f"Simulando: Esperando {tiempo_espera}s para pasar a {etapa['estado']}...")
+        await asyncio.sleep(tiempo_espera)
+
+        # 2. Actualizar el estado del pedido
+        ahora = datetime.utcnow()
+        await bd["pedidos"].update_one(
+            {"_id": oid_pedido},
+            {
+                "$set": {"estado": etapa["estado"], "actualizadoEn": ahora},
+                "$push": {"cronologia": {"estado": etapa["estado"], "en": ahora}}
+            }
+        )
+
+        # 3. Crear la notificación para el usuario
+        notificacion = {
+            "usuarioId": oid_usuario,
+            "pedidoId": oid_pedido,
+            "tipo": "estado_pedido",
+            "titulo": etapa["titulo"],
+            "mensaje": etapa["mensaje"],
+            "leida": False,
+            "creadoEn": ahora
+        }
+        await bd["notificaciones"].insert_one(notificacion)
+        print(f"Notificación creada: {etapa['estado']}")

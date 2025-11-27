@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } else {
                     alert('El pago fue exitoso, pero hubo un problema al crear el pedido.');
                 }
-                window.location.href = "/principal.html";
+                window.location.href = "/principal.html"; 
             } catch (error) {
                 console.error('Error de red al procesar pago exitoso:', error);
             }

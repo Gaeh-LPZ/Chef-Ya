@@ -2,6 +2,9 @@ from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from pydantic import BaseModel
+from bson import ObjectId
+from datetime import datetime
 
 from db.mongo import obtener_bd
 from schemas.usuario import (
@@ -133,3 +136,40 @@ async def eliminar_direccion_usuario(
             detail="Usuario o dirección no encontrada",
         )
     return direcciones
+
+class NotificacionLeer(BaseModel):
+    id: str
+    titulo: str
+    mensaje: str
+    leida: bool
+
+@router.get("/{id_usuario}/notificaciones/no-leidas")
+async def obtener_notificaciones_no_leidas(
+    id_usuario: str,
+    bd: AsyncIOMotorDatabase = Depends(obtener_bd),
+):
+    try:
+        oid = ObjectId(id_usuario)
+    except:
+        return []
+
+    # Buscar notificaciones no leídas
+    cursor = bd["notificaciones"].find({"usuarioId": oid, "leida": False})
+    notificaciones = []
+    
+    async for doc in cursor:
+        notificaciones.append({
+            "id": str(doc["_id"]),
+            "titulo": doc.get("titulo", ""),
+            "mensaje": doc.get("mensaje", ""),
+            "leida": doc.get("leida", False)
+        })
+        
+        # Opcional: Marcarlas como leídas automáticamente al entregarlas
+        # para que no salgan repetidas (polling simple)
+        await bd["notificaciones"].update_one(
+            {"_id": doc["_id"]},
+            {"$set": {"leida": True, "leidaEn": datetime.utcnow()}}
+        )
+        
+    return notificaciones
