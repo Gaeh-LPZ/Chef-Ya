@@ -58,14 +58,19 @@
 
     <main>
         <div class="filtros">
-            <select name="precios" id="precios">
-                <option value="">Costo</option>
+            <select id="filtro-ordenar">
+                <option value="">Ordenar por</option>
+                <option value="calificacion">Mejor calificación</option>
+                <option value="tiempo">Entrega más rápida</option>
+                <option value="envio">Envío más económico</option>
             </select>
-            <select name="precio-envio" id="precio-envio">
+
+            <select id="filtro-envio">
                 <option value="">Costo de envío</option>
+                <option value="gratis">Envío Gratis ($0)</option>
+                <option value="20">Menos de $20</option>
+                <option value="40">Menos de $40</option>
             </select>
-            <button type="button">Mayor calificación</button>
-            <button type="button">Menos de 30 min</button>
         </div>
 
         <!-- NUEVO CONTENEDOR GENERAL PARA FIJAR EL LATERAL -->
@@ -118,6 +123,9 @@
                         </div>
                     </header>
                 </aside>
+
+                <aside class="cartas cartas-mejores"></aside>
+                <div id="contenedor-categorias-dinamicas"></div>
             </div>
         </div>
     </main>
