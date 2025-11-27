@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Agregamos ahora los datos de los usuarios
     const userNameLabel = document.getElementById('user-name-label');
     const userEmailLabel = document.getElementById('user-email-label');
-
+    
     // Estado del menú
     let menuAbierto = false;
 
@@ -128,6 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
         userLoginBtn.addEventListener('click', (e) => {
             e.stopPropagation();
 
+            
+
             if (!userMenu) return;
 
             menuAbierto = !menuAbierto;
@@ -168,9 +170,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (userLogoutBtn) {
         userLogoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Aquí en el futuro puedes limpiar sesión y redirigir al login
-            // localStorage.removeItem('usuario_id');
-            // window.location.href = 'login.html';
+            const confirmar = confirm('¿Seguro que quieres cerrar sesión?');
+        if (!confirmar) return;
+
+        // Elimina la información principal del usuario
+        localStorage.removeItem('usuario_id');
+        localStorage.removeItem('usuario_data'); // solo si la usas
+        // Si guardas también el token, puedes borrarlo aquí:
+        // localStorage.removeItem('access_token');
+
+        // Opcional: también podrías limpiar ubicación si quieres que se pida de nuevo
+        // localStorage.removeItem('ubicacion_usuario');
+
+        // Redirigir a login
+        window.location.href = 'principal.html';
         });
     }
 

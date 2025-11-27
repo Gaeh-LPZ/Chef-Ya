@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const data = JSON.parse(ubicacionGuardada);
             const headerLocationText = document.querySelector('.main-header div p');
-            
+
             if (headerLocationText) {
-                const textoMostrar = data.calle 
+                const textoMostrar = data.calle
                     ? `${data.calle}, ${data.cp || ''}`
                     : data.direccion_completa;
 
-                headerLocationText.textContent = textoMostrar.length > 30 
-                    ? textoMostrar.substring(0, 30) + '...' 
+                headerLocationText.textContent = textoMostrar.length > 30
+                    ? textoMostrar.substring(0, 30) + '...'
                     : textoMostrar;
-                
+
                 headerLocationText.title = data.direccion_completa;
             }
         } catch (e) {
@@ -28,13 +28,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     actualizarHeaderUbicacion();
-    
+
+    // ========================
+    //   SELECTORES HEADER / USUARIO
+    // ========================
+    const shoppingCartBtn = document.getElementById('shopping-cart');
+    const userLoginBtn = document.getElementById('user-login');
+
+    const userMenu = document.getElementById('user-menu');
+    const userProfileBtn = document.getElementById('user-profile-btn');
+    const userLogoutBtn = document.getElementById('user-logout-btn');
+    const userNameLabel = document.getElementById('user-name-label');
+    const userEmailLabel = document.getElementById('user-email-label');
+
+    let menuAbierto = false;
+    let usuarioId = null;
+    let usuarioActual = null;
+    let usuarioLogueado = false;
+
+    if (userMenu) {
+        userMenu.style.display = 'none';
+    }
+
     // ========================
     //   NAV HEADER
     // ========================
-    const shoppingCartBtn = document.getElementById('shopping-cart');
-    const userLoginBtn    = document.getElementById('user-login');
-
     if (shoppingCartBtn) {
         shoppingCartBtn.addEventListener('click', () => {
             console.log('Navegando a la página de carrito.');
@@ -53,12 +71,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (userLoginBtn) {
-        userLoginBtn.addEventListener('click', () => {
-            console.log('Navegando a la página de login.');
-            window.location.href = 'login.html';
+        userLoginBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            const idUsuario = localStorage.getItem('usuario_id');
+            if (!idUsuario) {
+                console.log('No hay usuario logueado, navegando a la página de login.');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Si hay usuario, togglear el menú
+            if (!userMenu) return;
+            menuAbierto = !menuAbierto;
+            userMenu.style.display = menuAbierto ? 'flex' : 'none';
         });
     }
-    
+
+    // Cerrar menú al hacer click fuera
+    document.addEventListener('click', (event) => {
+        if (!userMenu) return;
+
+        const clickDentroMenu = userMenu.contains(event.target);
+        const clickEnBoton = userLoginBtn && userLoginBtn.contains(event.target);
+
+        if (!clickDentroMenu && !clickEnBoton) {
+            userMenu.style.display = 'none';
+            menuAbierto = false;
+        }
+    });
+
+    if (userMenu) {
+        userMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+
+    // Botón "Ver mi usuario"
+    if (userProfileBtn) {
+        userProfileBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const idUsuario = localStorage.getItem('usuario_id');
+            if (!idUsuario) {
+                window.location.href = 'login.html';
+                return;
+            }
+            window.location.href = `usuario.html?id_usuario=${encodeURIComponent(idUsuario)}`;
+        });
+    }
+
+    // Botón "Logout" (placeholder por ahora)
+    if (userLogoutBtn) {
+        userLogoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Aquí luego puedes hacer logout real:
+            // localStorage.removeItem('usuario_id');
+            // window.location.href = 'login.html';
+        });
+    }
+
     // ========================
     //   HELPERS GENERALES
     // ========================
@@ -86,34 +157,69 @@ document.addEventListener('DOMContentLoaded', () => {
         return `$${valor.toFixed(2)}`;
     }
 
+    async function getUsuarioPorId(idUsuario) {
+        const url = `${API_BASE_URL}/usuarios/${idUsuario}`;
+        return fetchJson(url);
+    }
+
+    function renderHeaderUserMenu(usuario) {
+        if (!usuario) return;
+        if (userNameLabel) userNameLabel.textContent = usuario.nombre || 'Usuario';
+        if (userEmailLabel) userEmailLabel.textContent = usuario.correo || 'correo@ejemplo.com';
+    }
+
+    async function initUsuarioHeader() {
+        usuarioId = localStorage.getItem('usuario_id');
+        usuarioLogueado = false;  // por defecto: NO hay usuario
+
+        if (!usuarioId) {
+            // No hay id en localStorage → aseguramos que el menú esté oculto
+            if (userMenu) userMenu.style.display = 'none';
+            return;
+        }
+
+        const usuario = await getUsuarioPorId(usuarioId);
+        if (!usuario) {
+            // No se pudo obtener usuario de la API → lo tratamos como no logueado
+            if (userMenu) userMenu.style.display = 'none';
+            return;
+        }
+
+        // Aquí sí tenemos usuario válido
+        usuarioActual = usuario;
+        usuarioLogueado = true;
+        renderHeaderUserMenu(usuario); // rellenamos nombre/correo
+    }
+
+
     // ========================
     //   SELECTORES DEL DOM
     // ========================
     const deliveryButtonsContainer = document.querySelector('.botones-tipo-pedido');
-    const orderButton              = document.querySelector('.btn-pedir');
-    const favoriteButton           = document.querySelector('.botones-banner button:first-child');
+    const orderButton = document.querySelector('.btn-pedir');
+    const favoriteButton = document.querySelector('.botones-banner button:first-child');
 
-    const imgBanner      = document.querySelector(".imagen-restaurante-banner");
-    const imgPerfil      = document.querySelector('.restaurante-perfil');
-    const tituloElem     = document.querySelector('.info-general h2');
-    const ratingElem     = document.querySelector('.info-general .rating');
+    const imgBanner = document.querySelector(".imagen-restaurante-banner");
+    const imgPerfil = document.querySelector('.restaurante-perfil');
+    const tituloElem = document.querySelector('.info-general h2');
+    const ratingElem = document.querySelector('.info-general .rating');
     const categoriasElem = document.querySelector('.info-general .categorias');
-    const direccionElem  = document.querySelector('.info-general .direccion');
+    const direccionElem = document.querySelector('.info-general .direccion');
     const descripcionElem = document.querySelector('.info-general .descripcion');
 
     const infoBoxes = document.querySelectorAll('.info-entrega .info-box'); // [0] envío, [1] tiempo
 
-    const productosSection   = document.getElementById('productos-restaurante');
+    const productosSection = document.getElementById('productos-restaurante');
     const listaProductosElem = productosSection
         ? productosSection.querySelector('.lista-productos')
         : null;
 
     // --- Tarjeta de ubicación ---
-    const ubicacionCard        = document.querySelector('.ubicacion-card');
-    const direccionCortaElem   = ubicacionCard ? ubicacionCard.querySelector('.direccion-corta') : null;
-    const estadoAbiertoElem    = ubicacionCard ? ubicacionCard.querySelector('footer p strong') : null;
-    const horarioTextoElem     = ubicacionCard ? ubicacionCard.querySelector('.horario') : null;
-    const footerInfoDiv        = ubicacionCard ? ubicacionCard.querySelector('footer div') : null;
+    const ubicacionCard = document.querySelector('.ubicacion-card');
+    const direccionCortaElem = ubicacionCard ? ubicacionCard.querySelector('.direccion-corta') : null;
+    const estadoAbiertoElem = ubicacionCard ? ubicacionCard.querySelector('footer p strong') : null;
+    const horarioTextoElem = ubicacionCard ? ubicacionCard.querySelector('.horario') : null;
+    const footerInfoDiv = ubicacionCard ? ubicacionCard.querySelector('footer div') : null;
 
     // Contenedor desplegable para los horarios de todos los días
     let horarioDetalleContainer = null;
@@ -130,9 +236,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    let deliveryType      = 'Entrega'; // estado inicial
+    let deliveryType = 'Entrega'; // estado inicial
     let restauranteActual = null;      // guardamos los datos del restaurante
-    let restauranteId     = getRestaurantIdFromUrl();
+    let restauranteId = getRestaurantIdFromUrl();
 
     // Guardaremos aquí la respuesta completa de /horario
     let horarioCompletoData = null;
@@ -141,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //   HELPERS HORARIO
     // ========================
     function obtenerDiaSemanaActual() {
-        const dias = ['domingo','lunes','martes','miercoles','jueves','viernes','sabado'];
+        const dias = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
         const idx = new Date().getDay(); // 0 = domingo
         return dias[idx];
     }
@@ -214,7 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function obtenerHorarioDeHoy(horarioData) {
-        // horarioData.horario = { lunes: {abre, cierra}, martes: {...}, ... }
         const hoy = obtenerDiaSemanaActual();
         const horarioObj = horarioData?.horario || null;
         if (!horarioObj) return null;
@@ -244,15 +349,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const fin = new Date(ahora);
         fin.setHours(hc, mc, 0, 0);
 
-        // Nota: si manejas horarios que pasan de medianoche (ej: 14:00 - 01:00),
-        // aquí se podría extender la lógica. De momento se mantiene simple.
         return ahora >= inicio && ahora <= fin;
     }
 
     function renderHorarioDetallado(horarioData) {
         if (!horarioDetalleContainer || !horarioData || !horarioData.horario) return;
 
-        const diasOrdenados = ['lunes','martes','miercoles','jueves','viernes','sabado','domingo'];
+        const diasOrdenados = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
         let html = '<ul style="list-style:none; padding-left:0; margin:0;">';
 
         diasOrdenados.forEach((dia) => {
@@ -284,13 +387,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            horarioCompletoData = horarioData; // lo guardamos globalmente
+            horarioCompletoData = horarioData;
             renderHorarioDetallado(horarioData);
 
             const diasServicio = horarioData.diasServicio || [];
             const infoHoy = obtenerHorarioDeHoy(horarioData);
 
-            // Texto de horario (línea pequeña debajo de "Abierto/Cerrado")
             if (horarioTextoElem) {
                 const textoDias = formatearDiasServicio(diasServicio);
                 if (infoHoy && infoHoy.cierra) {
@@ -301,7 +403,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Estado Abierto/Cerrado
             if (estadoAbiertoElem) {
                 if (infoHoy && estaAbiertoAhora(infoHoy)) {
                     estadoAbiertoElem.textContent = 'Abierto';
@@ -310,7 +411,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Dirección corta (si quieres actualizarla con datos reales del restaurante)
             if (direccionCortaElem && restauranteActual && restauranteActual.direccion) {
                 const d = restauranteActual.direccion;
                 const partesCortas = [d.calle, d.ciudad].filter(Boolean);
@@ -322,7 +422,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Toggle del menú de horarios (hace click en el bloque de texto de estado/horario)
     if (footerInfoDiv && horarioDetalleContainer) {
         let desplegado = false;
 
@@ -330,7 +429,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         footerInfoDiv.addEventListener('click', () => {
             if (!horarioCompletoData) {
-                // Aún no se ha cargado el horario; ignoramos
                 return;
             }
             desplegado = !desplegado;
@@ -360,15 +458,11 @@ document.addEventListener('DOMContentLoaded', () => {
         restauranteActual = datos;
         rellenarDatosRestaurante(datos);
 
-        // Cargar horario (usa el endpoint nuevo)
         await cargarHorarioRestaurante(restauranteId);
-
-        // Después de cargar el restaurante, cargamos sus productos
         await cargarProductosRestaurante(restauranteId);
     }
 
     function rellenarDatosRestaurante(r) {
-        // Título y nombre
         if (tituloElem) {
             const ciudad = r.direccion?.ciudad || '';
             tituloElem.textContent = ciudad
@@ -381,20 +475,17 @@ document.addEventListener('DOMContentLoaded', () => {
             imgBanner.setAttribute("src", imagen_banner);
         }
 
-        // Imagen de perfil
         if (imgPerfil) {
-            const imagen = r.imagen || imgPerfil.getAttribute('src'); // si no hay, dejamos la que estaba
+            const imagen = r.imagen || imgPerfil.getAttribute('src');
             imgPerfil.setAttribute('src', imagen);
         }
 
-        // Rating
         if (ratingElem) {
             const promedio = r.calificacion?.promedio ?? '–';
             const conteo = r.calificacion?.conteo ?? 0;
             ratingElem.innerHTML = `<strong>⭐ ${promedio}</strong> (${conteo}+)`;
         }
 
-        // Categorías
         if (categoriasElem) {
             if (Array.isArray(r.categorias) && r.categorias.length > 0) {
                 categoriasElem.textContent = r.categorias.join(' • ');
@@ -403,7 +494,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // Dirección (texto largo)
         if (direccionElem) {
             const d = r.direccion || {};
             const partes = [
@@ -415,17 +505,15 @@ document.addEventListener('DOMContentLoaded', () => {
             direccionElem.textContent = partes.join(', ');
         }
 
-        // Descripción
         if (descripcionElem && r.descripcion) {
             descripcionElem.textContent = r.descripcion;
         }
 
-        // Info de entrega: costo de envío y tiempo
         if (infoBoxes && infoBoxes.length >= 2) {
-            const envioBox   = infoBoxes[0];
-            const tiempoBox  = infoBoxes[1];
+            const envioBox = infoBoxes[0];
+            const tiempoBox = infoBoxes[1];
 
-            const tarifa  = r.entrega?.tarifa ?? 0;
+            const tarifa = r.entrega?.tarifa ?? 0;
             const minutos = r.entrega?.minutosPromedio ?? null;
 
             const envioHeader = envioBox.querySelector('header');
@@ -443,14 +531,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const tiempoHeader = tiempoBox.querySelector('header');
-            // footer de tiempo lo dejamos igual que en el HTML
-
             if (tiempoHeader) {
                 tiempoHeader.textContent = minutos ? `${minutos} min` : '—';
             }
         }
 
-        // Cambiar título de la pestaña
         document.title = `Chef Ya! | ${r.nombre}`;
     }
 
@@ -475,16 +560,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderProductos(productos) {
         if (!listaProductosElem) return;
-        listaProductosElem.innerHTML = ''; // limpiar
+        listaProductosElem.innerHTML = '';
 
         productos.forEach(prod => {
             const card = document.createElement('article');
             card.className = 'tarjeta-producto';
 
-            const imagen       = prod.imagen || './assets/images/placeholder-producto.png';
-            const nombre       = prod.nombre || 'Producto';
-            const descripcion  = prod.descripcion || '';
-            const precio       = formatearPrecio(prod.precio);
+            const imagen = prod.imagen || './assets/images/placeholder-producto.png';
+            const nombre = prod.nombre || 'Producto';
+            const descripcion = prod.descripcion || '';
+            const precio = formatearPrecio(prod.precio);
 
             card.innerHTML = `
                 <div class="tarjeta-producto-imagen">
@@ -516,7 +601,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 try {
-                    // 1) Obtener (o crear) carrito del usuario logueado
                     const carritoUrl = `${API_BASE_URL}/carritos/usuario/${idUsuario}`;
                     console.log('GET carrito URL:', carritoUrl);
 
@@ -539,7 +623,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const carritoId = carrito.id;
 
-                    // 2) Agregar item al carrito
                     const body = {
                         restauranteId: restauranteId,
                         productoId: prod.id,
@@ -635,5 +718,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ========================
     //   INICIO
     // ========================
-    cargarRestaurante();
+    (async function init() {
+        await initUsuarioHeader();
+        await cargarRestaurante();
+    })();
 });
