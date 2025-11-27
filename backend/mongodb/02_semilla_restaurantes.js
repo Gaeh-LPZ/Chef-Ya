@@ -127,7 +127,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 30, tarifa: 25 },
         direccion: {
-            calle: "Heroico Colegio Militar 7",
+            calle: "Heroico Colegio Militar 7, Centro, 69000 Heroica Cdad. de Huajuapan de León, Oax.",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
             cp: "69000",
@@ -143,7 +143,7 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "11:00", cierra: "21:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Dominos+Pizza+Heroico+Colegio+Militar+7+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/RoJkL4joTeuUPifA9",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -159,7 +159,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 32, tarifa: 25 },
         direccion: {
-            calle: "Heroico Colegio Militar 7",
+            calle: "Heroico Colegio Militar 9, Centro, 69000 Heroica Cdad. de Huajuapan de León, Oax.",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
             cp: "69000",
@@ -175,7 +175,7 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "09:00", cierra: "22:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Burger+King+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/oBTeEUJT3DDkvSJM8",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -191,7 +191,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 22, tarifa: 20 },
         direccion: {
-            calle: "Valerio Trujano #6, Altos León Plaza",
+            calle: "Valerio Trujano #6, Altos León Plaza, Centro, 69000 Heroica Cdad. de Huajuapan de León, Oax.",
             colonia: "Centro",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
@@ -208,7 +208,7 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "08:00", cierra: "12:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Taqueria+El+Paisa+Valerio+Trujano+6+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/5kyjRQZHekZ43qLV7",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -224,7 +224,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 25, tarifa: 20 },
         direccion: {
-            calle: "Heroico Colegio Militar 1",
+            calle: "Heroico Colegio Militar 1, Centro, 69000 Heroica Cdad. de Huajuapan de León, Oax.",
             colonia: "Centro",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
@@ -241,7 +241,7 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "08:00", cierra: "23:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Hotel+Garcia+Peral+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/gcCrqTvH6PwfvE2F6",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -257,7 +257,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 22, tarifa: 18 },
         direccion: {
-            calle: "Avenida 5 de Febrero #12",
+            calle: "C. Chihuahua, 1ªseccion, Santa Rosa, 69000 Heroica Cdad. de Huajuapan de León, Oax.",
             colonia: "Centro",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
@@ -274,14 +274,14 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "08:00", cierra: "22:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Antojitos+Dona+Mary+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/AYepxqCgikXeXFmS8",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
     },
     {
         _id: restauranteId16,
-        nombre: "Sushi Haru",
+        nombre: "Sakura sushi",
         slug: "sushi-haru",
         descripcion: "Sushi, ramen y comida japonesa",
         categorias: ["japonesa"],
@@ -290,7 +290,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 30, tarifa: 22 },
         direccion: {
-            calle: "Morelos #48",
+            calle: "C. 2 de Abril, La Merced, 69006 Heroica Cdad. de Huajuapan de León, Oax.",
             colonia: "Centro",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
@@ -307,15 +307,15 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "13:00", cierra: "23:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Sushi+Haru+Morelos+48+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/32dv3KosHbdMRbMq9",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
     },
     {
         _id: restauranteId17,
-        nombre: "Café La Estación",
-        slug: "cafe-la-estacion",
+        nombre: "",
+        slug: "cafe la estacion",
         descripcion: "Cafetería, postres y panadería",
         categorias: ["cafeteria"],
         imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763936640/84588221-cafe-banner-template-design-with-lettering-for-coffee-shop-modern-hipster-colorful-cafe-menu_th8zaq.jpg",
@@ -323,7 +323,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 16, tarifa: 12 },
         direccion: {
-            calle: "Colón #3",
+            calle: "Antonio de León 18, Centro, 69000 Heroica Cdad. de Huajuapan de León, Oax.",
             colonia: "Centro",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
@@ -340,14 +340,14 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "09:00", cierra: "22:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Cafe+La+Estacion+Colon+3+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/Nhj5daphe8DBxMnk9",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
     },
     {
         _id: restauranteId18,
-        nombre: "Tlayudas Lupita",
+        nombre: "Tlayudas con sabor y tradicion Lupita",
         slug: "tlayudas-lupita",
         descripcion: "Tlayudas y antojitos típicos oaxaqueños",
         categorias: ["oaxaquena"],
@@ -356,7 +356,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 27, tarifa: 20 },
         direccion: {
-            calle: "Guerrero #25",
+            calle: "Narciso Mendoza 136, 2da Aviacion, 69007 Heroica Cdad. de Huajuapan de León, Oax.",
             colonia: "Centro",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
@@ -373,14 +373,14 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "19:00", cierra: "01:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Tlayudas+Lupita+Guerrero+25+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/KFDkQjA3UjuZUSDBA",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
     },
     {
         _id: restauranteId19,
-        nombre: "La Cabaña Grill",
+        nombre: "Macho Grill",
         slug: "la-cabana-grill",
         descripcion: "Cortes, parrilladas y hamburguesas",
         categorias: ["grill"],
@@ -389,7 +389,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 32, tarifa: 25 },
         direccion: {
-            calle: "Galeana #10",
+            calle: "Colonia, C. Campillo 72, Alta Vista de Juárez, 69005 Heroica Cdad. de Huajuapan de León, Oax.",
             colonia: "Centro",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
@@ -406,23 +406,23 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "13:00", cierra: "00:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=La+Cabana+Grill+Galeana+10+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/64L5Yn2czvLUee2u8",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
     },
     {
         _id: restauranteId20,
-        nombre: "Panes y Café Don Pedro",
+        nombre: "Don pedro Chu pan tradicional",
         slug: "panes-y-cafe-don-pedro",
         descripcion: "Pan artesanal y bebidas calientes",
         categorias: ["panaderia"],
-        imagen: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763936996/download_emdjel.jpg",
+        imagen: "https://scontent.fpbc2-3.fna.fbcdn.net/v/t39.30808-6/279758345_723497832417152_4539581761324865104_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=MqGl2YiSAT8Q7kNvwHiLytJ&_nc_oc=AdlYDeFWnK4WBsxDxhkMIDFcqzcJQ1EmRVMRKCcWqvyjySeG9XRDx2jl_wHWMscItek&_nc_zt=23&_nc_ht=scontent.fpbc2-3.fna&_nc_gid=J0i7ovmus6D6juf28eFMTg&oh=00_AfjARYCv9UuM0If0mjeZziO6d63CL-AUEXeWplOsE20zpQ&oe=692E6684",
         imagen_banner: "https://res.cloudinary.com/drvghzp9n/image/upload/v1763936993/banner-con-diferentes-tipos-de-pan-en-superficie-oscura-primer-plano-concepto-panader%C3%ADa-fondo-tienda-alimentos-espacio-vac%C3%ADo-210558323_ifnhh9.webp",
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 15, tarifa: 10 },
         direccion: {
-            calle: "Nicolás Bravo #7",
+            calle: "Carr. a Huajuapan, Centro, 69270 San Marcos Arteaga, Oax.",
             colonia: "Centro",
             ciudad: "Huajuapan de León",
             estado: "Oaxaca",
@@ -439,7 +439,7 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "07:00", cierra: "22:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Panes+y+Cafe+Don+Pedro+Nicolas+Bravo+7+Huajuapan+de+Leon+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/Vk3otsy7UYsKrQVi7",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -448,16 +448,15 @@ dbChef.restaurantes.insertMany([
     //ATENCION PENDIENTES DE UBICACION LOS SIGUIENTES 5 RESTAURANTES EN OAXACA DE JUAREZ
     {
         _id: restauranteId21,
-        nombre: "Fonda Doña Chica",
+        nombre: "Restaurant Doña Chica",
         slug: "fonda-dona-chica",
         descripcion: "Comida casera oaxaqueña",
         categorias: ["oaxaqueña"],
-        imagen: "https://tse4.mm.bing.net/th/id/OIP.XZavIxm6gWkCrrccDvgqGwHaHY?rs=1&pid=ImgDetMain&o=7&rm=3",
-        imagen_banner: "https://resizer.otstatic.com/v3/photos/76768535-2?width=1280&height=720&webp=true",
+        imagen: "https://tse3.mm.bing.net/th/id/OIP.PoNrl6APuef_bRBZ_3z88wHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 18, tarifa: 20 },
         direccion: {
-            calle: "M. Bravo #209",
+            calle: "Morelos 41, Centro, 70430 San Pablo Villa de Mitla, Oax.",
             colonia: "Centro",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
@@ -474,23 +473,23 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "09:00", cierra: "16:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Fonda+Dona+Chica+M+Bravo+209+Oaxaca+de+Juarez",
+        url_localizacion: "https://maps.app.goo.gl/8CQPM8v6NDr96gij8",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
     },
     {
         _id: restauranteId22,
-        nombre: "La Tlayudería del Centro",
+        nombre: "Tlayudas el negro",
         slug: "la-tlayuderia-del-centro",
         descripcion: "Tlayudas y antojitos oaxaqueños",
         categorias: ["antojitos"],
-        imagen: "https://tse1.mm.bing.net/th/id/OIP.4VZTCoq--UJUBs2I8j5XsgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
-        imagen_banner: "https://tse4.mm.bing.net/th/id/OIP.wTYa4HHuEwDaEXhk42SlFAHaC0?rs=1&pid=ImgDetMain&o=7&rm=3",//esta imagen se va a cambiar 
+        imagen: "https://scontent.fpbc2-6.fna.fbcdn.net/v/t39.30808-6/408149447_745442717610255_4260594138822571777_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=ua9F3_Rl-88Q7kNvwHU88r1&_nc_oc=Adn5QTm9WviCwGFqCTecmkQ7XJ4h4zlgvJmRTFxF4W4LPVnDGnV0YvHzMu-S7jOA-04&_nc_zt=23&_nc_ht=scontent.fpbc2-6.fna&_nc_gid=CtNEF4FG_1sclAMVtq28-w&oh=00_AfgG5AziYaRwHE4sgRhz2MGqHKQR6ujl5o_TeI8rTL4aQA&oe=692E4472",
+        imagen_banner: "https://scontent.fpbc2-1.fna.fbcdn.net/v/t39.30808-6/473831974_1017450677076123_9221518851507375154_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=llMzLG65Hy4Q7kNvwF5EPsb&_nc_oc=AdmZm7ijJVK6iHcbE6Pa-dwWwgyZ9ry3BK5_yLRrcAVO6mwjdMzErwPDUWw8Os69tYk&_nc_zt=23&_nc_ht=scontent.fpbc2-1.fna&_nc_gid=zEjtADpA3fjU_R-cDF6E5A&oh=00_AfiPGD_kJfTbLmxLx8__VDRS5CiZnxYeZSrjx3vIycpb6g&oe=692E6892",//esta imagen se va a cambiar 
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 25, tarifa: 22 },
         direccion: {
-            calle: "Armenta y López #312",
+            calle: "Av. de la Independencia 310, Zona Lunes Feb 09, Centro, 68000 Oaxaca de Juárez, Oax.",
             colonia: "Centro",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
@@ -507,14 +506,14 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "18:00", cierra: "00:30" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=La+Tlayuderia+del+Centro+Armenta+y+Lopez+312+Oaxaca+de+Juarez",
+        url_localizacion: "https://maps.app.goo.gl/jBJGLrrJwuCQfRtm6",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
     },
     {
         _id: restauranteId23,
-        nombre: "Comedor La Abuelita",
+        nombre: "Comedor Tipico La Abuelita",
         slug: "comedor-la-abuelita",
         descripcion: "Platillos económicos y tradicionales",
         categorias: ["comida-casera"],
@@ -523,7 +522,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 14, tarifa: 10 },
         direccion: {
-            calle: "20 de Noviembre #108",
+            calle: "20 De Noviembre, 20 de Noviembre, OAX_RE_BENITO JUAREZ, Centro, 68000 Oaxaca de Juárez, Oax.",
             colonia: "Centro",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
@@ -540,7 +539,7 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "07:00", cierra: "20:30" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Comedor+La+Abuelita+20+de+Noviembre+108+Oaxaca+de+Juarez",
+        url_localizacion: "https://maps.app.goo.gl/uAsoNcCUSfgXn1pm6",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -556,7 +555,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 30, tarifa: 25 },
         direccion: {
-            calle: "Independencia #501",
+            calle: "C. De Manuel Doblado SN, Zona Feb 10 2015, Centro, 68000 Oaxaca de Juárez, Oax.",
             colonia: "Centro",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
@@ -573,7 +572,7 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "08:00", cierra: "22:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Sazon+Oaxaqueno+Independencia+501+Oaxaca+de+Juarez",
+        url_localizacion: "https://maps.app.goo.gl/8iQddCMm3h4bmAai6",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -589,7 +588,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 0, conteo: 0 },
         entrega: { minutosPromedio: 20, tarifa: 18 },
         direccion: {
-            calle: "20 de Noviembre s/n",
+            calle: "20 De Noviembre, 68000, Miguel Cabrera 116, Centro, 68000 Oaxaca de Juárez, Oax.",
             colonia: "Centro",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
@@ -606,7 +605,7 @@ dbChef.restaurantes.insertMany([
             domingo:   { abre: "08:00", cierra: "19:00" }
         },
         diasServicio: ["lunes","martes","miercoles","jueves","viernes","sabado","domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Mercado+20+de+Noviembre+Pasillo+de+Humo+Oaxaca+de+Juarez",
+        url_localizacion: "https://maps.app.goo.gl/XUfhi6hfqNRcGAkK7",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora

@@ -116,7 +116,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.8, conteo: 120 },
         entrega: { minutosPromedio: 35, tarifa: 25 },
         direccion: {
-            calle: "Av. Del Mar 120",
+            calle: "De, Internacional a Oaxaca, Izúcar de Matamoros, Pue.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.075, lng: -96.713 }
@@ -131,7 +131,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Av.+Del+Mar+120+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/jhmgbeKLUWjqNfL99",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -151,7 +151,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.9, conteo: 210 },
         entrega: { minutosPromedio: 40, tarifa: 30 },
         direccion: {
-            calle: "Mujeres Ilustres 88",
+            calle: "Emilio Carranza 1118, Esq Sauces, 68050 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.078, lng: -96.717 }
@@ -166,7 +166,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "13:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Mujeres+Ilustres+88+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/Q8AFVudVW2DXfraB9",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -177,7 +177,7 @@ dbChef.restaurantes.insertMany([
     // -----------------------------------------------------
     {
         _id: restauranteId28,
-        nombre: "Tokyo Ramen House",
+        nombre: "Sakura Shokudou",
         slug: "tokyo-ramen-house",
         descripcion: "Auténtico ramen japonés hecho a mano.",
         categorias: ["japonesa", "ramen"],
@@ -186,7 +186,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.7, conteo: 188 },
         entrega: { minutosPromedio: 30, tarifa: 20 },
         direccion: {
-            calle: "Calzada Madero 300",
+            calle: "C. Porfirio Díaz 507, RUTA INDEPENDENCIA, Centro, 68000 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.073, lng: -96.71 }
@@ -201,7 +201,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "13:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Calzada+Madero+300+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/64jcNZsJt5Wsa3bMA",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -212,7 +212,7 @@ dbChef.restaurantes.insertMany([
     // -----------------------------------------------------
     {
         _id: restauranteId29,
-        nombre: "Burgertown",
+        nombre: "A la burguer oaxaca",
         slug: "burgertown",
         descripcion: "Hamburguesas artesanales jugosas y gourmet.",
         categorias: ["hamburguesas"],
@@ -221,7 +221,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.6, conteo: 165 },
         entrega: { minutosPromedio: 25, tarifa: 20 },
         direccion: {
-            calle: "Av. Universidad 55",
+            calle: "C. Jazmines 505, Reforma, 68050 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.071, lng: -96.719 }
@@ -236,7 +236,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Av.+Universidad+55+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/JUxdYeypazMnQM6A8",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -247,7 +247,7 @@ dbChef.restaurantes.insertMany([
     // -----------------------------------------------------
     {
         _id: restauranteId30,
-        nombre: "Café Aromas",
+        nombre: "Aroma antequera",
         slug: "cafe-aromas",
         descripcion: "Café artesanal, panadería y bebidas calientes.",
         categorias: ["cafe", "postres"],
@@ -256,7 +256,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.8, conteo: 144 },
         entrega: { minutosPromedio: 20, tarifa: 15 },
         direccion: {
-            calle: "Morelos 150",
+            calle: "Del Punto 131, CALZADA MADERO, Barrio del Peñasco, 68000 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.074, lng: -96.712 }
@@ -271,7 +271,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "08:00", cierra: "21:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Morelos+150+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/Vx4fvUmVtTH3Z2Wi8",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -282,7 +282,7 @@ dbChef.restaurantes.insertMany([
     // -----------------------------------------------------
     {
         _id: restauranteId31,
-        nombre: "La Casa Oaxaqueña",
+        nombre: "La Casa Oaxaca reforma",
         slug: "la-casa-oaxaquena",
         descripcion: "Platillos tradicionales de Oaxaca.",
         categorias: ["oaxaquena", "mexicana"],
@@ -291,7 +291,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.9, conteo: 300 },
         entrega: { minutosPromedio: 45, tarifa: 30 },
         direccion: {
-            calle: "Bustamante 67",
+            calle: "C. Jazmines 518, Reforma, 68050 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.076, lng: -96.711 }
@@ -306,7 +306,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "13:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Bustamante+67+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/K1JoNhpSJBFfoxcZ8",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -317,7 +317,7 @@ dbChef.restaurantes.insertMany([
     // -----------------------------------------------------
     {
         _id: restauranteId32,
-        nombre: "Pizzería Don Luigi",
+        nombre: "Pizzería Da Luigi",
         slug: "pizzeria-don-luigi",
         descripcion: "Pizzas artesanales al horno de piedra.",
         categorias: ["pizzeria", "italiana"],
@@ -326,7 +326,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.7, conteo: 190 },
         entrega: { minutosPromedio: 35, tarifa: 25 },
         direccion: {
-            calle: "Independencia 400",
+            calle: "6to Etapa INFONAVIT 1ro de Mayo, 68020 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.072, lng: -96.714 }
@@ -341,7 +341,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Independencia+400+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/c7jMMP9FLeKCPhZD9",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -352,7 +352,7 @@ dbChef.restaurantes.insertMany([
     // -----------------------------------------------------
     {
         _id: restauranteId33,
-        nombre: "Green Life",
+        nombre: "Go Life Oaxaca",
         slug: "green-life",
         descripcion: "Restaurante vegano con ingredientes frescos.",
         categorias: ["vegana"],
@@ -361,7 +361,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.8, conteo: 120 },
         entrega: { minutosPromedio: 25, tarifa: 20 },
         direccion: {
-            calle: "Melchor Ocampo 155",
+            calle: "Av Belisario Domínguez 605, Reforma, 68050 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.070, lng: -96.713 }
@@ -376,7 +376,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "11:00", cierra: "21:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Melchor+Ocampo+155+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/p8hufaRibxmbE28y9",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -396,7 +396,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.9, conteo: 230 },
         entrega: { minutosPromedio: 20, tarifa: 20 },
         direccion: {
-            calle: "Garcia Vigil 78",
+            calle: "Miguel López, I.v.o. Montoya, Montoya, 68143 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.074, lng: -96.715 }
@@ -411,7 +411,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "10:00", cierra: "21:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Garcia+Vigil+78+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/wpzU2Md9YQFnkeuM6",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -422,7 +422,7 @@ dbChef.restaurantes.insertMany([
     // -----------------------------------------------------
     {
         _id: restauranteId35,
-        nombre: "Noodle Lab",
+        nombre: "Yabala Ramen",
         slug: "noodle-lab",
         descripcion: "Tallarines orientales, ramen y platos asiáticos.",
         categorias: ["ramen", "japonesa"],
@@ -431,7 +431,7 @@ dbChef.restaurantes.insertMany([
         calificacion: { promedio: 4.7, conteo: 156 },
         entrega: { minutosPromedio: 35, tarifa: 25 },
         direccion: {
-            calle: "Heroica Escuela Naval 200",
+            calle: "Lázaro Cárdenas Esquina, Lino García 100, 68030 Oaxaca de Juárez, Oax.",
             ciudad: "Oaxaca de Juárez",
             estado: "Oaxaca",
             geo: { lat: 17.079, lng: -96.718 }
@@ -446,7 +446,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://www.google.com/maps/search/?api=1&query=Heroica+Escuela+Naval+200+Oaxaca+de+Juárez+Oaxaca",
+        url_localizacion: "https://maps.app.goo.gl/oiHPCxvpT29phmjQ8",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
