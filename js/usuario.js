@@ -48,17 +48,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const perfilMensajeEl       = document.getElementById('perfil-mensaje');
     const usuarioIdLabel        = document.getElementById('usuario-id-label');
     const perfilAvatarIniciales = document.getElementById('perfil-avatar-iniciales');
+    const btnEditarPerfil       = document.getElementById('btn-editar-perfil');
+    const btnGuardarPerfil      = document.getElementById('btn-guardar-perfil');
 
-    const listaDireccionesEl = document.getElementById('lista-direcciones');
-    const listaPedidosEl     = document.getElementById('lista-pedidos');
+    // DIRECCIONES
+    const listaDireccionesEl       = document.getElementById('lista-direcciones');
+    const btnMostrarFormDireccion  = document.getElementById('btn-mostrar-form-direccion');
+    const formDireccion            = document.getElementById('form-direccion');
+    const direccionFormTituloEl    = document.getElementById('direccion-form-titulo');
+    const direccionEtiquetaInput   = document.getElementById('direccion-etiqueta');
+    const direccionCalleInput      = document.getElementById('direccion-calle');
+    const direccionCiudadInput     = document.getElementById('direccion-ciudad');
+    const direccionEstadoInput     = document.getElementById('direccion-estado');
+    const direccionCpInput         = document.getElementById('direccion-cp');
+    const direccionLatInput        = document.getElementById('direccion-lat');
+    const direccionLngInput        = document.getElementById('direccion-lng');
+    const direccionMensajeEl       = document.getElementById('direccion-mensaje');
+    const btnCancelarDireccion     = document.getElementById('btn-cancelar-direccion');
+    const btnGuardarDireccion      = document.getElementById('btn-guardar-direccion');
 
-    const btnEditarPerfil  = document.getElementById('btn-editar-perfil');
-    const btnGuardarPerfil = document.getElementById('btn-guardar-perfil');
+    // PEDIDOS
+    const listaPedidosEl = document.getElementById('lista-pedidos');
 
-    let menuAbierto   = false;
-    let usuarioActual = null;
-    let usuarioId     = null;
-    let editMode      = false;
+    let menuAbierto        = false;
+    let usuarioActual      = null;
+    let usuarioId          = null;
+    let editMode           = false;
+    let direccionesActuales = [];
+    let indiceEdicionDireccion = null; // null = nueva, número = editar esa
 
     if (userMenu) {
         userMenu.style.display = 'none';
@@ -169,6 +186,24 @@ document.addEventListener('DOMContentLoaded', () => {
         return fetchJson(url);
     }
 
+    async function agregarDireccionUsuario(idUsuario, data) {
+        const url = `${API_BASE_URL}/usuarios/${idUsuario}/direcciones`;
+        return fetchJson(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+    }
+
+    async function eliminarDireccionUsuario(idUsuario, indice) {
+        const url = `${API_BASE_URL}/usuarios/${idUsuario}/direcciones/${indice}`;
+        return fetchJson(url, {
+            method: 'DELETE',
+        });
+    }
+
     async function getPedidosUsuario(idUsuario, limite = 5) {
         const url = `${API_BASE_URL}/pedidos/usuario/${idUsuario}?limite=${limite}`;
         return fetchJson(url);
@@ -190,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'U';
     }
 
-    function setEditMode(enabled) {
+    function setEditModePerfil(enabled) {
         editMode = enabled;
 
         if (perfilNombreInput)   perfilNombreInput.disabled   = !enabled;
@@ -200,7 +235,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btnGuardarPerfil) btnGuardarPerfil.style.display = enabled ? 'inline-flex' : 'none';
 
         if (!enabled && usuarioActual) {
-            // Restaurar valores por si el usuario escribió algo raro y canceló
             if (perfilNombreInput)   perfilNombreInput.value   = usuarioActual.nombre   || '';
             if (perfilTelefonoInput) perfilTelefonoInput.value = usuarioActual.telefono || '';
         }
@@ -229,8 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
             perfilAvatarIniciales.textContent = obtenerIniciales(usuario.nombre, usuario.correo);
         }
 
-        // Siempre volvemos a modo solo lectura después de renderizar
-        setEditMode(false);
+        setEditModePerfil(false);
     }
 
     function renderHeaderUserMenu(usuario) {
@@ -239,12 +272,72 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userEmailLabel) userEmailLabel.textContent = usuario.correo || 'correo@ejemplo.com';
     }
 
+    // ==========================
+    //   DIRECCIONES
+    // ==========================
+    function limpiarFormularioDireccion() {
+        if (direccionEtiquetaInput) direccionEtiquetaInput.value = '';
+        if (direccionCalleInput)    direccionCalleInput.value    = '';
+        if (direccionCiudadInput)   direccionCiudadInput.value   = '';
+        if (direccionEstadoInput)   direccionEstadoInput.value   = '';
+        if (direccionCpInput)       direccionCpInput.value       = '';
+        if (direccionLatInput)      direccionLatInput.value      = '';
+        if (direccionLngInput)      direccionLngInput.value      = '';
+    }
+
+    function mostrarFormularioDireccion(modo, indice = null) {
+        if (!formDireccion || !direccionFormTituloEl) return;
+
+        if (modo === 'nuevo') {
+            indiceEdicionDireccion = null;
+            direccionFormTituloEl.textContent = 'Nueva dirección';
+            limpiarFormularioDireccion();
+        } else if (modo === 'editar' && indice != null && direccionesActuales[indice]) {
+            indiceEdicionDireccion = indice;
+            direccionFormTituloEl.textContent = 'Editar dirección';
+
+            const dir = direccionesActuales[indice];
+            if (direccionEtiquetaInput) direccionEtiquetaInput.value = dir.etiqueta || '';
+            if (direccionCalleInput)    direccionCalleInput.value    = dir.calle   || '';
+            if (direccionCiudadInput)   direccionCiudadInput.value   = dir.ciudad  || '';
+            if (direccionEstadoInput)   direccionEstadoInput.value   = dir.estado  || '';
+            if (direccionCpInput)       direccionCpInput.value       = dir.cp      || '';
+            if (direccionLatInput && dir.geo) direccionLatInput.value = dir.geo.lat ?? '';
+            if (direccionLngInput && dir.geo) direccionLngInput.value = dir.geo.lng ?? '';
+        }
+
+        if (direccionMensajeEl) {
+            direccionMensajeEl.textContent = '';
+            direccionMensajeEl.classList.remove('ok', 'error');
+        }
+
+        formDireccion.style.display = 'flex';
+    }
+
+    function ocultarFormularioDireccion() {
+        if (!formDireccion) return;
+        formDireccion.style.display = 'none';
+        indiceEdicionDireccion = null;
+        if (direccionMensajeEl) {
+            direccionMensajeEl.textContent = '';
+            direccionMensajeEl.classList.remove('ok', 'error');
+        }
+    }
+
+    function mostrarMensajeDireccion(texto, tipo) {
+        if (!direccionMensajeEl) return;
+        direccionMensajeEl.textContent = texto || '';
+        direccionMensajeEl.classList.remove('ok', 'error');
+        if (tipo) direccionMensajeEl.classList.add(tipo);
+    }
+
     function renderDirecciones(direcciones) {
         if (!listaDireccionesEl) return;
 
+        direccionesActuales = Array.isArray(direcciones) ? direcciones : [];
         listaDireccionesEl.innerHTML = '';
 
-        if (!direcciones || direcciones.length === 0) {
+        if (!direccionesActuales.length) {
             const p = document.createElement('p');
             p.textContent = 'No tienes direcciones registradas.';
             p.classList.add('usuario-carrito-vacio');
@@ -252,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        direcciones.forEach(dir => {
+        direccionesActuales.forEach((dir, indice) => {
             const card = document.createElement('div');
             card.className = 'direccion-card';
 
@@ -265,12 +358,147 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p><strong>${dir.etiqueta}</strong></p>
                 <p>${dir.calle}, ${dir.ciudad}, ${dir.estado}${cpText}</p>
                 <p>${geoText}</p>
+                <div class="direccion-actions">
+                    <button
+                        type="button"
+                        class="direccion-btn direccion-btn-secundario btn-editar-direccion"
+                        data-indice="${indice}"
+                    >
+                        Editar
+                    </button>
+                    <button
+                        type="button"
+                        class="direccion-btn direccion-btn-peligro btn-eliminar-direccion"
+                        data-indice="${indice}"
+                    >
+                        Eliminar
+                    </button>
+                </div>
             `;
 
             listaDireccionesEl.appendChild(card);
         });
     }
 
+    // Delegación de eventos para botones Editar / Eliminar
+    if (listaDireccionesEl) {
+        listaDireccionesEl.addEventListener('click', async (e) => {
+            const btn = e.target.closest('button');
+            if (!btn) return;
+
+            const indice = btn.getAttribute('data-indice');
+            if (indice == null) return;
+            const idx = parseInt(indice, 10);
+
+            if (btn.classList.contains('btn-editar-direccion')) {
+                mostrarFormularioDireccion('editar', idx);
+            } else if (btn.classList.contains('btn-eliminar-direccion')) {
+                const confirma = confirm('¿Seguro que deseas eliminar esta dirección?');
+                if (!confirma) return;
+
+                if (!usuarioId && usuarioId !== 0) return;
+
+                const listaActualizada = await eliminarDireccionUsuario(usuarioId, idx);
+                if (!listaActualizada) {
+                    alert('No se pudo eliminar la dirección. Intenta de nuevo.');
+                    return;
+                }
+                renderDirecciones(listaActualizada);
+            }
+        });
+    }
+
+    // Botón "Agregar dirección"
+    if (btnMostrarFormDireccion) {
+        btnMostrarFormDireccion.addEventListener('click', () => {
+            mostrarFormularioDireccion('nuevo');
+        });
+    }
+
+    // Botón "Cancelar" en formulario de dirección
+    if (btnCancelarDireccion) {
+        btnCancelarDireccion.addEventListener('click', () => {
+            ocultarFormularioDireccion();
+        });
+    }
+
+    // Submit del formulario de dirección (nuevo o edición)
+    if (formDireccion) {
+        formDireccion.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!usuarioId) return;
+
+            const etiqueta = direccionEtiquetaInput?.value.trim() || '';
+            const calle    = direccionCalleInput?.value.trim()    || '';
+            const ciudad   = direccionCiudadInput?.value.trim()   || '';
+            const estado   = direccionEstadoInput?.value.trim()   || '';
+            const cp       = direccionCpInput?.value.trim()       || '';
+            const latStr   = direccionLatInput?.value.trim()      || '';
+            const lngStr   = direccionLngInput?.value.trim()      || '';
+
+            if (!etiqueta || !calle || !ciudad || !estado || !latStr || !lngStr) {
+                mostrarMensajeDireccion('Completa etiqueta, calle, ciudad, estado, latitud y longitud.', 'error');
+                return;
+            }
+
+            const lat = parseFloat(latStr);
+            const lng = parseFloat(lngStr);
+
+            if (Number.isNaN(lat) || Number.isNaN(lng)) {
+                mostrarMensajeDireccion('Latitud y longitud deben ser números válidos.', 'error');
+                return;
+            }
+
+            const payload = {
+                etiqueta,
+                calle,
+                ciudad,
+                estado,
+                cp: cp || null,
+                geo: {
+                    lat,
+                    lng,
+                },
+            };
+
+            btnGuardarDireccion.disabled = true;
+            mostrarMensajeDireccion('Guardando dirección...', null);
+
+            try {
+                let listaActualizada = null;
+
+                if (indiceEdicionDireccion == null) {
+                    // Nueva dirección
+                    listaActualizada = await agregarDireccionUsuario(usuarioId, payload);
+                } else {
+                    // Editar: eliminar la vieja y agregar la nueva
+                    const eliminado = await eliminarDireccionUsuario(usuarioId, indiceEdicionDireccion);
+                    if (!eliminado) {
+                        mostrarMensajeDireccion('No se pudo editar (error al eliminar). Intenta de nuevo.', 'error');
+                        btnGuardarDireccion.disabled = false;
+                        return;
+                    }
+                    listaActualizada = await agregarDireccionUsuario(usuarioId, payload);
+                }
+
+                if (!listaActualizada) {
+                    mostrarMensajeDireccion('No se pudo guardar la dirección. Intenta de nuevo.', 'error');
+                    btnGuardarDireccion.disabled = false;
+                    return;
+                }
+
+                renderDirecciones(listaActualizada);
+                mostrarMensajeDireccion('Dirección guardada correctamente.', 'ok');
+                ocultarFormularioDireccion();
+            } finally {
+                btnGuardarDireccion.disabled = false;
+            }
+        });
+    }
+
+    // ==========================
+    //   PEDIDOS
+    // ==========================
     function formatearFechaISO(iso) {
         if (!iso) return '–';
         const fecha = new Date(iso);
@@ -322,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================
-    //   GUARDAR PERFIL
+    //   PERFIL: GUARDAR
     // ==========================
     function mostrarMensajePerfil(texto, tipo) {
         if (!perfilMensajeEl) return;
@@ -334,7 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnEditarPerfil) {
         btnEditarPerfil.addEventListener('click', () => {
             mostrarMensajePerfil('', null);
-            setEditMode(true);
+            setEditModePerfil(true);
         });
     }
 
@@ -342,7 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
         perfilForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             if (!usuarioId || !perfilNombreInput || !perfilTelefonoInput) return;
-            if (!editMode) return; // por seguridad
+            if (!editMode) return;
 
             mostrarMensajePerfil('Guardando...', null);
             if (btnGuardarPerfil) btnGuardarPerfil.disabled = true;
