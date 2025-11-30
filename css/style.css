@@ -230,6 +230,11 @@ main {
     border-radius: 0.6rem;
     cursor: pointer;
     text-align: center;
+
+    a {
+        color: var(--text-secondary);
+        text-decoration: none;
+    }
 }
 
 .categories-aside {

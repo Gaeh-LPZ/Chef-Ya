@@ -113,14 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Lógica adicional: Botón "HAZ CLICK PARA VER MÁS" (mobile)
-    const ctaMore = document.querySelector('.cta-more');
-    if (ctaMore) {
-        ctaMore.addEventListener('click', () => {
-            alert('Por favor, ingresa tu dirección para ver los restaurantes disponibles.');
-        });
-    }
-
     const inputCategorias = document.getElementById('input-categorias');
     const boxSugerencias = document.getElementById('sugerencias-categorias');
     let listaCategorias = []; // Aquí guardaremos las categorías de la BD
