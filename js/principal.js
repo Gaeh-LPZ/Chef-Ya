@@ -237,6 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = 'tarjeta';
         card.setAttribute('data-id', restaurante.id);
 
+        card.style.gridRowStart = 'auto'; 
+
         const nombre = restaurante.nombre ?? 'Restaurante';
         const minutosProm = restaurante.entrega?.minutosPromedio ?? '–';
         const calificacion = restaurante.calificacion?.promedio ?? '–';
