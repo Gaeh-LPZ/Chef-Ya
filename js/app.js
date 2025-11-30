@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         inputCategorias.value = cat.nombre; // Rellenar el input
                         boxSugerencias.style.display = 'none'; // Ocultar caja
                         
-                        const slug = cat.slug || cat.nombre; // por si acaso
+                        const slug = cat.nombre || cat.slug; // por si acaso
                         window.location.href = `principal.html?categoria=${encodeURIComponent(slug)}`;
                     });
 
