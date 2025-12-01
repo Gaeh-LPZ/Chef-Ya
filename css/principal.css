@@ -37,7 +37,7 @@ body {
 
     #menu-button, #user-login, #shopping-cart {
         margin: 0;
-        padding: 0;
+        padding: 14px;
         background-color: transparent;
         border: none;
         cursor: pointer;
@@ -184,6 +184,7 @@ main {
         grid-template-columns: repeat(3,1fr);
         grid-template-rows: 0.5fr ;
         gap: 8px;
+        width: 85%;
         header {
             display: flex;
             flex-direction: row;
