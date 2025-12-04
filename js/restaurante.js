@@ -552,6 +552,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
+        const mapaVisual = document.querySelector('.mapa-visual');
+        if (mapaVisual && r.url_localizacion) {
+            mapaVisual.innerHTML = `<iframe 
+                src="${r.url_localizacion}" 
+                width="100%" 
+                height="100%" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>`;
+        }
+        
         document.title = `Chef Ya! | ${r.nombre}`;
     }
 
