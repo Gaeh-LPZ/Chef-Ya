@@ -84,7 +84,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "13:00", cierra: "21:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/snHhqraKd1bL36cT6",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1880.821629450663!2d-99.1221873!3d19.4709418!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f972ed79f8bf%3A0x1154ea52b34d6686!2sLA%20CASONA%20DEL%20MOLE!5e0!3m2!1ses-419!2smx!4v1764864710042!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -119,7 +119,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "11:00", cierra: "19:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/mbRLzdyD2sSXmFE8A",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d60350.99529230763!2d-98.2713324!3d19.0224885!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cfc1a692d1dcd7%3A0xa3efb7929faa65cd!2sSanta%20Clara%20Parque%20Puebla%20(Nivel%202)!5e0!3m2!1ses-419!2smx!4v1764864827489!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -134,8 +134,8 @@ dbChef.restaurantes.insertMany([
         slug: "cafe-talavera",
         descripcion: "Café de altura poblano en un ambiente relajado.",
         categorias: ["cafe", "postres"],
-        imagen: "https://scontent.fpbc2-1.fna.fbcdn.net/v/t39.30808-6/301020022_110547115117073_6344943016877260916_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=Szoj5eLFvwgQ7kNvwGu4VuU&_nc_oc=Adms-XkHHTeIn0RrmdwpyhlGgwLLzktZefAwQ5JB_QYAfz2WMzflB4GBHVUjeIunmag&_nc_zt=23&_nc_ht=scontent.fpbc2-1.fna&_nc_gid=Zjoj18OEowwTIzOoqf2OnQ&oh=00_AfgZoJIaoooBbGTVo4hMZHBdpDtHxMdhTtTMBygl1l1Vow&oe=692E2643", // Placeholder
-        imagen_banner: "https://scontent.fpbc2-3.fna.fbcdn.net/v/t39.30808-6/301582137_110562815115503_6030312323594528954_n.png?_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=8OydI48iXsMQ7kNvwF7sNBL&_nc_oc=Adn_RTiFhxP8Y7JVkSoo-cNp-6_mIZCWmfd-epwGJ3EIrhcvvrMOt21fQCB9TidjzDE&_nc_zt=23&_nc_ht=scontent.fpbc2-3.fna&_nc_gid=nhMBBgmHqJ-5I5hfFh_s7g&oh=00_AfizxGuiTVK6c4xUAFGZV9DXHjd51Gtg0-d_QrgfeuK-Pw&oe=692E4C7E", // Placeholder
+        imagen: "https://tse2.mm.bing.net/th/id/OIP.phl62npB4LdSXgkQpSZ4MAHaHO?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3", // Placeholder
+        imagen_banner: "https://scontent.fmtt1-2.fna.fbcdn.net/v/t39.30808-6/480687437_1359288101976105_6198856423423787235_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeEAt77wbOR42GWUNcbzDA_L8kbqTnmMDCHyRupOeYwMIecjJYCpeB_UkHxW-6oUQd9CP3voi4U7s59_1P4v1arQ&_nc_ohc=q32DLqn7CzgQ7kNvwHNhR8c&_nc_oc=AdmyB48Bhb3mbwsBzLcjypEf9yUncc31IAeleJxQ90rWAPImm_MY3_0lUQJldXh_VqvdLg291DJqdlr1P26jNACM&_nc_zt=23&_nc_ht=scontent.fmtt1-2.fna&_nc_gid=eCd4yxhG94s_P6PqrD8jmA&oh=00_AflSL1DFxcRPJhsDY1KibHBvBwzgH3MTZiKKFyG2nqzU9w&oe=69377286", // Placeholder
         calificacion: { promedio: 4.7, conteo: 180 },
         entrega: { minutosPromedio: 25, tarifa: 20 },
         direccion: {
@@ -154,7 +154,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "09:00", cierra: "21:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/iwSygKo2CAEi5YjC7",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d60341.524828620706!2d-98.2734168!3d19.0485499!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cfc12a7c8e6f93%3A0xa9c6ae3dbfb60353!2sRestaurante%20Talavera!5e0!3m2!1ses-419!2smx!4v1764864902204!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -189,7 +189,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "18:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/EGg8fwskXptYFn9w7",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d60337.97379681662!2d-98.3269525!3d19.058313!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cfc71beb024543%3A0xa8579f02ee756948!2sOrganic%20Puebla!5e0!3m2!1ses-419!2smx!4v1764864960670!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -204,8 +204,8 @@ dbChef.restaurantes.insertMany([
         slug: "tacos-arabes-el-sultan",
         descripcion: "Los tradicionales tacos árabes de Puebla con salsa especial.",
         categorias: ["poblana", "mexicana"],
-        imagen: "https://scontent.fpbc2-1.fna.fbcdn.net/v/t39.30808-6/429806061_122106114488218711_7911753425280897342_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=anhf-qP3hyYQ7kNvwF0uP3E&_nc_oc=AdkUhuDYv2Z1c-wKGaZh-nAUSTCXurfIpPihXDIHhdStYXUPtY6yaaTu_iPgUIZl5mg&_nc_zt=23&_nc_ht=scontent.fpbc2-1.fna&_nc_gid=Eaznb5J-Xm4STghSXKFVwQ&oh=00_AfiyRucNKeWY4uIaHf4cHglJJA0sgAIROKJZk1kxTnOd2g&oe=692E5020", // Placeholder
-        imagen_banner: "https://scontent.fpbc2-1.fna.fbcdn.net/v/t39.30808-6/470207439_122195594294218711_5923656046453333380_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=go2I3UNoP58Q7kNvwEQ70J-&_nc_oc=AdlBipMowZ2gculT2_o5vcfNa8q8z35q72-bAIa1_QzuYEth0OtcH2XMbBXIQLq08k4&_nc_zt=23&_nc_ht=scontent.fpbc2-1.fna&_nc_gid=0sZtd-2uMedCXvL0H_67GA&oh=00_Afjo6Zg9SYw_mCAqxpKsw83UAVyBvCC4JbTtlEkL7BA7fA&oe=692E1E21", // Placeholder
+        imagen: "https://scontent.fmtt1-1.fna.fbcdn.net/v/t39.30808-6/522668314_1462228115213875_2724800736096518797_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeGd7Geibi_UXpRABdMvuWVBpsSzOYTVK9mmxLM5hNUr2coQzaQhT8PTMqU0sRXkvYdIpv_O4zXeji0Tc-drfAQ8&_nc_ohc=995piwFtzKEQ7kNvwHJNXgL&_nc_oc=Adk5bGpNJJ23PBHOvOyYIDGpdorlRe0t4elckDe5LnTEskT_L1BA7Q2hKOalEb7XWxVn5B1mih5aqTO7TzvaOKo8&_nc_zt=23&_nc_ht=scontent.fmtt1-1.fna&_nc_gid=GGCZnJWzNzD2Il7uf9r4fg&oh=00_AflY9JYdVRxgiGw1x9dP7rGs_jonEmtysLeOdDAE6I7TBg&oe=69379358", // Placeholder
+        imagen_banner: "https://scontent.fmtt1-2.fna.fbcdn.net/v/t39.30808-6/556927182_1210069897810999_1298878045870927948_n.png?_nc_cat=106&ccb=1-7&_nc_sid=cc71e4&_nc_eui2=AeF7yeV8a3mlNBz-QPbC4FjbpzH69VaTuCunMfr1VpO4K0HzJSHmCftjmOxbcx-j8lq7Va7uOQLNInFi7JQp9WB4&_nc_ohc=zj_wgIVg_-EQ7kNvwGiS6Sg&_nc_oc=Adk_AM8qtuWfNuNdNhSmYejxCSbUMJbQt1JkT_CF2JMF6eI8GkRdT6lKSF5l3mChS8lP020zKWCU-yrhf5Qkbf46&_nc_zt=23&_nc_ht=scontent.fmtt1-2.fna&_nc_gid=jeEmJSIU8m6Gvn29Z4KGog&oh=00_Afnrllh4j3Wg66rCkSR8Pktkw3LMOwIXVFCqeOn5mTmtGA&oe=69377D31", // Placeholder
         calificacion: { promedio: 4.6, conteo: 500 },
         entrega: { minutosPromedio: 25, tarifa: 20 },
         direccion: {
@@ -224,7 +224,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "14:00", cierra: "23:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/HevBcHgaf9pJgDvk9",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.4354207167944!2d-98.1985!3d19.0445842!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cfc0e776a68ff7%3A0xea5a9f3567778809!2sTaquer%C3%ADa%20Oriental%20El%20Sult%C3%A1n!5e0!3m2!1ses-419!2smx!4v1764865071646!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora

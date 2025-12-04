@@ -131,7 +131,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/jhmgbeKLUWjqNfL99",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3781.5662447768073!2d-98.47329069999999!3d18.593584099999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cf013ec02fefcb%3A0x7ae1c5d3dc63d22e!2sMarisquer%C3%ADa%20el%20oc%C3%A9ano!5e0!3m2!1ses-419!2smx!4v1764865178196!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -166,7 +166,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "13:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/Q8AFVudVW2DXfraB9",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d122059.91602871504!2d-96.7265629!3d17.0544287!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c7237004cd0c59%3A0x12d6750308fac0ea!2sLa%20Trattoria!5e0!3m2!1ses-419!2smx!4v1764865205045!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -201,7 +201,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "13:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/64jcNZsJt5Wsa3bMA",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d122052.11164988184!2d-96.7958767!3d17.0663666!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c7223e70ad04a5%3A0xf72d714e6e11d1a7!2sSakura%20Shokudou!5e0!3m2!1ses-419!2smx!4v1764865229044!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -236,7 +236,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/JUxdYeypazMnQM6A8",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d30511.355486821074!2d-96.7251425!3d17.076593!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c7236bc4cc5dad%3A0xb2e51da57726511d!2sA%20LA%20BURGER%20OAXACA!5e0!3m2!1ses-419!2smx!4v1764865251175!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -271,7 +271,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "08:00", cierra: "21:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/Vx4fvUmVtTH3Z2Wi8",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d61026.294715211225!2d-96.7593711!3d17.065636!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c723ffbc8be765%3A0x61dd98e58462eb64!2sAroma%20Antequera!5e0!3m2!1ses-419!2smx!4v1764865275830!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -306,7 +306,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "13:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/K1JoNhpSJBFfoxcZ8",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d61026.294715211225!2d-96.7593711!3d17.065636!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c722299e59b14b%3A0x254921df9a53caa1!2sCasa%20Oaxaca%20Reforma!5e0!3m2!1ses-419!2smx!4v1764865301632!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -341,7 +341,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/c7jMMP9FLeKCPhZD9",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1906.892683629278!2d-96.711225!3d17.0831482!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c723a98424c26b%3A0x4847c85f542943dc!2sPizza%20Da%20Luigi!5e0!3m2!1ses-419!2smx!4v1764865324828!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -376,7 +376,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "11:00", cierra: "21:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/p8hufaRibxmbE28y9",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7627.892747246335!2d-96.715493!3d17.0752756!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c723e6c1c9d1e3%3A0xedb3e4b5a87f2207!2sGO%20LIFE%20Oaxaca!5e0!3m2!1ses-419!2smx!4v1764865350091!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -411,7 +411,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "10:00", cierra: "21:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/wpzU2Md9YQFnkeuM6",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3814.0053969731703!2d-96.757528!3d17.072388699999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c71934b50a6ef1%3A0x235e88825b424a4!2sDulces%20tentaciones!5e0!3m2!1ses-419!2smx!4v1764865369871!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora
@@ -446,7 +446,7 @@ dbChef.restaurantes.insertMany([
             domingo: { abre: "12:00", cierra: "22:00" }
         },
         diasServicio: ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"],
-        url_localizacion: "https://maps.app.goo.gl/oiHPCxvpT29phmjQ8",
+        url_localizacion: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3813.5228941085034!2d-96.71790109999999!3d17.095974599999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c7211d0440963d%3A0x226b4046ec6f1900!2sYabal%C3%A1%20Ramen!5e0!3m2!1ses-419!2smx!4v1764865410632!5m2!1ses-419!2smx",
         activo: true,
         creadoEn: ahora,
         actualizadoEn: ahora

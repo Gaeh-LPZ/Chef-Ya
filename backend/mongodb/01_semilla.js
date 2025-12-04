@@ -70,7 +70,7 @@ dbChef.restaurantes.insertOne({
     "sabado",
     "domingo"
   ],
-  url_localizacion: "https://maps.app.goo.gl/TVkdZ5jdnbJv9Exw6",
+  url_localizacion: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3814.012854705955!2d-96.71645129999999!3d17.072023899999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85c7222fe29d1e29%3A0x9d8f7e021ea85998!2sMixtacos%20Reforma!5e0!3m2!1ses-419!2smx!4v1764866130645!5m2!1ses-419!2smx",
   activo: true,
   creadoEn: ahora,
   actualizadoEn: ahora
@@ -79,7 +79,7 @@ dbChef.restaurantes.insertOne({
 dbChef.productos.insertOne({
   _id: productoId,
   restauranteId: restauranteId,
-  nombre: "Taco al birria",
+  nombre: "Taco de birria",
   descripcion: "Taco de birria al estilo Oaxaca con piña, cebollitas y salsa de la casa.",
   precio: 35,
   // Imagen a completar a mano
