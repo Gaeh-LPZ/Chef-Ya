@@ -514,10 +514,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // B) Filtrar lista principal inmediatamente
                 todosRestaurantes = todosRestaurantes.filter(r => {
-                    // Si no tiene distancia válida (o no hay geoloc), lo dejamos pasar 
-                    // O lo filtramos si preferimos estricto. Aquí estricto > 20km:
-                    if (r.distanciaKm === null || r.distanciaKm === undefined) return true;
-                    return r.distanciaKm <= DISTANCIA_MAXIMA_PERMITIDA;
+                    // CAMBIO: Si hay ubicación de usuario, somos estrictos.
+                    if (ubicacionUsuario) {
+                        // Si la distancia no es un número válido, lo descartamos (está lejos o error)
+                        if (typeof r.distanciaKm !== 'number') return false;
+                        return r.distanciaKm <= DISTANCIA_MAXIMA_PERMITIDA;
+                    }
+                    // Si no hay ubicación, mostramos todo por defecto (o puedes decidir no mostrar nada)
+                    return true; 
                 });
                 
                 console.log("Restaurantes cercanos:", todosRestaurantes.map(r => `${r.nombre}: ${r.distanciaKm}km`));
@@ -569,20 +573,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     e.preventDefault();
                     let results = await getRestaurantesPorCategoriaSlug(slug);
                     
-                    // Inyectar distancia si existe usuario
                     const ubicacionUsuario = obtenerUbicacionUsuario();
                     if(ubicacionUsuario){
-                         results.forEach(r => {
+                            results.forEach(r => {
                             const match = todosRestaurantes.find(t => t.id === r.id);
                             if(match) r.distanciaKm = match.distanciaKm;
-                         });
+                            });
                     }
                     
-                    // Filtrar por distancia también aquí por seguridad visual
+                    // --- CORRECCIÓN AQUÍ ---
                     results = results.filter(r => {
-                        if (r.distanciaKm && r.distanciaKm > 20) return false;
+                        // Si hay ubicación, solo pasan los que tienen distancia válida Y están cerca
+                        if (ubicacionUsuario) {
+                            return (typeof r.distanciaKm === 'number' && r.distanciaKm <= 20);
+                        }
                         return true;
                     });
+                    // -----------------------
 
                     const ordenados = [...results].sort((a, b) => 
                         (b.calificacion?.promedio || 0) - (a.calificacion?.promedio || 0)
@@ -601,19 +608,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 a.href = '#';
                 a.textContent = cat.nombre;
                 const slug = cat.slug || cat.nombre;
+                
                 a.addEventListener('click', async (e) => {
                     e.preventDefault();
-                    // Misma lógica...
+                    
                     let results = await getRestaurantesPorCategoriaSlug(slug);
                     const ubicacionUsuario = obtenerUbicacionUsuario();
+                    
                     if(ubicacionUsuario){
-                         results.forEach(r => {
+                        results.forEach(r => {
                             const match = todosRestaurantes.find(t => t.id === r.id);
                             if(match) r.distanciaKm = match.distanciaKm;
-                         });
+                        });
                     }
-                    // Filtro distancia
-                    results = results.filter(r => (!r.distanciaKm || r.distanciaKm <= 20));
+
+                    // --- CORRECCIÓN AQUÍ ---
+                    // El filtro anterior permitía pasar a los que no tenían distancia (!r.distanciaKm)
+                    results = results.filter(r => {
+                        if (ubicacionUsuario) {
+                            // Solo pasan si tienen distancia numérica válida Y es menor o igual a 20
+                            return (typeof r.distanciaKm === 'number' && r.distanciaKm <= 20);
+                        }
+                        return true;
+                    });
+                    // -----------------------
 
                     const ordenados = [...results].sort((a, b) => 
                         (b.calificacion?.promedio || 0) - (a.calificacion?.promedio || 0)
@@ -734,17 +752,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (categoriaSlug) {
             let results = await getRestaurantesPorCategoriaSlug(categoriaSlug);
             
-            // Inyectar distancia si existe usuario
             const ubicacionUsuario = obtenerUbicacionUsuario();
             if(ubicacionUsuario){
                 results.forEach(r => {
-                   const match = todosRestaurantes.find(t => t.id === r.id);
-                   if(match) r.distanciaKm = match.distanciaKm;
+                    const match = todosRestaurantes.find(t => t.id === r.id);
+                    if(match) r.distanciaKm = match.distanciaKm;
                 });
             }
             
-            // Filtrar lejanos
-            results = results.filter(r => (!r.distanciaKm || r.distanciaKm <= 20));
+            // --- CORRECCIÓN AQUÍ ---
+            // Antes: results = results.filter(r => (!r.distanciaKm || r.distanciaKm <= 20));
+            results = results.filter(r => {
+                if (ubicacionUsuario) {
+                    return (typeof r.distanciaKm === 'number' && r.distanciaKm <= 20);
+                }
+                return true;
+            });
+            // -----------------------
 
             const ordenados = [...results].sort((a, b) => 
                 (b.calificacion?.promedio || 0) - (a.calificacion?.promedio || 0)
