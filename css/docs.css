@@ -60,13 +60,10 @@ a:hover {
 
 .logo {
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: row;
+  gap: 15px;
   padding: 10px 12px;
   border-radius: 999px;
-  background: #ffffff;
-  box-shadow: 0 8px 18px var(--shadow-card);
-  border: 1px solid var(--border-soft);
 }
 
 .logo-icon {
