@@ -41,7 +41,7 @@ function updateActiveLink() {
 window.addEventListener("DOMContentLoaded", () => {
   const video = document.querySelector(".hero-video");
   if (video) {
-    video.volume = 0.3;
+    video.volume = 0.20;
   }
 });
 
