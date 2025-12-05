@@ -285,3 +285,16 @@ a:hover {
   box-shadow: var(--shadow-card);
   background: #000;
 }
+
+/*para las imagenes entre secciones*/
+.section-image {
+  display: block;
+  width: 100%;
+  max-width: 720px;
+  margin: 16px auto 12px auto;
+  border-radius: 12px;
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-card);
+  background: #fff;
+  object-fit: cover;
+}
