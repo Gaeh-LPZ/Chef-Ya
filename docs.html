@@ -58,9 +58,6 @@
                     <div class="nav-section-title">Ayuda</div>
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <a href="#faq" class="nav-link">Preguntas frecuentes</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="#soporte" class="nav-link">Soporte</a>
                         </li>
                     </ul>
@@ -109,7 +106,8 @@
                     <ol>
                         <li>
                             Desde la página principal, haz clic en el botón
-                            <strong>“Registro”</strong> o en <strong>“Iniciar Sesión”</strong> para ir a la pantalla de inicio de sesión.
+                            <strong>“Registro”</strong> o en <strong>“Iniciar Sesión”</strong> para ir a la pantalla de
+                            inicio de sesión.
                             <img class="section-image" src="./assets/images/principal-ejemplo.png"
                                 alt="Página principal de Chef Ya con el botón de Registro">
                         </li>
@@ -224,11 +222,86 @@
                 <section id="pedido" class="section">
                     <p class="section-tag">05 · Pedido y Carrito</p>
                     <h2>Proceso de pedido y confirmación</h2>
+
                     <p>
-                        Paso a paso del flujo de pedido que se ve en el video:
-                        dirección, método de pago, confirmación, y qué mensaje aparece al final.
+                        Una vez que has agregado tus platillos al carrito, y selecionaras el icono del carrito en la parte superior derecha
+                        te contraras en la pagina <strong>Pantalla de pago</strong>. Desde aquí podrás revisar tu pedido,
+                        elegir la dirección de envío, confirmar el método de pago y finalizar la compra.
                     </p>
+                    <ol>
+                        <li>
+                            En la <strong>Pantalla de pago</strong> se muestra del lado derecho el
+                            <strong>resumen de artículos</strong>:
+                            <ul>
+                                <li>Nombre del platillo, imagen y precio.</li>
+                                <li>Controles para <strong>aumentar o disminuir la cantidad</strong>.</li>
+                                <li>Campo para introducir un <strong>cupón de descuento</strong> y botón
+                                    <strong>“Aplicar”</strong>.</li>
+                                <li>Detalle de costos: <strong>Subtotal</strong>, <strong>total de envío</strong>,
+                                    <strong>impuestos</strong> y <strong>Total</strong> a pagar.</li>
+                            </ul>
+                            <img class="section-image" src="./assets/images/pago-carrito-2.png"
+                                alt="Pantalla de pago de Chef Ya con varios artículos en el carrito">
+                        </li>
+
+                        <li>
+                            En la columna izquierda se configura el <strong>envío</strong>:
+                            <ul>
+                                <li>Puedes seleccionar una <strong>dirección guardada</strong> de tu cuenta.</li>
+                                <li>O elegir <strong>“Usar una nueva dirección”</strong> para registrar una nueva:
+                                    etiqueta, calle y número, ciudad, estado y código postal.</li>
+                                <li>Se muestra el <strong>costo de envío</strong> y el <strong>tiempo aproximado de
+                                        entrega</strong>.</li>
+                            </ul>
+                            <img class="section-image" src="./assets/images/pago-nueva-direccion.png"
+                                alt="Formulario para usar una nueva dirección de envío en Chef Ya">
+                        </li>
+
+                        <li>
+                            En la sección de <strong>PAGO</strong> se indica que el cobro se realizará con
+                            <strong>tarjeta de crédito o débito</strong> mediante un pago seguro procesado por
+                            <strong>Stripe</strong>.
+                        </li>
+
+                        <li>
+                            Cuando hayas verificado los datos de envío, los productos y el total, haz clic en el
+                            botón <strong>“Hacer pedido”</strong>.
+                            <br>
+                            Serás redirigido a la página de pago de <strong>Stripe</strong>, donde podrás completar
+                            la transacción de forma segura.
+                            <img class="section-image" src="./assets/images/stripe-seleccionar-metodo.png"
+                                alt="Pantalla de Stripe con selección de método de pago guardado">
+                        </li>
+
+                        <li>
+                            En la página de Stripe podrás:
+                            <ul>
+                                <li>Seleccionar un <strong>método de pago guardado</strong> (por ejemplo, una tarjeta
+                                    Visa).</li>
+                                <li>O bien introducir una <strong>nueva tarjeta</strong> escribiendo:
+                                    número de tarjeta, fecha de expiración, CVC, nombre del titular y país.</li>
+                            </ul>
+                            <img class="section-image" src="./assets/images/stripe-datos-tarjeta-1.png"
+                                alt="Pantalla de Stripe para introducir los datos del pago">
+                        </li>
+
+                        <li>
+                            Una vez que completes los datos, pulsa el botón <strong>“Pagar”</strong> en Stripe.
+                            Si el pago es exitoso, regresarás automáticamente a <strong>Chef Ya</strong>.
+                        </li>
+
+                        <li>
+                            De vuelta en la aplicación, se mostrará un mensaje de confirmación indicando que
+                            <strong>el pago fue procesado y el pedido se creó correctamente</strong>.
+                            <br>
+                            El usuario puede hacer clic en <strong>“Aceptar”</strong> para cerrar el aviso.
+                            <img class="section-image" src="./assets/images/pago-confirmacion-exitosa.png"
+                                alt="Mensaje de Chef Ya indicando que el pago fue procesado y el pedido se creó correctamente">
+                        </li>
+                    </ol>
+                    Ahora solo queda esperar a recibir tu pedido.
                 </section>
+
 
                 <section id="perfil" class="section">
                     <p class="section-tag">06 · Perfil</p>
@@ -236,15 +309,6 @@
                     <p>
                         Explica las opciones de cuenta que se muestran en el video:
                         editar datos, agregar direcciones, ver pedidos anteriores, etc.
-                    </p>
-                </section>
-
-                <section id="faq" class="section">
-                    <p class="section-tag">07 · Preguntas frecuentes</p>
-                    <h2>Preguntas frecuentes (según el video)</h2>
-                    <p>
-                        Aquí puedes escribir las preguntas que respondes al final del video
-                        o las dudas más comunes que mencionas.
                     </p>
                 </section>
 
