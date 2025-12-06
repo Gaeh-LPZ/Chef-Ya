@@ -298,3 +298,34 @@ a:hover {
   background: #fff;
   object-fit: cover;
 }
+
+/* Soporte: lista de contactos */
+#soporte ul {
+  list-style: none;
+  margin: 8px 0 12px;
+  padding-left: 0;
+}
+
+#soporte li {
+  font-size: 14px;
+  color: var(--text-muted);
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#soporte li + li {
+  margin-top: 6px;
+}
+
+#soporte li strong {
+  color: var(--text-main);
+  margin-right: 4px;
+}
+
+#soporte li a {
+  font-weight: 500;
+}
