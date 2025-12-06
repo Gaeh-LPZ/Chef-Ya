@@ -58,9 +58,6 @@
                     <div class="nav-section-title">Ayuda</div>
                     <ul class="nav-list">
                         <li class="nav-item">
-                            <a href="#faq" class="nav-link">Preguntas frecuentes</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="#soporte" class="nav-link">Soporte</a>
                         </li>
                     </ul>
@@ -212,16 +209,62 @@
 
                 <section id="busqueda" class="section">
                     <p class="section-tag">03 · Búsqueda</p>
-                    <h2>Buscar restaurantes y productos</h2>
+                    <h2>Búsqueda y filtros</h2>
                     <p>
-                        Resume lo que se ve en el video cuando usas el buscador: escribir el
-                        término, filtros, ordenamiento, y cómo se muestran los resultados.
+                        La plataforma te ofrece
+                        herramientas para buscar por nombre o refinar las opciones según tus prioridades
+                        (precio, tiempo o calificación).
                     </p>
-                    <ul>
-                        <li>Uso del cuadro de búsqueda.</li>
-                        <li>Filtros por tipo de comida / categoría.</li>
-                        <li>Cómo seleccionar un restaurante de la lista.</li>
-                    </ul>
+
+                    <ol>
+                        <li>
+                            <strong>Uso del Buscador</strong>
+                            <p>
+                                La barra de búsqueda se encuentra siempre visible en la parte superior de la pantalla.
+                            </p>
+                            <ul>
+                                <li><strong>¿Qué puedes buscar?</strong> Escribe el nombre de un restaurante (ej. "El
+                                    paisa"). A medida que escribes, la página actualiza automáticamente la lista de
+                                    restaurantes mostrados.</li>
+
+                            </ul>
+                        </li>
+                        <img class="section-image" src="./assets/images/buscador y filtros.png"
+                            alt="Barra de herramientas con filtros de búsqueda y ordenamiento">
+
+                        <li>
+                            <strong>Herramientas de Ordenamiento</strong>
+                            <p>
+                                Debajo del encabezado, encontrarás el menú desplegable <em>"Ordenar por"</em> que te
+                                permite organizar la lista según lo que más te importe:
+                            </p>
+                            <ul>
+                                <li><strong>Mejor calificación:</strong> Muestra los restaurantes mejor valorados por la
+                                    comunidad.</li>
+                                <li><strong>Entrega más rápida:</strong> Prioriza el menor tiempo de entrega estimado.
+                                </li>
+                                <li><strong>Envío más económico:</strong> Ordena por la tarifa de envío más baja.</li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <strong>Filtro de Costo de Envío</strong>
+                            <p>
+                                Si tienes un presupuesto específico para el servicio a domicilio, usa el segundo menú
+                                desplegable:
+                            </p>
+                            <ul>
+                                <li><strong>Envío Gratis:</strong> Restaurantes que no cobran tarifa de entrega.</li>
+                                <li><strong>Por rango de precio:</strong> Para ver solo opciones que cobren menos de $20
+                                    o $40 pesos de envío.</li>
+                            </ul>
+                            <br>
+                            <img class="section-image" src="./assets/images/busqueda con filtro aplicado.png"
+                                alt="Barra de herramientas con filtros de búsqueda y ordenamiento">
+                        </li>
+
+
+                    </ol>
                 </section>
 
                 <section id="restaurante" class="section">
@@ -291,11 +334,93 @@
                 <section id="pedido" class="section">
                     <p class="section-tag">05 · Pedido y Carrito</p>
                     <h2>Proceso de pedido y confirmación</h2>
+
                     <p>
-                        Paso a paso del flujo de pedido que se ve en el video:
-                        dirección, método de pago, confirmación, y qué mensaje aparece al final.
+                        Una vez que has agregado tus platillos al carrito, y selecionaras el icono del carrito en la
+                        parte superior derecha
+                        te contraras en la pagina <strong>Pantalla de pago</strong>. Desde aquí podrás revisar tu
+                        pedido,
+                        elegir la dirección de envío, confirmar el método de pago y finalizar la compra.
                     </p>
+                    <ol>
+                        <li>
+                            En la <strong>Pantalla de pago</strong> se muestra del lado derecho el
+                            <strong>resumen de artículos</strong>:
+                            <ul>
+                                <li>Nombre del platillo, imagen y precio.</li>
+                                <li>Controles para <strong>aumentar o disminuir la cantidad</strong>.</li>
+                                <li>Campo para introducir un <strong>cupón de descuento</strong> y botón
+                                    <strong>“Aplicar”</strong>.
+                                </li>
+                                <li>Detalle de costos: <strong>Subtotal</strong>, <strong>total de envío</strong>,
+                                    <strong>impuestos</strong> y <strong>Total</strong> a pagar.
+                                </li>
+                            </ul>
+                            <img class="section-image" src="./assets/images/pago-carrito-2.png"
+                                alt="Pantalla de pago de Chef Ya con varios artículos en el carrito">
+                        </li>
+
+                        <li>
+                            En la columna izquierda se configura el <strong>envío</strong>:
+                            <ul>
+                                <li>Puedes seleccionar una <strong>dirección guardada</strong> de tu cuenta.</li>
+                                <li>O elegir <strong>“Usar una nueva dirección”</strong> para registrar una nueva:
+                                    etiqueta, calle y número, ciudad, estado y código postal.</li>
+                                <li>Se muestra el <strong>costo de envío</strong> y el <strong>tiempo aproximado de
+                                        entrega</strong>.</li>
+                            </ul>
+                            <img class="section-image" src="./assets/images/pago-nueva-direccion.png"
+                                alt="Formulario para usar una nueva dirección de envío en Chef Ya">
+                        </li>
+
+                        <li>
+                            En la sección de <strong>PAGO</strong> se indica que el cobro se realizará con
+                            <strong>tarjeta de crédito o débito</strong> mediante un pago seguro procesado por
+                            <strong>Stripe</strong>.
+                        </li>
+                        <br>
+
+                        <li>
+                            Cuando hayas verificado los datos de envío, los productos y el total, haz clic en el
+                            botón <strong>“Hacer pedido”</strong>.
+                            <br>
+                            Serás redirigido a la página de pago de <strong>Stripe</strong>, donde podrás completar
+                            la transacción de forma segura.
+                            <img class="section-image" src="./assets/images/stripe-seleccionar-metodo.png"
+                                alt="Pantalla de Stripe con selección de método de pago guardado">
+                        </li>
+
+                        <li>
+                            En la página de Stripe podrás:
+                            <ul>
+                                <li>Seleccionar un <strong>método de pago guardado</strong> (por ejemplo, una tarjeta
+                                    Visa).</li>
+                                <li>O bien introducir una <strong>nueva tarjeta</strong> escribiendo:
+                                    número de tarjeta, fecha de expiración, CVC, nombre del titular y país.</li>
+                            </ul>
+                            <img class="section-image" src="./assets/images/stripe-datos-tarjeta-1.png"
+                                alt="Pantalla de Stripe para introducir los datos del pago">
+                        </li>
+
+                        <li>
+                            Una vez que completes los datos, pulsa el botón <strong>“Pagar”</strong> en Stripe.
+                            Si el pago es exitoso, regresarás automáticamente a <strong>Chef Ya</strong>.
+                        </li>
+                        <br>
+
+                        <li>
+                            De vuelta en la aplicación, se mostrará un mensaje de confirmación indicando que
+                            <strong>el pago fue procesado y el pedido se creó correctamente</strong>.
+                            <br>
+
+                            El usuario puede hacer clic en <strong>“Aceptar”</strong> para cerrar el aviso.
+                            <img class="section-image" src="./assets/images/pago-confirmacion-exitosa.png"
+                                alt="Mensaje de Chef Ya indicando que el pago fue procesado y el pedido se creó correctamente">
+                        </li>
+                    </ol>
+                    Ahora solo queda esperar a recibir tu pedido.
                 </section>
+
 
                 <section id="perfil" class="section">
                     <p class="section-tag">06 · Perfil</p>
@@ -351,7 +476,6 @@
                     </ol>
                 </section>
 
-
                 <section id="faq" class="section">
                     <p class="section-tag">07 · Preguntas frecuentes</p>
                     <h2>Preguntas frecuentes (según el video)</h2>
@@ -362,18 +486,60 @@
                 </section>
 
                 <section id="soporte" class="section">
-                    <p class="section-tag">8 · Soporte</p>
+                    <p class="section-tag">07 · Soporte</p>
                     <h2>Contacto y soporte</h2>
+
                     <p>
-                        Agrega los medios de contacto que mencionas en el video:
-                        correo, WhatsApp, redes sociales, etc.
+                        Si tienes dudas sobre tus pedidos, problemas con tu cuenta o quieres
+                        compartir algún comentario sobre <strong>Chef Ya</strong>, puedes escribirnos
+                        a través de los siguientes canales:
                     </p>
+
+                    <ul>
+                        <li>
+                            <span class="icon">
+                                <img src="./assets/icons/gmail-svg.svg" alt="gmail-svg">
+                            </span>
+                            <div>
+                                <strong>Correo de soporte:</strong>
+                                <br>
+                                <a href="mailto:chefya100@gmail.com">chefya100@gmail.com</a>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="icon">
+                                <img src="./assets/icons/tik-tok.svg" alt="tik-tok">
+                            </span>
+                            <div>
+                                <strong>TikTok:</strong>
+                                <br>
+                                <a href="https://www.tiktok.com/@chel.ya1?_r=1&_t=ZS-91tMHmqRSnH" target="_blank"
+                                    rel="noopener noreferrer">
+                                    @chel.ya1
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="icon">
+                                <img src="./assets/icons/instagram-svg.svg" alt="instagram-svg">
+                            </span>
+                            <div>
+                                <strong>Instagram:</strong>
+                                <br>
+                                <a href="https://www.instagram.com/chef_ya1?igsh=N3picWN2dDJmdjYw&utm_source=qr"
+                                    target="_blank" rel="noopener noreferrer">
+                                    @chef_ya1
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+
                     <p>
-                        Ejemplo:
-                        Si tienes problemas, escríbenos a
-                        <a href="mailto:soporte@chef-ya.site">soporte@chef-ya.site</a>.
+                        Intentamos responderte lo más pronto posible para que puedas seguir
+                        disfrutando de tus pedidos sin problemas.
                     </p>
                 </section>
+
             </main>
         </div>
     </div>
