@@ -3,13 +3,13 @@ import Image from "next/image";
 
 export default function Page() {
   return (
-    <>
+    <div className="grid grid-rows-[auto_1fr_1fr_auto] h-screen">
       <Image src="/bg-1.png" alt="background image" className="absolute top-0 left-0 w-8/12 h-full object-cover z-[-1]" width={1024} height={1536} loading="eager"/>
       <Image src="/bg-2.png" alt="hamburger background image" className="absolute top-0 right-0 w-4/12 h-full object-cover z-[-1]" width={500} height={666}/>
       <header className="flex flex-row justify-between w-3/5 m-6 row-span-1">
         <img src="/burger.svg" alt="burger icon for more options" width={32} height={32} />
         <nav className={`${konkhmer.className} flex flex-row gap-4`}>
-          <a href="#" className="bg-beige p-1.5 rounded-md">Iniciar Sesión</a>
+          <a href="/sign-in" className="bg-beige p-1.5 rounded-md">Iniciar Sesión</a>
           <a href="#" className="text-white bg-black p-1.5 rounded-md">Registrarse</a>
         </nav>
       </header>
@@ -42,6 +42,6 @@ export default function Page() {
       <footer  className="row-span-1 p-1">
         <Image src="/Chef-Ya-Logo.png" alt="Chef-Ya Logo" width={264} height={110}/>
       </footer>
-    </>
+    </div>
   );
 }
