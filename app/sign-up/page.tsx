@@ -1,10 +1,15 @@
 import { konkhmer } from "../ui/fonts";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Sign up'
+}
 
 export default function Page(){
     return (
         <main className="h-screen grid grid-cols-2 p-7">
             <aside className="h-full relative overflow-hidden rounded-l-4xl">
-                <img src="/bg-sign-up.jpg" alt="Chef Ya! cured plate" className=""/>
+                <img src="/bg-sign-up.jpg" alt="Chef Ya! cured plate"/>
                 <p className={`${konkhmer.className} text-white text-2xl tracking-tighter px-6 py-4 rounded-full w-fit top-12 left-12 absolute`}>Chef Ya!</p>
             </aside>
             <section className="flex flex-col justify-center md:p-20 gap-6">
