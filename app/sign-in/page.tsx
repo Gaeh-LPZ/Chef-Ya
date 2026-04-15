@@ -34,6 +34,9 @@ export default function Page() {
           </label>
           <button className="w-full py-5 bg-linear-to-br from-primary to-primary-container text-white/90 font-bold text-lg rounded-full editorial-shadow hover:scale-[1.02] active:scale-95 transition-all duration-300">Inciar Sesion</button>
         </form>
+        <footer>
+          <a href="/sign-up">¿No tienes una cuenta? <strong className="text-primary">Registrate</strong></a>
+        </footer>
       </section>
     </main>
   );
