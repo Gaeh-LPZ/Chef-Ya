@@ -10,6 +10,7 @@
   --color-primary: #a33800;
   --color-surface: #f6f6f6;
   --color-primary-container: #ff7941;
+  --color-secondary: #263238;
 }
 
 @theme inline {
