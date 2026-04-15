@@ -9,8 +9,8 @@ export default function Page() {
       <header className="flex flex-row justify-between w-3/5 m-6 row-span-1">
         <img src="/burger.svg" alt="burger icon for more options" width={32} height={32} />
         <nav className={`${konkhmer.className} flex flex-row gap-4`}>
-          <a href="/sign-in" className="bg-beige p-1.5 rounded-md">Iniciar Sesión</a>
-          <a href="#" className="text-white bg-black p-1.5 rounded-md">Registrarse</a>
+          <a href="/sign-in" className="bg-beige p-1.5 rounded-md hover:scale-105 transition-all transform">Iniciar Sesión</a>
+          <a href="/sign-up" className="text-white bg-black p-1.5 rounded-md hover:scale-105 transition-all transform">Registrarse</a>
         </nav>
       </header>
       <main className="flex flex-row justify-around items-center row-span-2">
@@ -21,7 +21,7 @@ export default function Page() {
               <img src="/location.svg" alt="Location icon for more accesibility" width={24} height={24} />
               <input type="text" name="ubicacion" placeholder="Ingresa la dirección de entrega" className="w-full" />
             </label>
-            <button type="submit" className="flex flex-row items-center bg-black w-34 p-1.5 text-white gap-2 rounded-md">
+            <button type="submit" className="flex flex-row items-center bg-black w-34 p-1.5 text-white gap-2 rounded-md hover:scale-105 transition-all transform">
               Buscar
               <svg width={24} height={24} aria-label="search icon">
                 <use xlinkHref="/search.svg" className="stroke-white fill-white"></use>
