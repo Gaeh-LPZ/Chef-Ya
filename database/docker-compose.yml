@@ -1,0 +1,11 @@
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: admin
+      MARIADB_DATABASE: chefya
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
